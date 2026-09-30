@@ -1,0 +1,23 @@
+{
+  "name": "tensorscope-nlp-lab",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build:offline": "node scripts/build-offline.mjs",
+    "test:run": "vitest run",
+    "test:offline": "node scripts/test-offline.mjs",
+    "bench": "node scripts/bench.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  },
+  "dependencies": {
+    "d3": "^7.9.0"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+.vite/
+dist/
+*.log
+coverage/
+test-results/
+playwright-report/
+.DS_Store
+Thumbs.db
