@@ -1,0 +1,252 @@
+{
+  "date": "2026-09-30T05:57:26.213Z",
+  "environment": {
+    "node": "v24.14.0",
+    "platform": "linux",
+    "release": "6.18.33.2-microsoft-standard-WSL2",
+    "cpu": "Intel(R) Core(TM) i9-14900HX",
+    "logicalCpus": 32,
+    "totalMemoryBytes": 16562974720
+  },
+  "scope": "Node CPU 参考实现；不代替浏览器响应性或 Windows 实测。全部性能数据为人工生成压力样本，不报告语义准确率。",
+  "results": [
+    {
+      "name": "分类导入10,000条",
+      "config": {
+        "samples": 10000,
+        "bytes": 188900
+      },
+      "status": "computed",
+      "runs": [
+        27.294700000000006,
+        30.661652000000004,
+        25.749621999999988
+      ],
+      "medianMs": 27.294700000000006,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 6620656,
+      "heapAfterBytes": 23536408,
+      "summary": {
+        "samples": 10000,
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "注意力256×256 d=32",
+      "config": {
+        "rows": 256,
+        "cols": 256,
+        "dim": 32
+      },
+      "status": "computed",
+      "runs": [
+        29.583264000000014,
+        14.525975000000017,
+        7.601214999999996
+      ],
+      "medianMs": 14.525975000000017,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 24585816,
+      "heapAfterBytes": 26148160,
+      "summary": {
+        "weights": 65536,
+        "rowSum": 1.0000000000000002
+      }
+    },
+    {
+      "name": "Word2Vec Skip-gram100,000Token",
+      "config": {
+        "tokens": 100000,
+        "vocab": 5000,
+        "dim": 32,
+        "window": 2,
+        "negatives": 5,
+        "epochs": 1
+      },
+      "status": "computed",
+      "runs": [
+        4928.502585
+      ],
+      "medianMs": 4928.502585,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 17212208,
+      "heapAfterBytes": 93060392,
+      "summary": {
+        "tokens": 100000,
+        "vocab": 5000,
+        "loss": 4.153918079648551,
+        "updates": 388000
+      }
+    },
+    {
+      "name": "Word2Vec CBOW100,000Token",
+      "config": {
+        "tokens": 100000,
+        "vocab": 5000,
+        "dim": 32,
+        "window": 2,
+        "negatives": 5,
+        "epochs": 1
+      },
+      "status": "computed",
+      "runs": [
+        1464.372477
+      ],
+      "medianMs": 1464.372477,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 40076088,
+      "heapAfterBytes": 62455528,
+      "summary": {
+        "tokens": 100000,
+        "vocab": 5000,
+        "loss": 4.158462689171777
+      }
+    },
+    {
+      "name": "GloVe 非零共现训练",
+      "config": {
+        "tokens": 100000,
+        "vocab": 5000,
+        "dim": 32,
+        "window": 2,
+        "epochs": 1
+      },
+      "status": "computed",
+      "runs": [
+        412.63502900000003
+      ],
+      "medianMs": 412.63502900000003,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 62479472,
+      "heapAfterBytes": 109382888,
+      "summary": {
+        "nonzero": 19400,
+        "loss": 1.6875166907696326
+      }
+    },
+    {
+      "name": "5,000向量全词表查询",
+      "config": {
+        "vocab": 5000,
+        "dim": 32,
+        "queries": 20
+      },
+      "status": "computed",
+      "runs": [
+        55.41970399999991,
+        41.95721499999945,
+        43.51821199999995
+      ],
+      "medianMs": 43.51821199999995,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 109432192,
+      "heapAfterBytes": 94124560,
+      "summary": {
+        "queried": 20,
+        "fullVocab": 5000
+      }
+    },
+    {
+      "name": "四模型10,000条×128Token",
+      "config": {
+        "samples": 10000,
+        "length": 128,
+        "dim": 8,
+        "hidden": 8
+      },
+      "status": "computed",
+      "runs": [
+        11806.179976
+      ],
+      "medianMs": 11806.179976,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 95475424,
+      "heapAfterBytes": 331517544,
+      "summary": {
+        "processed": 10000,
+        "metricsCount": 0,
+        "elapsedMs": 11805.861608
+      }
+    },
+    {
+      "name": "优化5,000次真实更新",
+      "config": {
+        "steps": 5000
+      },
+      "status": "computed",
+      "runs": [
+        237.95980000000054,
+        237.33074299999862,
+        239.89692099999957
+      ],
+      "medianMs": 237.95980000000054,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 331546112,
+      "heapAfterBytes": 317802128,
+      "summary": {
+        "points": 5001,
+        "loss": 0.5288080447137663
+      }
+    },
+    {
+      "name": "RNN2,000条训练一轮",
+      "config": {
+        "samples": 2000,
+        "length": 64,
+        "dim": 32,
+        "hidden": 32,
+        "epochs": 1,
+        "batch": 4
+      },
+      "status": "computed",
+      "runs": [
+        55657.51822099999
+      ],
+      "medianMs": 55657.51822099999,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 319350080,
+      "heapAfterBytes": 240125736,
+      "summary": {
+        "samples": 2000,
+        "epochs": 1,
+        "loss": 0.2570272475386675,
+        "modelId": "RNN-dce6aaff"
+      }
+    },
+    {
+      "name": "CNN2,000条训练一轮",
+      "config": {
+        "samples": 2000,
+        "length": 64,
+        "dim": 32,
+        "hidden": 32,
+        "epochs": 1,
+        "batch": 4
+      },
+      "status": "computed",
+      "runs": [
+        10711.395877000003
+      ],
+      "medianMs": 10711.395877000003,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 240167704,
+      "heapAfterBytes": 425449104,
+      "summary": {
+        "samples": 2000,
+        "epochs": 1,
+        "loss": 0.7006875644820114,
+        "modelId": "CNN-9c7db101"
+      }
+    }
+  ]
+}

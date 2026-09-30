@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { softmax, crossEntropy, cosine, dot, rng, pca, Tape } from '../../src/core/math.js';
+import { softmax, crossEntropy, cosine, dot, rng, pca, Tape, norm } from '../../src/core/math.js';
 import { attention, teachingVectors } from '../../src/algorithms/attention.js';
 import { logistic, optimize } from '../../src/algorithms/optimization.js';
 import { consume } from '../../src/runtime/tasks.js';
@@ -9,6 +9,7 @@ describe('数值核心', () => {
   it('余弦、零向量、形状', () => { expect(cosine([1, 0], [1, 1])).toBeCloseTo(Math.SQRT1_2); expect(cosine([0, 0], [1, 1])).toBe(0); expect(() => dot([1], [1, 2])).toThrow(); });
   it('随机重复性和 PCA', () => { const a = rng(42), b = rng(42); expect(Array.from({ length: 100 }, a)).toEqual(Array.from({ length: 100 }, b)); const r = pca([[1, 0], [2, 0], [3, 0]]); expect(Math.abs(r.points[2][0] - r.points[0][0])).toBeCloseTo(2); });
   it('独立导数检验', () => { const t = new Tape(), x = t.v(0.7), y = t.tanh(t.mul(x, x)); t.backward(y); expect(x.grad).toBeCloseTo(1.4 * (1 - Math.tanh(0.49) ** 2), 10); });
+  it('极小梯度范数不因平方而下溢，极大向量不溢出',()=>{expect(norm([1e-200,0])).toBe(1e-200);expect(norm([1e200,0])).toBe(1e200);});
 });
 describe('注意力', () => {
   it('手算点积、输出与缩放', () => { const config = { Q: [[1, 0]], K: [[1, 0], [0, 1]], V: [[2, 0], [0, 4]], method: 'dot' }; const r = attention(config); expect(r.scores).toEqual([[1, 0]]); expect(r.weights[0][0]).toBeCloseTo(1 / (1 + Math.exp(-1))); expect(r.output[0][1]).toBeCloseTo(4 / (1 + Math.exp(1))); expect(attention({ ...config, method: 'scaled' }).scores[0][0]).toBeCloseTo(Math.SQRT1_2); });

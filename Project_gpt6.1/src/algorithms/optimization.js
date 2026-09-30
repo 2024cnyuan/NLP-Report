@@ -15,6 +15,7 @@ export function logistic(w, data = optimizationData) {
 }
 export async function* optimize(config) {
   const { lr = 0.1, steps = 100, seed = 42, batch = 8, initial = [0, 0], data = optimizationData } = config;
+  if (!Array.isArray(data) || !data.length || data.length > 10000 || data.some(r => !Array.isArray(r.x) || r.x.length !== 2 || r.x.some(x => !Number.isFinite(x)) || (r.y !== 0 && r.y !== 1))) throw new Error('数据必须包含有限二维 x 和二分类 y，最多10,000条');
   if (!(lr > 0 && lr <= 100) || !Number.isInteger(steps) || steps < 1 || steps > 10000 || !Number.isInteger(batch) || batch < 1 || batch > data.length || initial.length !== 2 || initial.some(x => !Number.isFinite(x))) throw new Error('学习率/步数/批大小/初值无效');
   let w = [...initial], order = [], cursor = 0; const random = rng(seed), history = [];
   for (let i = 0; i <= steps; i++) {

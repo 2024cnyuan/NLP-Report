@@ -1,7 +1,7 @@
 export const VERSION = 'tensorscope-1.0.0';
 export const sum = a => a.reduce((s, x) => s + x, 0);
 export const mean = a => a.length ? sum(a) / a.length : 0;
-export const norm = a => Math.hypot(...a);
+export const norm = a => a.reduce((s, x) => Math.hypot(s, x), 0);
 export function dot(a, b) {
   if (a.length !== b.length) throw new Error('向量维度不匹配');
   return a.reduce((s, x, i) => s + x * b[i], 0);
@@ -35,8 +35,8 @@ export function fingerprint(value) {
   for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
   return (h >>> 0).toString(16).padStart(8, '0');
 }
-export function finiteMatrix(a, name = '矩阵') {
-  if (!Array.isArray(a) || !a.length || !Array.isArray(a[0]) || !a[0].length || a.length > 1024 || a[0].length > 128) throw new Error(`${name} 形状无效（最多 1024×128）`);
+export function finiteMatrix(a, name = '矩阵', { maxRows = 1024, maxCols = 128 } = {}) {
+  if (!Array.isArray(a) || !a.length || !Array.isArray(a[0]) || !a[0].length || a.length > maxRows || a[0].length > maxCols) throw new Error(`${name} 形状无效（最多 ${maxRows}×${maxCols}）`);
   if (a.some(r => !Array.isArray(r) || r.length !== a[0].length || r.some(x => !Number.isFinite(x)))) throw new Error(`${name} 必须是矩形且所有值有限`);
   return a;
 }

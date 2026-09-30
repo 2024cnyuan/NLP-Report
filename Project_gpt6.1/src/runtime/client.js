@@ -14,13 +14,12 @@ export function run(type, config) {
   if (active) return Promise.reject(new Error('已有计算在运行，请先完成或取消当前任务'));
   const runId = ++sequence; runtime.status = 'running'; runtime.runId = runId; runtime.progress = null; runtime.error = null;
   return new Promise((resolve, reject) => {
-    active = { runId, resolve, reject, cancelled: false, paused: false };
+    active = { runId, resolve, reject, cancelled: false, paused: false, type, config };
     try {
-      if (!worker) { worker = new ComputeWorker(); worker.onmessage = e => finish(e.data); worker.onerror = () => { finish({ runId: active?.runId, event: 'failed', error: 'Worker 运行失败；请重试或使用 CPU 回退' }); worker?.terminate(); worker = null; }; }
-      worker.postMessage({ action: 'start', type, config, runId });
+      if (!worker) { worker = new ComputeWorker(); worker.onmessage = e => finish(e.data); worker.onerror = () => { worker?.terminate(); worker = null; if(active)fallback(active); }; }
+      runtime.engine = 'Worker'; worker.postMessage({ action: 'start', type, config, runId });
     } catch {
-      runtime.engine = '分块 CPU 回退';
-      consume(job(type, config), active, progress => finish({ runId, event: 'progress', progress })).then(result => finish({ runId, event: 'completed', result }), e => finish({ runId, event: active?.cancelled ? 'cancelled' : 'failed', error: e.message }));
+      fallback(active);
     }
     emit();
   });
@@ -30,3 +29,4 @@ export function control(action) {
   if (runtime.engine === 'Worker') worker.postMessage({ runId: active.runId, action });
   else { if (action === 'cancel') active.cancelled = true; active.paused = action === 'pause'; runtime.status = action === 'pause' ? 'paused' : action === 'cancel' ? 'cancelling' : 'running'; emit(); }
 }
+function fallback(task){runtime.engine='分块 CPU 回退';emit();consume(job(task.type,task.config),task,progress=>finish({runId:task.runId,event:'progress',progress})).then(result=>finish({runId:task.runId,event:'completed',result}),e=>finish({runId:task.runId,event:task.cancelled?'cancelled':'failed',error:e.message}));}

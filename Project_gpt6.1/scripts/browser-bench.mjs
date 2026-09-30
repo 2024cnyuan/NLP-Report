@@ -1,0 +1,29 @@
+import { chromium } from '@playwright/test';
+import { writeFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+import os from 'node:os';
+const browser=await chromium.launch({headless:true}),page=await browser.newPage({viewport:{width:1440,height:900}}),entry=pathToFileURL(resolve('release/index.html')).href;
+const report={date:new Date().toISOString(),environment:{os:os.release(),cpu:os.cpus()[0]?.model,memoryBytes:os.totalmem(),browser:browser.version(),mode:'真实file:// + Blob Worker，headless前台页'},scope:'人工压力数据；不验证语义泛化，不代替Windows。',results:[],errors:[],unexpectedNetwork:[]};
+const save=()=>writeFile(new URL('../docs/evidence/browser-bench.json',import.meta.url),JSON.stringify(report,null,2));
+page.on('pageerror',e=>report.errors.push(e.message));await page.route(/^https?:/,route=>{report.unexpectedNetwork.push(route.request().url());route.abort();});
+try{
+  const loads=[];for(let i=0;i<20;i++){const t=performance.now();await page.goto(entry);await page.getByRole('heading',{name:'六个实验，一条理解路径'}).waitFor();loads.push(performance.now()-t);}const sorted=[...loads].sort((a,b)=>a-b);report.results.push({name:'离线操作区可用',runs:loads,medianMs:sorted[10],p95Ms:sorted[18],budgetMs:3000,passed:sorted[18]<=3000,scope:'20次导航，同一浏览器；磁盘缓存未清除，不含Chromium启动。'});await save();
+  const csv='text,label\n'+Array.from({length:10000},(_,i)=>`浏览器性能样本${i},${i%2}`).join('\n');await page.goto(entry+'#data');const started=performance.now();await page.locator('#dataset-file').setInputFiles({name:'压力数据10000.csv',mimeType:'text/csv',buffer:Buffer.from(csv)});await page.locator('#confirm-data').waitFor();const rendered=await page.locator('#data-preview .data-table tbody tr').count();report.results.push({name:'10,000条数据导入/分页渲染',elapsedMs:performance.now()-started,bytes:Buffer.byteLength(csv),renderedRows:rendered,passed:rendered===25});await save();
+  await page.goto(entry);
+  for(const kind of ['attention','embeddings','batch','optimization','RNN','CNN']){
+    const result=await page.evaluate(async kind=>{
+      const {run,runtime,store}=TensorScope.diagnostics,delays=[];let last=performance.now();const heartbeat=setInterval(()=>{const now=performance.now();delays.push(Math.max(0,now-last-20));last=now;},20),t=performance.now();let summary;
+      try{
+        if(kind==='attention'){const v=Array.from({length:256},()=>Array.from({length:32},(_,j)=>Math.sin(j*.3))),a=await run('attention',{Q:v,K:v,V:v});summary={rows:a.weights.length,cols:a.weights[0].length,rowSum:a.weights[0].reduce((a,b)=>a+b,0)};}
+        if(kind==='embeddings'){const corpus=Array.from({length:2000},(_,row)=>Array.from({length:50},(_,j)=>`w${(row*50+j)%5000}`).join(' ')).join('\n');const a=await run('embeddings',{corpus,algorithm:'skipgram',dim:32,window:2,negatives:5,epochs:1,seed:42});summary={tokens:a.tokenCount,vocab:a.vocab.length,dim:a.dim,points:a.projection.points.length};store.embedding=a;}
+        if(kind==='batch'){const tokens=Array.from({length:128},(_,i)=>store.models.RNN.vocab[1+i%(store.models.RNN.vocab.length-1)]),samples=Array.from({length:10000},(_,i)=>({id:`stress-${i}`,text:'性能压力数据',tokens,label:null,split:'test'}));const r=await run('batch',{models:store.models,samples});summary={processed:r.processed,labelled:r.metrics.NB.count};}
+        if(kind==='optimization'){const r=await run('optimization',{steps:5000,lr:.1});summary={points:r.history.length,loss:r.history.at(-1).loss};}
+        if(kind==='RNN'||kind==='CNN'){const dataset={samples:Array.from({length:2000},(_,i)=>({tokens:Array.from({length:64},(_,j)=>`t${(i+j)%64}`),label:i%2}))};const r=await run('benchmark-neural',{algorithm:kind,dataset,epochs:1,dim:32,hidden:32,seed:42,batch:4});summary={samples:r.model.trainConfig.samples,length:64,dim:32,hidden:32,loss:r.history[0].loss};}
+        const sorted=[...delays].sort((a,b)=>a-b);return{kind,elapsedMs:performance.now()-t,engine:runtime.engine,summary,heartbeat:{intervalMs:20,count:delays.length,maxDelayMs:delays.reduce((a,b)=>Math.max(a,b),0),p95DelayMs:sorted.length>=20?sorted[Math.ceil(sorted.length*.95)-1]:null}};
+      }finally{clearInterval(heartbeat);}
+    },kind);report.results.push(result);console.log(`${kind}: ${result.elapsedMs.toFixed(1)}ms; engine ${result.engine}; heartbeatMax ${result.heartbeat.maxDelayMs.toFixed(1)}ms`);await save();
+  }
+  const controls=await page.evaluate(async()=>{const{run,runtime,control}=TensorScope.diagnostics,times=[];for(let i=0;i<20;i++){const task=run('optimization',{steps:10000,lr:.1}).catch(e=>e.message);const ack=(target,action)=>new Promise(resolve=>{const start=performance.now(),fn=s=>{if(s.status===target){runtime.listeners.delete(fn);resolve(performance.now()-start);}};runtime.listeners.add(fn);control(action);});const pause=await ack('paused','pause'),resume=await ack('running','resume'),cancel=await ack('cancelled','cancel');await task;times.push({pause,resume,cancel});}const p95=key=>times.map(t=>t[key]).sort((a,b)=>a-b)[18];return{runs:times,p95PauseMs:p95('pause'),p95CancelMs:p95('cancel'),budgetMs:500,passed:p95('pause')<=500&&p95('cancel')<=500};});report.results.push({name:'暂停/恢复/取消20轮',...controls});await save();
+  await page.goto(entry+'#attention');await page.locator('#matrix .matrix-cell').first().waitFor();const feedback=await page.evaluate(async()=>{const times=[];for(let i=0;i<20;i++){const t=performance.now();document.querySelectorAll('#matrix .matrix-cell')[i%20].click();await new Promise(resolve=>requestAnimationFrame(resolve));times.push(performance.now()-t);}const sorted=[...times].sort((a,b)=>a-b);return{runs:times,medianMs:sorted[10],p95Ms:sorted[18],budgetMs:100,passed:sorted[18]<=100,scope:'页面内合成DOM点击→下一帧；不等于操作系统真实输入延迟。'};});report.results.push({name:'检查器选择反馈',...feedback});await save();console.log('Browser benchmark saved');
+}finally{await save();await browser.close();}

@@ -22,3 +22,9 @@ export function attention({ Q, K, V, method = 'scaled', mask = [], additive }) {
   const output = weights.map(w => Array.from({ length: V[0].length }, (_, d) => w.reduce((s, a, j) => s + a * V[j][d], 0)));
   return { scores, weights, output, Q, K, V, additive: a, method, mask };
 }
+export async function* attentionBatched(config) {
+  if (config.Q?.length <= 16) return attention(config);
+  const weights=[], scores=[], output=[]; let result;
+  for(let i=0;i<config.Q.length;i+=16){result=attention({...config,Q:config.Q.slice(i,i+16),mask:config.mask?.slice(i,i+16)});weights.push(...result.weights);scores.push(...result.scores);output.push(...result.output);yield{processed:Math.min(i+16,config.Q.length),total:config.Q.length,stage:'按 Query 行分批计算'};}
+  return {...result,Q:config.Q,mask:config.mask??[],weights,scores,output};
+}

@@ -1,0 +1,130 @@
+{
+  "config": {
+    "argv": [
+      "/home/yby/.nvm/versions/node/v24.14.0/bin/node",
+      "/mnt/d/大三上/NLP/Project_gpt6.1/node_modules/.bin/playwright",
+      "test",
+      "--project=development"
+    ],
+    "configFile": "/mnt/d/大三上/NLP/Project_gpt6.1/playwright.config.js",
+    "rootDir": "/mnt/d/大三上/NLP/Project_gpt6.1/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/mnt/d/大三上/NLP/Project_gpt6.1/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "development",
+        "name": "development",
+        "testDir": "/mnt/d/大三上/NLP/Project_gpt6.1/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/development.spec.js"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/evidence/playwright-dev-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev -- --host 127.0.0.1 --port 5187 --strictPort",
+      "url": "http://127.0.0.1:5187",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "development.spec.js",
+      "file": "development.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Vite ESM 开发入口与开发 Worker",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "development",
+              "projectName": "development",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 721,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-30T06:17:06.697Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "18b37fc3d7de3aa10bf9-0d11cf8fd09fa27830c8",
+          "file": "development.spec.js",
+          "line": 2,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-30T06:17:01.141Z",
+    "duration": 6518.238,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

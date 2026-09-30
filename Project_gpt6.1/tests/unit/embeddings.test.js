@@ -1,0 +1,8 @@
+import { it, expect } from 'vitest';
+import { windows, negativeSampler, nsObjective, gloveObjective, trainEmbeddings, neighbors, analogy } from '../../src/algorithms/embeddings.js';
+import { rng } from '../../src/core/math.js';
+import { consume } from '../../src/runtime/tasks.js';
+it('窗口方向和0.75噪声抽样可复现',()=>{expect([...windows(['a','b','c'],1)]).toEqual([{center:'a',context:['b'],index:0},{center:'b',context:['a','c'],index:1},{center:'c',context:['b'],index:2}]);const a=negativeSampler([2,3,5],rng(42)),b=negativeSampler([2,3,5],rng(42));expect(Array.from({length:100},()=>a(0))).toEqual(Array.from({length:100},()=>b(0)));});
+it('负采样目标独立有限差分',()=>{const x=[.1,.5],outputs=[[.4,-.2],[-.3,.6]],labels=[1,0],r=nsObjective(x,outputs,labels),eps=1e-6;for(let j=0;j<x.length;j++){const a=[...x],b=[...x];a[j]+=eps;b[j]-=eps;expect(r.gradient[j]).toBeCloseTo((nsObjective(a,outputs,labels).loss-nsObjective(b,outputs,labels).loss)/(2*eps),6);}});
+it('GloVe 加权目标手算与导数',()=>{const r=gloveObjective([1,2],[3,4],.1,.2,2);const e=11.3-Math.log(2),f=(2/100)**.75;expect(r.loss).toBeCloseTo(f*e*e);expect(r.gradientW[0]).toBeCloseTo(6*f*e);});
+for(const algorithm of ['cbow','skipgram','glove'])it(`${algorithm} 真训练与重放`,async()=>{const c={corpus:'a b c a b\nb c a b a',algorithm,dim:4,epochs:3,seed:42,window:1};const a=await consume(trainEmbeddings(c)),b=await consume(trainEmbeddings(c));expect(a.vectors).toEqual(b.vectors);expect(a.history).toHaveLength(3);expect(a.lastTrace.before).not.toEqual(a.lastTrace.after);expect(neighbors(a,'a',2)).toHaveLength(2);expect(analogy(a,'a','b','c')).toHaveLength(0);expect(()=>neighbors(a,'oov')).toThrow('OOV');});

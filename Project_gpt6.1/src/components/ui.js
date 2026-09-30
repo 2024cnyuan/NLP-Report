@@ -31,7 +31,7 @@ export const icon = (name, size = 20) => {
 export const button = (label, id, kind = '', i = '') => `<button type="button" id="${id}" class="btn ${kind}">${i ? icon(i, 17) : ''}<span>${label}</span></button>`;
 export const field = (label, control, help = '') => `<label class="field"><span class="field-label">${label}</span>${control}${help ? `<small>${help}</small>` : ''}</label>`;
 export const select = (id, options, value) => `<select id="${id}">${options.map(([v, label]) => `<option value="${escapeHTML(v)}" ${v === value ? 'selected' : ''}>${escapeHTML(label)}</option>`).join('')}</select>`;
-export const number = (id, value, min, max, step = 1) => `<input id="${id}" type="number" min="${min}" max="${max}" step="${step}" value="${value}" required>`;
+export const number = (id, value, min, max, step = 1) => `<input id="${id}" type="number" min="${min}" max="${max}" step="${step === 1 ? 1 : 'any'}" value="${value}" required>`;
 export const panel = (title, sub, body, tools = '', cls = '') => `<section class="panel ${cls}"><div class="panel-head"><div><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ''}</div>${tools}</div>${body}</section>`;
 export const note = s => `<div class="note">${icon('help', 17)}<span>${s}</span></div>`;
 export function notify(message, error = false) {

@@ -1,0 +1,14 @@
+.module-card-art svg path{fill:none}
+.workspace .two-col{margin-bottom:18px}
+.workspace .two-col .panel{margin-bottom:0}
+.workspace .comparison-meta+.two-col{margin-bottom:0}
+.breadcrumb b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.matrix-cell.masked{color:#50646e!important}
+.field input,.field select,.field textarea{border-color:#83979f}
+.footer,.module-index,.nav-caption,.nav-number{color:#5b7079}
+.chart-tick{fill:#5d7077}
+.prediction-card.selected{border-color:#128980;background:#edf6f2}
+.controls input:disabled,.controls select:disabled{background:#f2f5f6;color:#556a73}
+.stat>span,.card-tags,.legend-hint{color:#526c75}
+.eyebrow{color:#466c70}
+@media(max-width:500px){.breadcrumb{min-width:0;flex:1}.breadcrumb b{max-width:115px}.topbar-tools{flex-shrink:0}.inspector.open{bottom:12px}}

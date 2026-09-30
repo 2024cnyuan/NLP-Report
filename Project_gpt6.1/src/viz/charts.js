@@ -1,17 +1,18 @@
-import { scaleLinear, scaleSequential, scaleDiverging, interpolateRgbBasis, interpolateRdBu, line, extent, ticks, contours } from 'd3';
+import { scaleLinear, scaleSequential, scaleDiverging, interpolateRgbBasis, interpolateRdBu, line, extent, ticks, contours, rgb } from 'd3';
 import { escapeHTML, fmt } from '../components/ui.js';
 
 export const probabilityColor = scaleSequential(interpolateRgbBasis(['#f0f7f5', '#bbdcd5', '#5ba79f', '#136f72', '#12474f'])).domain([0, 1]);
 export function matrixHTML(matrix, { rows = [], cols = [], id = 'matrix', probability = false, selected, mask = [], maxRows = 16, maxCols = 16, offsetRow = 0, offsetCol = 0, domain, clickable = true } = {}) {
-  const max = domain ?? Math.max(0.001, ...matrix.flat().filter(Number.isFinite).map(Math.abs));
-  const color = probability ? probabilityColor : scaleDiverging(interpolateRdBu).domain([max, 0, -max]);
+  const max = domain ?? matrix.reduce((m, row) => row.reduce((m, v) => Number.isFinite(v) ? Math.max(m, Math.abs(v)) : m, m), 0.001);
+  const color = probability ? probabilityColor : scaleDiverging(interpolateRdBu).domain([-max, 0, max]);
   const displayed = matrix.slice(offsetRow, offsetRow + maxRows);
   const width = matrix[0]?.length ?? 0;
   return `<div class="matrix-scroll"><table class="matrix" id="${id}"><thead><tr><th class="axis-label">${probability ? 'Q ↓ · K →' : '行 ↓ · 维 →'}</th>${Array.from({ length: Math.min(width - offsetCol, maxCols) }, (_, j) => `<th>${escapeHTML(cols[j + offsetCol] ?? `d${j + offsetCol + 1}`)}</th>`).join('')}</tr></thead><tbody>${displayed.map((row, ri) => {
     const i = ri + offsetRow;
     return `<tr><th>${escapeHTML(rows[i] ?? `${i + 1}`)}</th>${row.slice(offsetCol, offsetCol + maxCols).map((value, cj) => {
-      const j = cj + offsetCol, blocked = mask[i]?.[j], bg = blocked ? '#f0f2f4' : color(value), dark = probability ? value >= 0.6 : Math.abs(value) > max * 0.72;
-      return `<td><${clickable ? 'button' : 'span'} ${clickable ? 'type="button"' : ''} class="matrix-cell ${selected?.[0] === i && selected?.[1] === j ? 'selected' : ''} ${blocked ? 'masked' : ''}" style="background:${bg};color:${dark && !blocked ? '#fff' : '#183e45'}" data-row="${i}" data-col="${j}" aria-label="${escapeHTML(rows[i] ?? i)}，${escapeHTML(cols[j] ?? j)}：${fmt(value, 6)}${blocked ? ' 已屏蔽' : ''}">${blocked ? '×' : fmt(value, 3)}</${clickable ? 'button' : 'span'}></td>`;
+      const j = cj + offsetCol, blocked = mask[i]?.[j], bg = blocked ? '#f0f2f4' : color(value), c = rgb(bg);
+      const light = [c.r,c.g,c.b].map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0), dark = light < .179;
+      return `<td><${clickable ? 'button' : 'span'} ${clickable ? 'type="button"' : ''} class="matrix-cell ${selected?.[0] === i && selected?.[1] === j ? 'selected' : ''} ${blocked ? 'masked' : ''}" style="background:${bg};color:${dark && !blocked ? '#fff' : '#000'}" data-row="${i}" data-col="${j}" aria-label="${escapeHTML(rows[i] ?? i)}，${escapeHTML(cols[j] ?? j)}：${fmt(value, 6)}${blocked ? ' 已屏蔽' : ''}">${blocked ? '×' : fmt(value, 3)}</${clickable ? 'button' : 'span'}></td>`;
     }).join('')}</tr>`;
   }).join('')}</tbody></table></div>`;
 }
@@ -23,9 +24,10 @@ export function curveSVG(series, { yLabel = '交叉熵 / natural log', xLabel = 
   const W = 800, H = height, margin = { left: 55, right: 24, top: 24, bottom: 42 };
   const all = series.flatMap(s => s.values), xDomain = extent(all, d => d.x), yDomain = sharedDomain ?? extent(all, d => d.y);
   const x = scaleLinear().domain([xDomain[0] ?? 0, xDomain[1] || 1]).range([margin.left, W - margin.right]);
-  const ymin = log ? Math.log10(Math.max(yDomain[0], 1e-14)) : Math.min(yDomain[0] ?? 0, 0), ymax = log ? Math.log10(Math.max(yDomain[1], 1e-14)) : (yDomain[1] || 1);
+  const positiveMin=all.reduce((m,d)=>d.y>0?Math.min(m,d.y):m,Infinity),floor=Number.isFinite(positiveMin)?Math.max(Number.MIN_VALUE,positiveMin*.1):1e-300;
+  const ymin = log ? Math.log10(Math.max(yDomain[0], floor)) : Math.min(yDomain[0] ?? 0, 0), ymax = log ? Math.log10(Math.max(yDomain[1], floor)) : (yDomain[1] || 1);
   const y = scaleLinear().domain([ymin, ymax === ymin ? ymax + 1 : ymax]).nice().range([H - margin.bottom, margin.top]);
-  const sy = v => y(log ? Math.log10(Math.max(v, 1e-14)) : v);
+  const sy = v => y(log ? Math.log10(Math.max(v, floor)) : v);
   // Bucket extrema keep spikes visible; computation and exports retain every point.
   const decimate = values => {
     if (values.length <= 800) return values;
@@ -46,5 +48,5 @@ export function contourSVG(data, history, loss, id = 'contour') {
   const color = scaleSequential(interpolateRgbBasis(['#edf5f1', '#b9d9ce', '#679f9a', '#285c68'])).domain(extent(values));
   const path = shapes.map(s => `<path d="${s.coordinates.map(poly => poly.map(ring => ring.map((p, i) => `${i ? 'L' : 'M'}${p[0] * 6},${p[1] * 6}`).join('') + 'Z').join('')).join('')}" fill="${color(s.value)}" fill-rule="evenodd" stroke="#fff" stroke-opacity=".25"/>`).join('');
   const visible = history.filter(h => h.w.every(w => w >= -3 && w <= 3));
-  return `<svg id="${id}" viewBox="-34 -24 392 390" role="img" aria-label="Logistic 模型两个自由参数的真实损失等高线"><defs><clipPath id="contour-clip"><rect width="330" height="330"/></clipPath></defs><g clip-path="url(#contour-clip)">${path}<path d="${line().x(h => scale(h.w[0])).y(h => 330 - scale(h.w[1]))(visible) ?? ''}" fill="none" stroke="#a65530" stroke-width="2"/>${visible.filter((_, i) => i % Math.max(1, Math.floor(visible.length / 24)) === 0 || i === visible.length - 1).map(h => `<circle cx="${scale(h.w[0])}" cy="${330 - scale(h.w[1])}" r="3" fill="#a65530"/>`).join('')}</g><text x="165" y="359" text-anchor="middle" class="chart-label">w₁ · 文本特征系数 [−3, 3]</text><text transform="translate(-18,165) rotate(-90)" text-anchor="middle" class="chart-label">w₂ · 截距 [−3, 3]</text></svg>`;
+  return `<svg id="${id}" viewBox="-34 -24 392 390" role="img" aria-label="Logistic 模型两个自由参数的真实损失等高线"><defs><clipPath id="contour-clip"><rect width="330" height="330"/></clipPath></defs><g clip-path="url(#contour-clip)">${path}<path d="${line().defined(h=>h.w.every(w=>w>=-3&&w<=3)).x(h => scale(h.w[0])).y(h => 330 - scale(h.w[1]))(history) ?? ''}" fill="none" stroke="#a65530" stroke-width="2"/>${visible.filter((_, i) => i % Math.max(1, Math.floor(visible.length / 24)) === 0 || i === visible.length - 1).map(h => `<circle cx="${scale(h.w[0])}" cy="${330 - scale(h.w[1])}" r="3" fill="#a65530"/>`).join('')}</g><text x="165" y="359" text-anchor="middle" class="chart-label">w₁ · 文本特征系数 [−3, 3]</text><text transform="translate(-18,165) rotate(-90)" text-anchor="middle" class="chart-label">w₂ · 截距 [−3, 3]</text></svg>`;
 }

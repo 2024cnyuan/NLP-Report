@@ -6,10 +6,12 @@
     "dev": "vite --host 0.0.0.0",
     "build": "npm run build:offline",
     "build:offline": "vite build",
-    "test:run": "vitest run",
+    "test:run": "vitest run --reporter=default --reporter=json --outputFile=docs/evidence/unit-results.json",
     "test:e2e": "playwright test",
+    "test:dev": "TENSORSCOPE_DEV_TEST=1 playwright test --project=development",
     "test:offline": "playwright test --project=offline",
     "bench": "node scripts/bench.mjs",
+    "bench:browser": "node scripts/browser-bench.mjs",
     "train": "node scripts/train.mjs"
   },
   "keywords": [],

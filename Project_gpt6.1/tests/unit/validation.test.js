@@ -1,0 +1,12 @@
+import {it,expect} from 'vitest';
+import snapshot from '../../src/data/models.json';
+import {validateClassifier,validateDataset,validateExperiment,guardJSON} from '../../src/data/validation.js';
+import {builtinDataset} from '../../src/data/datasets.js';
+import {VERSION} from '../../src/core/math.js';
+import {createNeural,neuralForward} from '../../src/algorithms/neural.js';
+import {predict,evaluateBatch,names} from '../../src/algorithms/classifiers.js';
+import {consume} from '../../src/runtime/tasks.js';
+it('所有真实训练快照可校验，损坏权重拒绝',()=>{Object.values(snapshot.models).forEach(m=>expect(validateClassifier(m)).toBe(m));const m=structuredClone(snapshot.models.CNN);m.weights.C.pop();expect(()=>validateClassifier(m)).toThrow('形状');expect(validateDataset(builtinDataset)).toBe(builtinDataset);});
+it('外部 JSON 危险字段、深度与版本拒绝',()=>{expect(()=>guardJSON(JSON.parse('{"__proto__":{}}'))).toThrow('危险');let v={};for(let i=0;i<42;i++)v={v};expect(()=>guardJSON(v)).toThrow('嵌套');expect(()=>validateExperiment({schema:1,module:'attention',algorithmVersion:'unknown',config:{}})).toThrow('版本');expect(()=>validateExperiment({schema:1,module:'sequence',algorithmVersion:VERSION,config:{model:{weights:{}}}})).toThrow();});
+it('批量和逐条预测数值一致；M02/M03使用原权重',async()=>{const samples=builtinDataset.samples.filter(s=>s.split==='test');const r=await consume(evaluateBatch({models:snapshot.models,samples}));for(let i=0;i<samples.length;i++)for(const name of names){const single=predict(snapshot.models[name],samples[i].tokens);expect(r.rows[i].predictions[name].logits).toEqual(single.logits);if(name==='RNN'||name==='CNN')expect(neuralForward(snapshot.models[name],samples[i].tokens).probabilities).toEqual(single.probabilities);}});
+it('不兼容向量需要显式重映射；实际Embedding保留交集权重',()=>{const embedding={id:'test',dim:2,method:'space',preprocessing:'local-v1',vocab:['语言'],vectors:[[.8,.3]]};expect(()=>createNeural({dim:2,embedding})).toThrow('重映射');const m=createNeural({dim:2,embedding,embeddingRemap:true,vocab:['<UNK>','语言']});expect(m.weights.E.slice(2)).toEqual([.8,.3]);expect(m.embeddingId).toBe('test');});
