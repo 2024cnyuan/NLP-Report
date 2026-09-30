@@ -45,7 +45,9 @@ const context = {
 export function register(id,mount) { registry[id]=mount; }
 async function navigate() {
   cleanup?.(); cleanup=null; const generation=++viewGeneration;
-  const id=location.hash.slice(1)||'home'; store.page=id; activeExperiment=null;
+  const previousPage=store.page, hash=location.hash.slice(1)||'home';
+  const id=hash.startsWith('help/')?'help':hash; store.page=id; activeExperiment=null;
+  if(previousPage==='help'&&id!=='help')window.scrollTo(0,0);
   document.querySelector('.sidebar').classList.remove('visible'); document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===id));
   const module=modules.find(m=>m.id===id), title=module?.full??({home:'实验首页',data:'数据集管理',notebook:'实验笔记',help:'使用说明'}[id]??'实验首页');
   document.getElementById('breadcrumb-name').textContent=title;

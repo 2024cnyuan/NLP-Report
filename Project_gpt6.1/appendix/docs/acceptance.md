@@ -13,8 +13,8 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 | npm run test:run | 7文件、38测试通过，独立有限差分epsilon=1e-6、误差目标1e-5 | [unit-results.json](evidence/unit-results.json) |
 | npm run train | 四模型完整共享源码训练，快照重建成功 | [training.json](evidence/training.json)、src/data/models.json |
 | npm run build:offline | IIFE构建成功，仅index.html/app.js/style.css，普通script | release/ 与tools/vite.config.js |
-| npm run test:offline | 22项通过，23.6秒，无失败/跳过/重试；六模块、Worker、无网、导出、重放、资源回收、异步安全 | [playwright-results.json](evidence/playwright-results.json) |
-| npm run test:dev | Vite ESM入口1项通过；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json) |
+| npm run test:offline | 使用说明更新后26项通过，无失败/跳过/重试；原22项及新增4项图文指南回归 | [playwright-results.json](evidence/playwright-results.json) |
+| npm run test:dev | Vite ESM入口与使用说明深链接共2项通过；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json) |
 | npm run bench | Node所有目标档实际跑完 | [bench.json](evidence/bench.json) |
 | npm run bench:browser | file:// Worker目标档实际跑完，无pageerror/HTTP请求 | [browser-bench.json](evidence/browser-bench.json) |
 
@@ -23,6 +23,8 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 离线覆盖：真实file://、拦截并拒绝HTTP/HTTPS、实际Blob Worker、强制Worker失败后的CPU小样例一致；中文与空格路径复制后运行；五尺寸无整页横向溢出；六模块默认/关键参数改变/检查器/对照/三格式下载；自带CSV导入与新模型训练；向量→RNN/CNN→评测→同权重解释；保存→JSON导入→重新计算；训练重放相同权重ID及预测；10轮暂停/恢复/取消；切页与编辑时旧任务不能标成当前有效结果。
 
 ## 性能与资源
+
+本次使用说明页更新未改数学核心、内置模型或训练预算，也未重跑下述完整性能基准；这些数值仍是原压力测试结果。
 
 浏览器实测：100kToken/V5000/d32 Skip-gram单轮约7.27秒；四模型10k条×128Token/d8h8约9.09秒；256²d32注意力约90ms；5000次Logistic更新约832ms；2000条×64Token/d32h32 RNN单轮约60.1秒、CNN约9.9秒。所有压力输入仅证明吞吐，不报告语义准确率。20轮取消p95约31ms。详细范围与未测条件见 [performance.md](performance.md)。
 
@@ -33,6 +35,16 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 已实际查看首页、六模块1440截图、注意力A/B、390窄屏多模块、CSV预览/错误状态、5000点图、空笔记、锁定检查器、演示视图与真实暂停状态；注意力1920/1440/1366/768/390五尺寸生成并实际查看。矩阵可局部横向滚动，输入/运行/说明仍可访问；手机不同时展示完整矩阵。固定种子，截图禁用过渡动画避免768截图捕获侧栏移动中间帧，并隐藏短暂toast。没有声称全站所有颜色/控件都已通过完整WCAG审计。
 
 修复了首页迷你曲线黑填充、发散色带与文字对比度、CNN控制区维度与实际模型不一致、A/B巨大权重文本、散点标签碰撞、截图滚动导致固定导航落在画面中间等问题。截图位于evidence/*png。
+
+## 使用说明页更新验收
+
+使用说明新增8章目录、章节深链接、返回目录、六模块入口、3张内嵌SVG示意图、注意力掩码A/B逐步例子，以及本地生成的8条CSV示例。图中明确标识为操作/布局示意，不冒充实测结果；release仍只有原3文件，不依赖外部图片或网络。算法、模型、依赖与根目录README未改。
+
+新增4项离线测试验证：全部章节键盘跳转与焦点、目录高亮、刷新/浏览器前进后退、未知章节回退；从指南进入注意力并屏蔽「理解→语言」、核对权重为0和行和为1后保存笔记；示例CSV下载、8条预览确认和真实重新训练；六模块入口与1440/768/390布局，手机图内可横向滚动且无整页溢出。四项均拦截HTTP/HTTPS，未发现请求或pageerror；完整26项离线回归通过。开发测试增加相同指南深链接与模块入口检查，共2项通过；单元测试38项通过，语法/引用检查52个JS/MJS通过。
+
+已实际查看 [桌面指南](evidence/help-1440.png)、[平板指南](evidence/help-768.png)、[手机指南](evidence/help-390.png)，以及三种尺寸的help-example截图；另查看 [界面示意](evidence/help-workspace-1440.png)、[模块流程图](evidence/help-workflow-1440.png)、[数据导入说明](evidence/help-data-1440.png)、[笔记说明](evidence/help-notebook-1440.png)。按平板截图调整了章节滚动留白，避免上一节文字露在固定顶栏下方。
+
+browser-use在本地file://下返回空的元素索引列表，但DOM读取证实页面已正确加载；重开仍如此。改用它的DOM点击/读取核验导入章节，实测hash为#help/data、焦点help-data、顶端约93.6px、目录高亮匹配且有3张图。正式点击、键盘、前进后退与离线验收以Playwright结果为准，未安装新浏览器或使用云服务。构建曾因沙箱EROFS失败，授权后使用相同构建命令成功；未改安全策略。Windows实机人工验收仍未执行。
 
 ## 失败及修复记录
 
