@@ -1,4 +1,23 @@
 import {test,expect} from '../../../tools/testing/playwright.js';
+test('Vite 字体与公式：本地字形加载，KaTeX排版及代码字体',async({page})=>{
+  const errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('http://127.0.0.1:5187/#attention');
+  await expect(page.locator('#result-state')).toHaveText('结果已更新');
+  await page.locator('#matrix .matrix-cell').first().click();
+  await expect(page.locator('.formula .katex').first()).toBeVisible();
+  await page.evaluate(()=>document.fonts.ready);
+  const result=await page.evaluate(()=>({
+    loaded:[...document.fonts].filter(font=>font.status==='loaded').map(font=>font.family.replaceAll('"','')),
+    math:getComputedStyle(document.querySelector('.formula .katex')).fontFamily,
+    code:getComputedStyle(document.querySelector('.inspect-content pre')).fontFamily,
+  }));
+  expect(result.loaded).toEqual(expect.arrayContaining(['Inter','Noto Sans SC','JetBrains Mono']));
+  expect(result.loaded.some(family=>family.startsWith('KaTeX'))).toBe(true);
+  expect(result.math).toContain('KaTeX_Main');
+  expect(result.code).toContain('JetBrains Mono');
+  expect(errors).toEqual([]);
+});
 test('Vite 使用说明：章节深链接、内嵌图和模块入口',async({page})=>{
   const errors=[];
   page.on('pageerror',error=>errors.push(error.message));

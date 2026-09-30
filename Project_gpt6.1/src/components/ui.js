@@ -1,3 +1,5 @@
+import { renderFormula } from './math.js';
+
 export const escapeHTML = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 export const fmt = (v, d = 4) => Number.isFinite(v) ? Number(v).toFixed(d) : (v === -Infinity ? '−∞' : '—');
 export const pct = v => `${(v * 100).toFixed(1)}%`;
@@ -47,7 +49,9 @@ export function inspect({ title, value, formula, inputs, shape, source, detail }
   const root = document.getElementById('inspector');
   if (root.dataset.locked === 'true') { notify('检查器已锁定，请先解除锁定'); return; }
   root.classList.add('open');
-  root.innerHTML = `<div class="inspector-title"><span>${icon('search', 17)} 计算显微镜</span><button class="icon-btn" id="close-inspector" aria-label="关闭检查器">${icon('close', 18)}</button></div><div class="inspect-content"><span class="eyebrow">${escapeHTML(shape ?? 'TRACE / 真实计算')}</span><h3>${escapeHTML(title)}</h3><div class="inspect-value">${typeof value === 'number' ? fmt(value, 6) : escapeHTML(value)}</div><div class="formula">${escapeHTML(formula)}</div><h4>输入数值</h4><pre>${escapeHTML(typeof inputs === 'string' ? inputs : JSON.stringify(inputs, null, 2))}</pre>${detail ? `<p>${escapeHTML(detail)}</p>` : ''}<h4>上游来源</h4><p>${escapeHTML(source)}</p><button class="btn" id="lock-inspector">${icon('lock', 16)} 锁定此计算</button></div>`;
+  const typeset = renderFormula(formula);
+  const displayedFormula = typeset ? `${typeset}<details class="formula-original"><summary>查看纯文本公式</summary><code>${escapeHTML(formula)}</code></details>` : escapeHTML(formula);
+  root.innerHTML = `<div class="inspector-title"><span>${icon('search', 17)} 计算显微镜</span><button class="icon-btn" id="close-inspector" aria-label="关闭检查器">${icon('close', 18)}</button></div><div class="inspect-content"><span class="eyebrow">${escapeHTML(shape ?? 'TRACE / 真实计算')}</span><h3>${escapeHTML(title)}</h3><div class="inspect-value">${typeof value === 'number' ? fmt(value, 6) : escapeHTML(value)}</div><div class="formula">${displayedFormula}</div><h4>输入数值</h4><pre>${escapeHTML(typeof inputs === 'string' ? inputs : JSON.stringify(inputs, null, 2))}</pre>${detail ? `<p>${escapeHTML(detail)}</p>` : ''}<h4>上游来源</h4><p>${escapeHTML(source)}</p><button class="btn" id="lock-inspector">${icon('lock', 16)} 锁定此计算</button></div>`;
   root.querySelector('#close-inspector').onclick = () => { root.classList.remove('open'); root.dataset.locked = 'false'; };
   root.querySelector('#lock-inspector').onclick = e => { root.dataset.locked = root.dataset.locked === 'true' ? 'false' : 'true'; e.currentTarget.innerHTML = `${icon('lock', 16)} ${root.dataset.locked === 'true' ? '解除锁定' : '锁定此计算'}`; };
 }

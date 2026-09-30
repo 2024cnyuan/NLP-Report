@@ -7,5 +7,8 @@ export const projectRoot = resolve(toolsDir, '..');
 export const fromProject = (...parts) => resolve(projectRoot, ...parts);
 export const evidencePath = (...parts) => fromProject('appendix', 'docs', 'evidence', ...parts);
 export const requireTool = createRequire(new URL('./package.json', import.meta.url));
-// Application sources live beside tools/, so resolve D3 from the single tools install.
-export const applicationAliases = [{ find: /^d3$/, replacement: requireTool.resolve('d3') }];
+// Application sources live beside tools/: use the same install for UI libraries.
+export const applicationAliases = [
+  { find: /^d3$/, replacement: requireTool.resolve('d3') },
+  { find: /^katex$/, replacement: requireTool.resolve('katex/dist/katex.mjs') },
+];

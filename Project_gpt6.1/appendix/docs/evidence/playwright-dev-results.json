@@ -86,6 +86,40 @@
       "line": 0,
       "specs": [
         {
+          "title": "Vite 字体与公式：本地字形加载，KaTeX排版及代码字体",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "development",
+              "projectName": "development",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 766,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-30T23:38:06.215Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "18b37fc3d7de3aa10bf9-c13b6f645b07b8762101",
+          "file": "development.spec.js",
+          "line": 2,
+          "column": 1
+        },
+        {
           "title": "Vite 使用说明：章节深链接、内嵌图和模块入口",
           "ok": true,
           "tags": [],
@@ -101,12 +135,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 717,
+                  "duration": 720,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-30T11:07:15.193Z",
+                  "startTime": "2026-09-30T23:38:07.067Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -116,7 +150,7 @@
           ],
           "id": "18b37fc3d7de3aa10bf9-b5017f7d258918a45780",
           "file": "development.spec.js",
-          "line": 2,
+          "line": 21,
           "column": 1
         },
         {
@@ -135,12 +169,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 598,
+                  "duration": 802,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-30T11:07:17.438Z",
+                  "startTime": "2026-09-30T23:38:07.800Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -150,7 +184,7 @@
           ],
           "id": "18b37fc3d7de3aa10bf9-0d11cf8fd09fa27830c8",
           "file": "development.spec.js",
-          "line": 16,
+          "line": 35,
           "column": 1
         }
       ]
@@ -158,9 +192,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-30T11:07:10.840Z",
-    "duration": 5973.83,
-    "expected": 2,
+    "startTime": "2026-09-30T23:37:59.076Z",
+    "duration": 8806.129,
+    "expected": 3,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

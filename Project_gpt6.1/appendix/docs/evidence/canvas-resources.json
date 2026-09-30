@@ -3,86 +3,86 @@
   "trained": {
     "vocabulary": 5000,
     "tokens": 10000,
-    "trainingMs": 345.7000000011176
+    "trainingMs": 311.60000000009313
   },
-  "renderMs": 225,
+  "renderMs": 232,
   "resources": [
     {
       "cycle": 0,
-      "heapBytes": 25858700,
-      "nodes": 11577,
+      "heapBytes": 26703320,
+      "nodes": 11766,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 1,
-      "heapBytes": 25890580,
-      "nodes": 11569,
+      "heapBytes": 26739012,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 2,
-      "heapBytes": 25977512,
-      "nodes": 11569,
+      "heapBytes": 26817764,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 3,
-      "heapBytes": 26013064,
-      "nodes": 11569,
+      "heapBytes": 26856636,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 4,
-      "heapBytes": 26048608,
-      "nodes": 11569,
+      "heapBytes": 26892088,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 5,
-      "heapBytes": 26049332,
-      "nodes": 11569,
+      "heapBytes": 26892524,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 6,
-      "heapBytes": 26067476,
-      "nodes": 11569,
+      "heapBytes": 26911624,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 7,
-      "heapBytes": 26157264,
-      "nodes": 11569,
+      "heapBytes": 27002052,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 8,
-      "heapBytes": 26178032,
-      "nodes": 11569,
+      "heapBytes": 27021428,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 9,
-      "heapBytes": 26185476,
-      "nodes": 11569,
+      "heapBytes": 27028928,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     },
     {
       "cycle": 10,
-      "heapBytes": 26176520,
-      "nodes": 11569,
+      "heapBytes": 27030600,
+      "nodes": 11758,
       "listeners": 82,
-      "visibleDOMElements": 444
+      "visibleDOMElements": 520
     }
   ],
   "errors": [],

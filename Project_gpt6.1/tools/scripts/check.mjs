@@ -22,7 +22,7 @@ for(const file of files) {
     await access(resolve(dirname(file),match[1].split('?')[0]));
   }
 }
-for(const name of ['d3','vite','vitest','@playwright/test']) {
+for(const name of ['d3','katex','@fontsource/inter','@fontsource/noto-sans-sc','@fontsource/jetbrains-mono','vite','vitest','@playwright/test']) {
   const resolved=requireTool.resolve(name);
   if(!resolved.includes('tools/node_modules/'))throw new Error(`${name} resolved outside tools/: ${resolved}`);
   console.log(`${name}: tools/node_modules/`);

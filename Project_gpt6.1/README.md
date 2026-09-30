@@ -8,6 +8,8 @@
 
 已在WSL Chromium验证真实file://、Blob Worker和核心交互；Windows Chrome/Edge仍需人工验收，不冒充已经测试。
 
+界面中文使用 Noto Sans SC，英文与普通数字使用 Inter，代码使用 JetBrains Mono；检查器中的公式使用 KaTeX 原配字体排版，可展开查看原文。字体均已内嵌，不需要网络；详见 [字体接入说明](tools/font/README.md)。
+
 ## 项目结构
 
 ```text
@@ -15,7 +17,7 @@ project_gpt6.1/
 ├── release/                      # 最终离线演示包，使用项目只需要这个目录
 │   ├── index.html                # 离线网页入口，可双击打开
 │   ├── app.js                    # 构建后的应用代码，包含算法和计算 Worker
-│   └── style.css                 # 构建后的页面样式
+│   └── style.css                 # 页面样式和内嵌字体，离线无需下载字体
 │
 ├── src/                          # 应用源码，修改功能时主要编辑这里
 │   ├── app/                      # 应用入口、首页、导航和模块注册
@@ -39,6 +41,10 @@ project_gpt6.1/
 │   ├── package.json              # 依赖声明和开发、构建、测试命令
 │   ├── package-lock.json         # 锁定依赖版本，便于复现开发环境
 │   ├── node_modules/             # 已安装的本地依赖，不提交到版本库
+│   ├── font/                     # 本地字体及 KaTeX 接入，不重复安装依赖
+│   │   ├── fonts.css             # 引用 Inter、Noto Sans SC、Mono 和公式字体
+│   │   ├── plugin.mjs            # 构建仅保留 WOFF2，避免重复嵌入旧格式
+│   │   └── README.md             # 字体分工、字重和离线打包说明
 │   ├── testing/                  # 测试框架导入桥接，避免重复安装依赖
 │   │   ├── vitest.js             # 向单元测试提供 tools 中的 Vitest
 │   │   └── playwright.js         # 向浏览器测试提供 tools 中的 Playwright

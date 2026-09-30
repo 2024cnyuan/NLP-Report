@@ -1,0 +1,41 @@
+@import '../../tools/font/fonts.css';
+
+:root {
+  --font-cn: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --font-ui: 'Inter', 'Noto Sans SC', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  --font-code: 'JetBrains Mono', 'Noto Sans SC', ui-monospace, monospace;
+  font-family: var(--font-ui);
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  font-synthesis: none;
+}
+
+/* Ordinary English and data/numbers stay in Inter, including SVG labels. */
+.nav-number, .matrix-cell, .bar-value, .chart-label, .chart-tick,
+.inspect-value, .module-index, .card-tags, .stat strong, .path-step b,
+.guide .guide-toc > a span, .guide .guide-section-number,
+.guide .guide-example-input code, .guide .guide-export-grid strong {
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Code, JSON and technical inputs use Mono; Chinese comments fall back to SC. */
+code, pre, .inspect-content pre, .guide .guide-code,
+#explicit-q, #explicit-k, #explicit-v, #opt-data,
+.formula-original code {
+  font-family: var(--font-code);
+  font-variant-ligatures: none;
+  tab-size: 2;
+}
+.inspect-content pre { line-height: 1.85; }
+.guide .guide-code { line-height: 1.95; }
+
+/* Do not assign a UI/code family to KaTeX's own glyph spans. */
+.formula { font-family: var(--font-ui); padding: 14px 12px; }
+.math-equation { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 5px 1px 8px; scrollbar-width: thin; }
+.math-equation + .math-equation { margin-top: 3px; }
+.math-equation .katex { font-size: 1.08em; }
+.katex .cjk_fallback { font-family: var(--font-cn); }
+.formula-original { margin-top: 9px; border-top: 1px solid #d7e6df; padding-top: 8px; }
+.formula-original summary { font-size: 11px; color: #567169; cursor: pointer; }
+.formula-original code { display: block; margin-top: 7px; font-size: 11px; line-height: 1.9; white-space: normal; overflow-wrap: anywhere; }

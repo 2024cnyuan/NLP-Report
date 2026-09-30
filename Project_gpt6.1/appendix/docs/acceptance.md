@@ -1,4 +1,4 @@
-# 验收记录 · 2026-09-30
+# 验收记录 · 最新更新 2026-10-01
 
 目录迁移后：配置/依赖/脚本在tools，测试/文档在appendix。从根目录使用npm --prefix tools run，或进入tools执行下表npm run命令。迁移验证与证据输出位置见 [structure-migration.md](structure-migration.md)。下表功能验收与完整性能基准保留原始测量范围，短smoke测试不冒充完整压力档重测。
 
@@ -10,11 +10,11 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 
 | 命令 | 实测结果 | 原始证据 |
 |---|---|---|
-| npm run test:run | 7文件、38测试通过，独立有限差分epsilon=1e-6、误差目标1e-5 | [unit-results.json](evidence/unit-results.json) |
+| npm run test:run | 8文件、41测试通过；原38项数学/数据验证及新增3项公式排版与字体构建规则测试 | [unit-results.json](evidence/unit-results.json) |
 | npm run train | 四模型完整共享源码训练，快照重建成功 | [training.json](evidence/training.json)、src/data/models.json |
 | npm run build:offline | IIFE构建成功，仅index.html/app.js/style.css，普通script | release/ 与tools/vite.config.js |
-| npm run test:offline | 使用说明更新后26项通过，无失败/跳过/重试；原22项及新增4项图文指南回归 | [playwright-results.json](evidence/playwright-results.json) |
-| npm run test:dev | Vite ESM入口与使用说明深链接共2项通过；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json) |
+| npm run test:offline | 字体更新后28项通过，38.6秒，无跳过/重试；原26项及新增2项实际字体与公式回归 | [playwright-results.json](evidence/playwright-results.json) |
+| npm run test:dev | Vite ESM入口、指南深链接及本地字体/公式共3项通过，8.8秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json) |
 | npm run bench | Node所有目标档实际跑完 | [bench.json](evidence/bench.json) |
 | npm run bench:browser | file:// Worker目标档实际跑完，无pageerror/HTTP请求 | [browser-bench.json](evidence/browser-bench.json) |
 
@@ -24,7 +24,7 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 
 ## 性能与资源
 
-本次使用说明页更新未改数学核心、内置模型或训练预算，也未重跑下述完整性能基准；这些数值仍是原压力测试结果。
+使用说明及本次字体更新未改数学核心、内置模型或训练预算，也未重跑下述完整性能基准；这些数值仍是原压力测试结果。下述数值不代表加入字体与KaTeX后的加载耗时、峰值内存或性能重测。
 
 浏览器实测：100kToken/V5000/d32 Skip-gram单轮约7.27秒；四模型10k条×128Token/d8h8约9.09秒；256²d32注意力约90ms；5000次Logistic更新约832ms；2000条×64Token/d32h32 RNN单轮约60.1秒、CNN约9.9秒。所有压力输入仅证明吞吐，不报告语义准确率。20轮取消p95约31ms。详细范围与未测条件见 [performance.md](performance.md)。
 
@@ -45,6 +45,22 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 已实际查看 [桌面指南](evidence/help-1440.png)、[平板指南](evidence/help-768.png)、[手机指南](evidence/help-390.png)，以及三种尺寸的help-example截图；另查看 [界面示意](evidence/help-workspace-1440.png)、[模块流程图](evidence/help-workflow-1440.png)、[数据导入说明](evidence/help-data-1440.png)、[笔记说明](evidence/help-notebook-1440.png)。按平板截图调整了章节滚动留白，避免上一节文字露在固定顶栏下方。
 
 browser-use在本地file://下返回空的元素索引列表，但DOM读取证实页面已正确加载；重开仍如此。改用它的DOM点击/读取核验导入章节，实测hash为#help/data、焦点help-data、顶端约93.6px、目录高亮匹配且有3张图。正式点击、键盘、前进后退与离线验收以Playwright结果为准，未安装新浏览器或使用云服务。构建曾因沙箱EROFS失败，授权后使用相同构建命令成功；未改安全策略。Windows实机人工验收仍未执行。
+
+## 本地字体与公式更新 · 2026-10-01
+
+复用用户已安装在tools/node_modules的@fontsource/inter、@fontsource/noto-sans-sc、@fontsource/jetbrains-mono（均5.3.0）及katex（0.18.10），没有重新安装、升级或改动tools/package.json/package-lock.json。tools/font存放字体引用与构建接入配置；src/styles/typography.css负责界面字体分工。THIRD_PARTY_NOTICES已纳入字体OFL和KaTeX MIT许可原文，共39个包。
+
+中文正文为Noto Sans SC（400/500/700），英文/普通数字为Inter（400/500/600/700），代码/JSON为JetBrains Mono（400/600），中文代码注释回退Noto Sans SC。使用实际静态字重，未将文件伪装为可变字体。矩阵、刻度和指标使用Inter等宽数字；Canvas词向量标签从界面继承字体，在字体加载后重绘并保留销毁保护。
+
+六模块检查器的20种既有公式使用KaTeX原配字体排版，提供MathML及可展开的纯文本原文；数学运算及输出数值不变。只对已知公式提供明确LaTeX映射，未知或排版失败时保留转义后的原文，不执行用户公式代码。较长公式在卡片内部滚动，不扩展整页宽度。
+
+离线构建仍只有index.html/app.js/style.css；字体原字节作为29个WOFF2 data URL内嵌，不经CDN、不另行请求字体。实测app.js 631,353字节，style.css 5,222,686字节；简体中文字形未裁剪，内嵌字体使CSS明显增大。仅保留WOFF2避免同一字体重复嵌入WOFF/TTF，面向当前Chromium；未验证旧浏览器兼容性。
+
+41项单元测试通过，新增测试覆盖全部20种公式的KaTeX/MathML输出、未知/恶意原文安全回退，以及WOFF2筛选规则。28项离线测试通过，新增用Chromium实际字形资源统计验证Noto Sans SC、Inter、JetBrains Mono和六模块KaTeX均使用自定义字体，而非只检查CSS声明。全部字体URL内嵌、HTTP/HTTPS拦截记录为空，无pageerror；展开公式原文后实测Mono，数值检查器仍显示原数据。3项开发页面测试通过，字体加载和公式在Vite入口也正常；语法/引用/依赖与目录检查56个JS/MJS通过。
+
+已实际查看[中文与代码桌面截图](evidence/typography-code-1440.png)、[公式桌面截图](evidence/typography-formula-1440.png)、[公式平板截图](evidence/typography-formula-768.png)、[公式手机截图](evidence/typography-formula-390.png)及[browser-use注意力检查器截图](evidence/typography-browser-use.png)。browser-use本地state仍返回空元素索引，使用文档支持的DOM读取/点击确认页面、公式和已加载字体；未使用云浏览器，正式回归以Playwright为准。Windows Chrome/Edge人工验收仍未执行。
+
+本次历史失败：初始构建筛选未作用于被导入的KaTeX CSS，产生重复旧格式字体，改为PostCSS规则后29个URL全部为WOFF2；新增字体检测首次因未启用CSS调试通道失败，启用后通过；随后KaTeX祖先容器没有直接文本，字体统计为空，改为实际含字形的mathnormal节点；跨模块测试保留的检查器遮住下一模块按钮导致点击超时，按正常操作关闭检查器再切换，未使用强制点击绕过。最终完整28项回归通过，失败记录在此保留。
 
 ## 失败及修复记录
 

@@ -1,10 +1,12 @@
 import { defineConfig } from 'vite';
 import { projectRoot, toolsDir, fromProject, applicationAliases } from './paths.mjs';
+import { localFontPostCSS } from './font/plugin.mjs';
 
 export default defineConfig({
   root: projectRoot,
   cacheDir: `${toolsDir}/node_modules/.vite`,
   resolve: { alias: applicationAliases },
+  css: { postcss: { plugins: [localFontPostCSS] } },
   base: './',
   worker: { format: 'iife' },
   build: {

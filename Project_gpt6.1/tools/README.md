@@ -33,7 +33,7 @@ npm run notices
 npm run check           # 源码语法、依赖位置和离线入口检查
 ```
 
-已经安装的工具：Node 24.14.0、npm 11.9.0、Vite 8.3.1、D3 7.9.0、Vitest 5.0.2、Playwright 1.63.0。没有新增依赖。Playwright 浏览器未安装的机器先运行 `npx playwright install chromium`；离线交付网页不需要这些工具。
+已经安装的工具：Node 24.14.0、npm 11.9.0、Vite 8.3.1、D3 7.9.0、Vitest 5.0.2、Playwright 1.63.0。字体更新复用用户已安装的三个 @fontsource 字体包和 KaTeX，没有重新安装依赖或修改锁文件，接入说明见 [font/README.md](font/README.md)。Playwright 浏览器未安装的机器先运行 `npx playwright install chromium`；离线交付网页不需要这些工具。
 
 ## 如何验收
 
@@ -79,7 +79,7 @@ text,label,split,group
 
 ## 路径与依赖约定
 
-所有工具与依赖只在 tools。根目录没有 node_modules 符号链接，也没有重复安装。tools/paths.mjs 按自身位置定位项目根目录，Vite/Vitest 显式从tools解析D3，测试通过tools/testing的桥接模块使用同一份测试框架。src/package.json与appendix/tests/package.json只标记ESM，不声明依赖、不需要安装。
+所有工具与依赖只在 tools。根目录没有 node_modules 符号链接，也没有重复安装。tools/paths.mjs 按自身位置定位项目根目录，Vite/Vitest 显式从tools解析D3和KaTeX；tools/font/fonts.css引用已安装的本地字体，离线构建内嵌到style.css。测试通过tools/testing的桥接模块使用同一份测试框架。src/package.json与appendix/tests/package.json只标记ESM，不声明依赖、不需要安装。
 
 根目录也可执行 npm --prefix tools run dev、npm --prefix tools run build:offline、npm --prefix tools run test:run 等。训练输出src/data/models.json；构建输出release；截图/JSON输出appendix/docs/evidence；HTML报告输出appendix/playwright-report；轨迹输出appendix/test-results；缓存只在tools/node_modules。
 
@@ -89,4 +89,3 @@ text,label,split,group
 npm run bench -- --smoke
 npm run bench:browser -- --smoke
 ```
-
