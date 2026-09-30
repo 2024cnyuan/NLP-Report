@@ -1,0 +1,11 @@
+import { writeFile } from 'node:fs/promises';
+import { builtinDataset } from '../../src/data/datasets.js';
+import { trainComparison } from '../../src/algorithms/classifiers.js';
+import { consume } from '../../src/runtime/tasks.js';
+const config={dataset:builtinDataset,epochs:35,lr:.04,dim:8,hidden:8,seed:42,batch:4};
+const start=performance.now();
+const result=await consume(trainComparison(config),{},p=>{if(p.epoch&&p.processed===p.total)console.log(`epoch ${p.epoch}: loss ${p.loss}`);});
+await writeFile(new URL('../../src/data/models.json',import.meta.url),JSON.stringify(result));
+await writeFile(new URL('../../appendix/docs/evidence/training.json',import.meta.url),JSON.stringify({source:builtinDataset.source,config,metrics:result.metrics,modelIds:Object.fromEntries(Object.entries(result.models).map(([k,m])=>[k,m.id])),elapsedMs:performance.now()-start},null,2));
+console.log(JSON.stringify(result.metrics,null,2));
+console.log(`Saved reproducible snapshots; ${((performance.now()-start)/1000).toFixed(2)}s`);

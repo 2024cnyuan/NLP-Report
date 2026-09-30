@@ -1,0 +1,91 @@
+{
+  "environment": "WSL Chromium, file://, headless, GC forced between cycles",
+  "trained": {
+    "vocabulary": 5000,
+    "tokens": 10000,
+    "trainingMs": 351.29999999981374
+  },
+  "renderMs": 222,
+  "resources": [
+    {
+      "cycle": 0,
+      "heapBytes": 25846476,
+      "nodes": 11577,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 1,
+      "heapBytes": 25883748,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 2,
+      "heapBytes": 25959076,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 3,
+      "heapBytes": 25993180,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 4,
+      "heapBytes": 26039152,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 5,
+      "heapBytes": 26044952,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 6,
+      "heapBytes": 26062740,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 7,
+      "heapBytes": 26146808,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 8,
+      "heapBytes": 26174232,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 9,
+      "heapBytes": 26181476,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    },
+    {
+      "cycle": 10,
+      "heapBytes": 26176728,
+      "nodes": 11569,
+      "listeners": 82,
+      "visibleDOMElements": 444
+    }
+  ],
+  "errors": [],
+  "network": [],
+  "limitations": "Post-GC CDP counters, not peak memory or full leak proof; 10 same-page navigation cycles."
+}

@@ -34,7 +34,7 @@ const context = {
     const ignored=['modelSource','tokens','basis','basisVocab','models','dataFingerprint','Q','K','V'];
     const keys=[...new Set([...Object.keys(a),...Object.keys(b)])].filter(k=>!ignored.includes(k));
     const changed=keys.filter(k=>JSON.stringify(a[k])!==JSON.stringify(b[k]));
-    const describe=(key,value)=>{if(key==='model')return value?.id??'无模型';if(key==='dataset')return `${value?.name??'数据'} / ${fingerprint(value?.samples)}`;if(key==='corpus'||key==='data')return `${key==='corpus'?'语料':'数据'} ${fingerprint(value)}`;const s=JSON.stringify(value);return s?.length>100?s.slice(0,97)+'…':s;};
+    const describe=(key,value)=>{if(key==='model')return value?.id??'无模型';if(key==='dataset')return value?`${value.name??'数据'} / ${fingerprint(value.samples??null)}`:'未包含数据';if(key==='corpus'||key==='data')return `${key==='corpus'?'语料':'数据'} ${fingerprint(value??null)}`;const s=JSON.stringify(value);return s?.length>100?s.slice(0,97)+'…':s;};
     const items=changed.map(k=>`${k}: ${describe(k,a[k])} → ${describe(k,b[k])}`);
     if(changed.includes('model')&&a.model?.weights&&b.model?.weights){const diffs=[];for(const[k,w]of Object.entries(a.model.weights))if(b.model.weights[k]?.length===w.length)w.forEach((v,i)=>{if(v!==b.model.weights[k][i])diffs.push(`${k}[${i}]: ${Number(v).toFixed(4)} → ${Number(b.model.weights[k][i]).toFixed(4)}`);});if(diffs.length)items.push(`权重变化 ${diffs.length} 项（${diffs.slice(0,2).join('；')}）`);}
     for(const k of ['Q','K','V'])if(JSON.stringify(a[k])!==JSON.stringify(b[k])&&a.source===b.source&&a.target===b.target&&a.dim===b.dim){changed.push(k);items.push(`${k} 矩阵 ${fingerprint(a[k])} → ${fingerprint(b[k])}`);}

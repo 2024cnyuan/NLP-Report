@@ -1,0 +1,60 @@
+{
+  "date": "2026-09-30T10:30:23.771Z",
+  "environment": {
+    "node": "v24.14.0",
+    "platform": "linux",
+    "release": "6.18.33.2-microsoft-standard-WSL2",
+    "cpu": "Intel(R) Core(TM) i9-14900HX",
+    "logicalCpus": 32,
+    "totalMemoryBytes": 16563007488
+  },
+  "scope": "Node CPU 参考实现；不代替浏览器响应性或 Windows 实测。全部性能数据为人工生成压力样本，不报告语义准确率。",
+  "results": [
+    {
+      "name": "分类导入10,000条",
+      "config": {
+        "samples": 10000,
+        "bytes": 188900
+      },
+      "status": "computed",
+      "runs": [
+        29.190323000000006,
+        30.34093899999999,
+        28.379534000000007
+      ],
+      "medianMs": 29.190323000000006,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 6570264,
+      "heapAfterBytes": 24816592,
+      "summary": {
+        "samples": 10000,
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "注意力256×256 d=32",
+      "config": {
+        "rows": 256,
+        "cols": 256,
+        "dim": 32
+      },
+      "status": "computed",
+      "runs": [
+        24.68258400000002,
+        15.461229000000003,
+        10.210004999999995
+      ],
+      "medianMs": 15.461229000000003,
+      "p95Ms": null,
+      "p95Note": "不足20次，未报告稳定p95",
+      "heapBeforeBytes": 25864680,
+      "heapAfterBytes": 49898368,
+      "summary": {
+        "weights": 65536,
+        "rowSum": 1.0000000000000002
+      }
+    }
+  ],
+  "smoke": true
+}

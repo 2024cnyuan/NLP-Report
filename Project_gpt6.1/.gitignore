@@ -1,5 +1,6 @@
 node_modules/
 .vite/
+.vitest/
 test-results/
 playwright-report/
 coverage/
