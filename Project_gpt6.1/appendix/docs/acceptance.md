@@ -10,11 +10,11 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 
 | 命令 | 实测结果 | 原始证据 |
 |---|---|---|
-| npm run test:run | 8文件、41测试通过；原38项数学/数据验证及新增3项公式排版与字体构建规则测试 | [unit-results.json](evidence/unit-results.json) |
+| npm run test:run | 9文件、49测试通过，3.52秒；原41项及新增8项计算链/分析/记录测试 | [unit-results.json](evidence/unit-results.json) |
 | npm run train | 四模型完整共享源码训练，快照重建成功 | [training.json](evidence/training.json)、src/data/models.json |
 | npm run build:offline | IIFE构建成功，仅index.html/app.js/style.css，普通script | release/ 与tools/vite.config.js |
-| npm run test:offline | 字体更新后28项通过，38.6秒，无跳过/重试；原26项及新增2项实际字体与公式回归 | [playwright-results.json](evidence/playwright-results.json) |
-| npm run test:dev | Vite ESM入口、指南深链接及本地字体/公式共3项通过，8.8秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json) |
+| npm run test:offline | 计算链最终版34项通过，48.9秒，无失败/跳过/重试；原28项及新增6项计算链/分析/重放回归 | [playwright-results.json](evidence/playwright-results.json)、[HTML报告](../playwright-report/offline/index.html) |
+| npm run test:dev | 最终源码Vite ESM入口、指南深链接及本地字体/公式共3项通过，8.1秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json)、[HTML报告](../playwright-report/development/index.html) |
 | npm run bench | Node所有目标档实际跑完 | [bench.json](evidence/bench.json) |
 | npm run bench:browser | file:// Worker目标档实际跑完，无pageerror/HTTP请求 | [browser-bench.json](evidence/browser-bench.json) |
 
@@ -24,7 +24,7 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 
 ## 性能与资源
 
-使用说明及本次字体更新未改数学核心、内置模型或训练预算，也未重跑下述完整性能基准；这些数值仍是原压力测试结果。下述数值不代表加入字体与KaTeX后的加载耗时、峰值内存或性能重测。
+使用说明和字体更新未改数学定义；本次计算链更新在数学核心新增真实中间值的追踪与派生指标，未重新训练内置模型或修改训练预算，也未重跑下述完整性能基准。这些数值仍是原压力测试结果，不代表加入字体、KaTeX和计算链后的加载耗时、峰值内存或性能重测。
 
 浏览器实测：100kToken/V5000/d32 Skip-gram单轮约7.27秒；四模型10k条×128Token/d8h8约9.09秒；256²d32注意力约90ms；5000次Logistic更新约832ms；2000条×64Token/d32h32 RNN单轮约60.1秒、CNN约9.9秒。所有压力输入仅证明吞吐，不报告语义准确率。20轮取消p95约31ms。详细范围与未测条件见 [performance.md](performance.md)。
 
@@ -61,6 +61,28 @@ browser-use在本地file://下返回空的元素索引列表，但DOM读取证�
 已实际查看[中文与代码桌面截图](evidence/typography-code-1440.png)、[公式桌面截图](evidence/typography-formula-1440.png)、[公式平板截图](evidence/typography-formula-768.png)、[公式手机截图](evidence/typography-formula-390.png)及[browser-use注意力检查器截图](evidence/typography-browser-use.png)。browser-use本地state仍返回空元素索引，使用文档支持的DOM读取/点击确认页面、公式和已加载字体；未使用云浏览器，正式回归以Playwright为准。Windows Chrome/Edge人工验收仍未执行。
 
 本次历史失败：初始构建筛选未作用于被导入的KaTeX CSS，产生重复旧格式字体，改为PostCSS规则后29个URL全部为WOFF2；新增字体检测首次因未启用CSS调试通道失败，启用后通过；随后KaTeX祖先容器没有直接文本，字体统计为空，改为实际含字形的mathnormal节点；跨模块测试保留的检查器遮住下一模块按钮导致点击超时，按正常操作关闭检查器再切换，未使用强制点击绕过。最终完整28项回归通过，失败记录在此保留。
+
+## 真实计算链与结果分析更新 · 2026-10-01
+
+Attention、CNN、序列页面新增“本次计算链”和数值分析，不以动画生成结果。algorithms/explanations从本次完成结果及真实权重推导代入说明与指标；components/computation只渲染和绑定检查器。原前向/反向数学定义保留，现有全权重有限差分、推理/可微一致、训练和离线回归继续验证；没有新增依赖或修改package/锁文件。
+
+- Attention：Q/K/V → 掩码前rawScores → 应用mask的scores → 稳定Softmax及整行分母 → 选中连接的贡献 → 加权输出。分块路径保留全部rawScores；点击权重切换连接，点击输出或选择维度同步更新计算链。
+- CNN：真实Embedding窗口（短文本显式补零）→ 每项乘积及偏置 → ReLU → max与真实winner位置 → 全池化特征的分类乘加 → 所选类别概率。移动窗口、选择核或点击分类概率与计算链联动，修改权重后重新执行相同数学核心。分类所用target也随配置保存，避免解释来源丢失后改变记录中的损失口径。
+- LSTM：选中Token的x与前一h/c → 四门真实preactivations和激活值 → c更新的保留项/写入项 → 当前h → 继续递推后的末步完整h → 分类及最终CE反向梯度。可以选择状态维度及解释类别；不把当前步单个状态冒充最终分类输入，也不把时间轴的h₀零状态冒充第一个Token计算。RNN/GRU原功能继续保留，播放仍只浏览已计算轨迹。LSTM依然是明确标识的教学初始化，未扩充训练工作台为LSTM模型。
+
+分析显示Attention平均行熵、最大行和误差、输出范数和屏蔽数；CNN实际分类概率、池化范数、正激活比例和OOV；序列末步h/c范数、目标CE及首步/末步/全参数梯度范数。小的非零数使用科学计数法，避免显示成精确0。匹配输入、维度、算法及适用目标口径时列出B−A；不匹配时明确拒绝逐项指标对齐。这些指标不自动证明语义能力、泛化改善或现实因果。
+
+三模块保存和JSON/Markdown导出包含分析及现有A基线的输入、权重、结果。笔记展示已保存指标与差值，Markdown包含可读指标表，不再只有原始JSON。外部分析先标未核验；重放先验证baseline.config并通过同一Worker重新计算A，再用原输入和权重重算B，忽略导入的baseline.result成绩。旧记录无analysis/baseline字段时仍可运行后另存；没有自动改写用户历史记录。双结果会增加记录体积，20条持久存储与10MiB导入上限未放宽。
+
+掩码的−Infinity在新保存的结果/基线快照中明确编码为字符串，与JSON导出一致，避免直接从本地笔记重放时被有限值校验拒绝或被localStorage变为null。复算中的离页保护同时检查记录列表、页面及即时hash，旧重放不能把用户从首页拉回实验页。
+
+新增8项单元测试覆盖独立手算Attention打分/掩码/归一化/贡献、加性与分块轨迹一致、CNN乘积/池化/短文本/类别切换、LSTM门控仿射/c/h/末步/梯度、目标只改变损失与梯度、指标与不可比口径、结果不被说明修改、极小梯度显示、可保存的掩码记录及独立A快照。共9文件49项通过；公式测试覆盖原有及计算链共41种已知公式的KaTeX/MathML输出。
+
+新增6项离线测试覆盖三模块真实输出与链上数值对应、参数修改后旧结果不伪变且禁止保存、重算后变化、输出/状态维度和类别联动、A/B指标、分析报告与刷新保留、篡改导入的成绩后双方仍复算、CNN/LSTM原权重双结果重放，以及先确认runId真的增加再验证立即离页不被旧任务跳回。新增测试拒绝HTTP/HTTPS且无pageerror。最终34项全部通过，开发3项通过，语法/引用/依赖目录61个JS/MJS检查通过；统计以上表和JSON报告为准。开发/离线HTML与轨迹现在分别放在各自offline/development子目录，并行回归各自成功，没有再次覆盖轨迹。
+
+已实际查看[Attention计算链](evidence/computation-attention-chain.png)、[CNN计算链](evidence/computation-cnn-chain.png)、[LSTM计算链](evidence/computation-lstm-chain.png)，以及三模块桌面完整页面、LSTM 768/390窄屏截图。完整截图先回到页面顶部，细节截图暂时隐藏固定顶栏和toast，避免遮住卡片，不改变计算结果。browser-use本地state仍为空索引，按其DOM读取/点击方法实际运行LSTM，四门显示值与真实states[0].gates一致，并保存[浏览器检查截图](evidence/computation-browser-use.png)，会话检查后关闭。正式回归以Playwright为准。Windows Chrome/Edge、完整压力预算、加入计算链后的严格FPS/加载耗时/峰值内存仍未验收。
+
+本次失败与修复：开发测试与离线测试并行共用轨迹目录，曾在关闭上下文时ENOENT，改为独立输出/HTML目录后重跑；新增分析标题使旧A/B正则定位出现严格歧义，限定原实验h2，保留断言；旧笔记数量定位也改为直接子记录，等待实际导入完成。JSON把−0写为0，权重比对改为同一序列化口径，未改变数学权重。新增概率点击检查发现CNN计算链仍显示预测类别，补齐选中类别联动；检查本地掩码记录发现−Infinity校验问题，改为显式可携带编码。离页检查首版未确认实际启动，加入runId断言后发现hashchange事件前旧store.page仍是notebook，复算完成会跳回旧页；加入即时hash校验修复，保留该回归。不删除失败用例，也不把早期通过报告称为最终版本结果。
 
 ## 失败及修复记录
 

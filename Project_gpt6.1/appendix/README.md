@@ -6,8 +6,8 @@
 - tests/e2e：真实离线与Vite开发入口交互测试。
 - docs/evidence：实际运行的JSON报告和截图。
 - docs：架构、公式、需求、性能、验收、课程报告素材、演示脚本和参考来源。
-- playwright-report：自动生成的HTML报告。
-- test-results：自动生成的运行轨迹和失败诊断。
+- playwright-report/offline、playwright-report/development：两种浏览器测试各自生成的HTML报告。
+- test-results/offline、test-results/development：自动生成的运行轨迹和失败诊断，分开避免互相覆盖。
 - prompt.md：原始任务要求，作为历史材料保留，不改写其中的旧目录示例。
 
 工具及依赖在 [tools](../tools/README.md)。从项目根目录执行 npm --prefix tools run test:run 或 npm --prefix tools run test:offline；不在appendix安装依赖。

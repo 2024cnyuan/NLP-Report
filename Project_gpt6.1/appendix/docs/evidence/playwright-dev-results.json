@@ -25,7 +25,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/mnt/d/大三上/nlp/project_gpt6.1/appendix/test-results",
+        "outputDir": "/mnt/d/大三上/nlp/project_gpt6.1/appendix/test-results/development",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -51,7 +51,7 @@
         "html",
         {
           "open": "never",
-          "outputFolder": "/mnt/d/大三上/nlp/project_gpt6.1/appendix/playwright-report"
+          "outputFolder": "/mnt/d/大三上/nlp/project_gpt6.1/appendix/playwright-report/development"
         }
       ],
       [
@@ -101,12 +101,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 766,
+                  "duration": 701,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-30T23:38:06.215Z",
+                  "startTime": "2026-10-01T00:39:43.886Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -135,12 +135,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 720,
+                  "duration": 754,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-30T23:38:07.067Z",
+                  "startTime": "2026-10-01T00:39:44.744Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -169,12 +169,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 802,
+                  "duration": 801,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-30T23:38:07.800Z",
+                  "startTime": "2026-10-01T00:39:45.509Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -192,8 +192,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-30T23:37:59.076Z",
-    "duration": 8806.129,
+    "startTime": "2026-10-01T00:39:38.317Z",
+    "duration": 8146.039000000001,
     "expected": 3,
     "skipped": 0,
     "unexpected": 0,

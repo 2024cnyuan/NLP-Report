@@ -83,6 +83,8 @@ text,label,split,group
 
 根目录也可执行 npm --prefix tools run dev、npm --prefix tools run build:offline、npm --prefix tools run test:run 等。训练输出src/data/models.json；构建输出release；截图/JSON输出appendix/docs/evidence；HTML报告输出appendix/playwright-report；轨迹输出appendix/test-results；缓存只在tools/node_modules。
 
+Playwright 的离线与开发运行分别写入 playwright-report/offline、playwright-report/development 和 test-results/offline、test-results/development，避免两种测试同时运行时互相清空轨迹。查看最新离线 HTML 报告请打开 appendix/playwright-report/offline/index.html。
+
 基准的 --smoke 仅验证入口与输出路径，不等于重新验收所有训练压力档，且写入独立文件，不覆盖此前完整基准：
 
 ```sh

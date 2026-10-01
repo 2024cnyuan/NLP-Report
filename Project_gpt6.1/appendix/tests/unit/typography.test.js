@@ -2,8 +2,8 @@ import { it, expect } from '../../../tools/testing/vitest.js';
 import { formulaTypesetting, renderFormula } from '../../../src/components/math.js';
 import { localFontPostCSS } from '../../../tools/font/plugin.mjs';
 
-it('六模块20种原有公式均可排版，包含MathML且无KaTeX错误', () => {
-  expect(formulaTypesetting.size).toBe(20);
+it('六模块原有及计算链41种公式均可排版，包含MathML且无KaTeX错误', () => {
+  expect(formulaTypesetting.size).toBe(41);
   for (const [source, equations] of formulaTypesetting) {
     const html = renderFormula(source);
     expect(html, source).not.toBeNull();

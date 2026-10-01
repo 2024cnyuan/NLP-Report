@@ -48,7 +48,7 @@ test('六模块 JSON/CSV/Markdown 真实下载，序列与四模型A/B',async({p
   for(const id of ['attention','optimization','embeddings','sequence','cnn','comparison']){
     await page.goto(entry+'#'+id);await expect(page.locator('#result-state')).toHaveText('结果已更新');
     if(id==='sequence'){
-      await page.getByRole('button',{name:'固定为 A'}).click();await page.locator('#sequence-text').fill('我 不 喜欢 学习');await page.locator('#sequence-run').click();await expect(page.locator('#result-state')).toHaveText('结果已更新');await expect(page.getByRole('heading',{name:/A \/ B/})).toBeVisible();
+      await page.getByRole('button',{name:'固定为 A'}).click();await page.locator('#sequence-text').fill('我 不 喜欢 学习');await page.locator('#sequence-run').click();await expect(page.locator('#result-state')).toHaveText('结果已更新');await expect(page.getByRole('heading',{name:/A \/ B/,level:2})).toBeVisible();
     }
     if(id==='comparison'){
       await page.getByRole('button',{name:'固定为 A'}).click();await page.locator('#compare-epochs').fill('2');await page.locator('#compare-train').click();await expect(page.locator('#result-state')).toHaveText('结果已更新');await expect(page.getByRole('heading',{name:/A \/ B/})).toBeVisible();

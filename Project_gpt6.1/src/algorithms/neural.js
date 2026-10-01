@@ -47,10 +47,11 @@ export function neuralForward(model,tokens,{gradient=false,target=0,trace=true}=
   }else{
     let previous=Array.from({length:h},zero),cell=Array.from({length:h},zero);
     X.forEach((x,t)=>{
-      const old=previous,oldCell=cell,gates={};
+      const old=previous,oldCell=cell,gates={},preactivations={};
+      const activate=(gate,input,activation)=>{const a=affine(gate,x,input);if(trace)preactivations[gate]=nums(a);return a.map(activation);};
       if(model.algorithm==='RNN'){previous=affine('h',x,old).map(v=>ops.tanh(v));}
       if(model.algorithm==='LSTM'){
-        for(const gate of ['i','f','o'])gates[gate]=affine(gate,x,old).map(v=>ops.sigmoid(v));gates.g=affine('g',x,old).map(v=>ops.tanh(v));
+        for(const gate of ['i','f','o'])gates[gate]=activate(gate,old,v=>ops.sigmoid(v));gates.g=activate('g',old,v=>ops.tanh(v));
         cell=cell.map((v,i)=>ops.add(ops.mul(gates.f[i],v),ops.mul(gates.i[i],gates.g[i])));
         previous=cell.map((v,i)=>ops.mul(gates.o[i],ops.tanh(v)));
       }
@@ -60,7 +61,7 @@ export function neuralForward(model,tokens,{gradient=false,target=0,trace=true}=
         previous=old.map((v,i)=>ops.add(ops.mul(gates.z[i],v),ops.mul(ops.add(one(),ops.mul(ops.v(-1),gates.z[i])),gates.n[i])));
       }
       stateRefs.push(previous);
-      if(trace)states.push({step:t,token:tokens[t],x:nums(x),previous:nums(old),hidden:nums(previous),cell:model.algorithm==='LSTM'?nums(cell):null,previousCell:model.algorithm==='LSTM'?nums(oldCell):null,gates:Object.fromEntries(Object.entries(gates).map(([k,v])=>[k,nums(v)]))});
+      if(trace)states.push({step:t,token:tokens[t],x:nums(x),previous:nums(old),hidden:nums(previous),cell:model.algorithm==='LSTM'?nums(cell):null,previousCell:model.algorithm==='LSTM'?nums(oldCell):null,gates:Object.fromEntries(Object.entries(gates).map(([k,v])=>[k,nums(v)])),preactivations});
     });
     pooled=previous;
   }

@@ -120,12 +120,12 @@ export function mountHelp(root) {
             <li><strong>观察变化。</strong>向下查看「A / B · 受控对照」和「Δ · B − A」。先退出掩码编辑，再点格子检查新权重；Δ 为正表示 B 比 A 大，为负表示变小。</li>
             <li><strong>记录发现。</strong>点击「保存实验」，命名为「注意力掩码对照」，写下观察；或者点击「导出 → 实验 JSON」，之后到<a href="#notebook">实验笔记</a>导入并重新运行。</li>
           </ol>
-          <div class="guide-callout"><strong>这个例子说明什么？</strong><p>注意力是一整行的竞争分配，屏蔽一格会影响其他连接。向量是教学映射，不是翻译模型权重；热力图不证明真实语义或翻译对齐。固定 A 用于当前会话对照；想保留 A 和 B，请分别保存或导出两次实验。</p></div>
+          <div class="guide-callout"><strong>这个例子说明什么？</strong><p>注意力是一整行的竞争分配，屏蔽一格会影响其他连接。向量是教学映射，不是翻译模型权重；热力图不证明真实语义或翻译对齐。固定 A 用于当前会话对照；注意力、CNN、序列模块保存或导出 B 时，会一并打包现有 A 基线和结果分析，重放时双方重新计算。</p></div>
           <a href="#attention" class="btn primary">打开注意力，照着做 ${icon('arrow', 17)}</a>
         `)}
         ${chapter('workspace', '02', '看懂界面与按钮', `
           ${workspacePicture()}
-          <dl class="guide-definitions"><div><dt>计算 / 训练</dt><dd>修改输入后点对应按钮。多数页面会自动运行默认小样例；参数改变后旧结果会标为过期，请重新运行后再保存。</dd></div><div><dt>计算显微镜</dt><dd>点击可检查的热力格子、隐状态、卷积激活、池化值或损失点，查看公式、输入和来源。「锁定此计算」可保留内容，检查其他数字前先解除锁定。Tab 定位按钮，Enter 选择。</dd></div><div><dt>固定为 A</dt><dd>把这次有效结果设为基线，再改一个因素运行 B。页面标明单因素或多因素变化；结构不兼容时不会强行相减。更多操作见<a href="#help/quickstart">上面的例子</a>。</dd></div><div><dt>暂停 / 继续 / 取消</dt><dd>后台任务运行时出现进度条，可暂停或取消。暂停仅保留当前内存状态，不支持关闭浏览器后续训。</dd></div><div><dt>演示视图</dt><dd>右上角播放图标放大画布、收起部分导航和参数，适合投屏；不是录制动画，仍可进行真实交互。</dd></div></dl>
+          <dl class="guide-definitions"><div><dt>本次计算链与分析</dt><dd>注意力、CNN、序列模块在图形上方列出真实计算步骤。先选连接、窗口或时间步，再点步骤查看公式和完整代入值；可选择输出维度、状态维度及解释类别。LSTM 展示四门激活前值、细胞/隐藏状态和最终损失梯度。下方分析列出实测指标；固定 A 后重算 B，口径匹配时列出 B−A，不能只凭数值变化判断模型更优。</dd></div><div><dt>计算 / 训练</dt><dd>修改输入后点对应按钮。多数页面会自动运行默认小样例；参数改变后旧结果会标为过期，请重新运行后再保存。</dd></div><div><dt>计算显微镜</dt><dd>点击可检查的热力格子、隐状态、卷积激活、池化值或损失点，查看公式、输入和来源。「锁定此计算」可保留内容，检查其他数字前先解除锁定。Tab 定位按钮，Enter 选择。</dd></div><div><dt>固定为 A</dt><dd>把这次有效结果设为基线，再改一个因素运行 B。页面标明单因素或多因素变化；结构不兼容时不会强行相减。更多操作见<a href="#help/quickstart">上面的例子</a>。</dd></div><div><dt>暂停 / 继续 / 取消</dt><dd>后台任务运行时出现进度条，可暂停或取消。暂停仅保留当前内存状态，不支持关闭浏览器后续训。</dd></div><div><dt>演示视图</dt><dd>右上角播放图标放大画布、收起部分导航和参数，适合投屏；不是录制动画，仍可进行真实交互。</dd></div></dl>
         `)}
         ${chapter('modes', '03', '原理 / 实验模式', `
           <div class="guide-two-col"><article class="guide-mode"><span class="eyebrow">理解一个数字</span><h3>原理模式</h3><p>建议短文本、小矩阵和低维向量。先看公式，再点中间值，核对每一步输入如何得到输出。</p><p class="guide-mode-example">试一试：到<a href="#cnn">文本卷积</a>点击一个池化值，追溯产生它的窗口。</p></article><article class="guide-mode"><span class="eyebrow">比较一次改变</span><h3>实验模式</h3><p>建议改变一个参数，重新训练或批量评测，用 A/B、曲线和错误样本解释结果差异。</p><p class="guide-mode-example">试一试：到<a href="#optimization">损失与优化</a>固定正常学习率为 A，再运行大步长案例。</p></article></div>
@@ -150,9 +150,9 @@ export function mountHelp(root) {
         `)}
         ${chapter('notebook', '06', '保存、导出与重放', `
           <ol class="guide-steps"><li><strong>保存。</strong>实验结果有效后点「保存实验」，填名称与备注。例如「注意力掩码对照」：屏蔽理解→语言，检查剩余权重和。</li><li><strong>带走。</strong>模块顶部「导出」可选择下列三种格式。笔记中的「导出完整 JSON」还包含保存时的名称与备注。</li><li><strong>恢复。</strong>打开<a href="#notebook">实验笔记</a>，选择导出的实验 JSON，校验后点「重新运行」。恢复输入、配置和适用权重，重新执行计算，不直接认可导入文件里写的成绩。</li><li><strong>继续对照。</strong>导入记录先重算，再在模块页面固定为 A，改变一个因素运行 B。</li></ol>
-          <div class="guide-export-grid"><article><strong>JSON</strong><span>用于重新计算</span><p>包含输入、参数、适用权重、版本和实际结果。</p></article><article><strong>CSV</strong><span>用于分析数值</span><p>以 path / value 导出结果，可放入表格工具。</p></article><article><strong>Markdown</strong><span>用于撰写报告</span><p>整理配置和计算结果，方便说明实验过程。</p></article></div>
+          <div class="guide-export-grid"><article><strong>JSON</strong><span>用于重新计算</span><p>包含输入、参数、适用权重、版本和实际结果；注意力、CNN、序列还包含分析和已固定的 A 基线。</p></article><article><strong>CSV</strong><span>用于分析数值</span><p>以 path / value 导出结果，可放入表格工具。</p></article><article><strong>Markdown</strong><span>用于撰写报告</span><p>包含配置与计算结果；注意力、CNN、序列增加可读的指标分析与 A/B 差值表，方便说明实验过程。</p></article></div>
           <div class="guide-callout"><strong>重要记录请主动导出。</strong><p>普通保存保留最近 20 条记录。浏览器本地存储不可用或满时退回内存会话；未保存的数据集、参数和模型不保证刷新后保留。CSV / Markdown 不能用于重放；实验 JSON 导入最多 10 MiB，要求匹配算法版本。</p></div>
-          <p>多模型笔记可导出「仅引用原数据」，减小文件体积。重放前需重新导入预处理与样本指纹匹配的原文件，仅文件名相同不够。固定 A 不是永久备份，也不自动把 A/B 两份实验都打包进一个导出文件。</p><a class="guide-link" href="#notebook">打开实验笔记 ${icon('arrow', 16)}</a>
+          <p>多模型笔记可导出「仅引用原数据」，减小文件体积。重放前需重新导入预处理与样本指纹匹配的原文件，仅文件名相同不够。固定 A 单独仍不是永久备份；注意力、CNN、序列模块在保存或导出 B 时，会同时保存 A 的输入、权重、结果和分析，重放双方均重新计算。其余模块请分别保存 A 和 B。</p><a class="guide-link" href="#notebook">打开实验笔记 ${icon('arrow', 16)}</a>
         `)}
         ${chapter('workflow', '07', '把模块串起来', `
           ${workflowPicture()}
