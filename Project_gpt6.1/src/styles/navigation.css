@@ -1,0 +1,10 @@
+.navigation-strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.navigation-strip .btn{min-height:34px}
+.navigation-origin{font-size:calc(12px * var(--text-scale,1));color:var(--muted);overflow-wrap:anywhere}
+.diagnosis-findings{display:grid;gap:12px;margin:18px 0}
+.diagnosis-finding,.diagnosis-detail{background:var(--surface-alt,#f5f8f7);border:1px solid var(--line,#d8e5df);border-radius:10px;padding:14px;overflow-wrap:anywhere}
+.diagnosis-finding p,.diagnosis-detail p{margin:8px 0}
+.diagnosis-detail{margin-top:12px}
+.diagnosis-detail .table-wrap{max-width:100%}
+.diagnosis-case .inline-actions{flex-wrap:wrap}
+@media(max-width:600px){.navigation-origin{flex-basis:100%}.diagnosis-detail{padding:10px}}

@@ -3,86 +3,86 @@
   "trained": {
     "vocabulary": 5000,
     "tokens": 10000,
-    "trainingMs": 337.1000000005588
+    "trainingMs": 385.19999999925494
   },
-  "renderMs": 248,
+  "renderMs": 279,
   "resources": [
     {
       "cycle": 0,
-      "heapBytes": 39018140,
-      "nodes": 11766,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39089440,
+      "nodes": 11927,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 1,
-      "heapBytes": 39053984,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39130776,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 2,
-      "heapBytes": 39122544,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39217864,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 3,
-      "heapBytes": 39172064,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39236124,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 4,
-      "heapBytes": 39207612,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39284236,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 5,
-      "heapBytes": 39207776,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39286040,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 6,
-      "heapBytes": 39227368,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39305520,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 7,
-      "heapBytes": 39317384,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39395808,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 8,
-      "heapBytes": 39337020,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39413644,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 9,
-      "heapBytes": 39344512,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39440604,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     },
     {
       "cycle": 10,
-      "heapBytes": 39345536,
-      "nodes": 11758,
-      "listeners": 82,
-      "visibleDOMElements": 520
+      "heapBytes": 39444800,
+      "nodes": 11919,
+      "listeners": 102,
+      "visibleDOMElements": 551
     }
   ],
   "errors": [],

@@ -6,8 +6,7 @@
       "test",
       "--config",
       "playwright.config.js",
-      "--project=offline",
-      "display.spec.js"
+      "--project=offline"
     ],
     "configFile": "/mnt/d/大三上/nlp/project_gpt6.1/tools/playwright.config.js",
     "rootDir": "/mnt/d/大三上/nlp/project_gpt6.1/appendix/tests/e2e",
@@ -78,6 +77,430 @@
   },
   "suites": [
     {
+      "title": "computation.spec.js",
+      "file": "computation.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Attention 真实计算链：代入值、维度、掩码、过期保护与指标差值",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1881,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:32.258Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69ad95d8d3a26e2229fd-87d8ffd94d3d015cd20f",
+          "file": "computation.spec.js",
+          "line": 33,
+          "column": 1
+        },
+        {
+          "title": "CNN 乘加→激活→真实池化位置→分类；改核后重算及A/B",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1611,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:34.289Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69ad95d8d3a26e2229fd-a8889c0509ccd9efd41a",
+          "file": "computation.spec.js",
+          "line": 63,
+          "column": 1
+        },
+        {
+          "title": "LSTM 四门仿射→c/h→最终输出梯度；维度联动与窄屏",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2315,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:35.910Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69ad95d8d3a26e2229fd-983e63523ba5a77718aa",
+          "file": "computation.spec.js",
+          "line": 91,
+          "column": 1
+        },
+        {
+          "title": "分析记录与报告：保存A/B、刷新保留，导入篡改的基线数值仍重新计算",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1944,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:38.237Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69ad95d8d3a26e2229fd-8d60ab814422115f1dda",
+          "file": "computation.spec.js",
+          "line": 126,
+          "column": 1
+        },
+        {
+          "title": "CNN和LSTM完整A/B记录：原权重保留、导入后双方均重新计算",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1991,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:40.192Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69ad95d8d3a26e2229fd-014932ba902d752d3c29",
+          "file": "computation.spec.js",
+          "line": 152,
+          "column": 1
+        },
+        {
+          "title": "基线复算期间离开笔记，不被旧重放跳回实验页",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1125,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:42.192Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69ad95d8d3a26e2229fd-f391c7259cb3c3c28d81",
+          "file": "computation.spec.js",
+          "line": 187,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "diagnosis.spec.js",
+      "file": "diagnosis.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "两份真实数据可运行，未运行不显示成绩，模式跳转和学习路线可用",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1194,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:43.346Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a63edd5965fa5707df39-3aa55d40a17ee0e5d4bc",
+          "file": "diagnosis.spec.js",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "错误诊断的分母来自真实预测，NB/SVM词项与RNN原权重溯源",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1505,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:44.550Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a63edd5965fa5707df39-02d6320693a8697e10d2",
+          "file": "diagnosis.spec.js",
+          "line": 49,
+          "column": 1
+        },
+        {
+          "title": "用户数据通路：模型选择、真实评测、报告与重放忽略篡改成绩",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1569,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:46.066Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a63edd5965fa5707df39-78cbd544ab7f298f119a",
+          "file": "diagnosis.spec.js",
+          "line": 77,
+          "column": 1
+        },
+        {
+          "title": "新增诊断、真实数据模式与学习路线在窄屏无整页溢出",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2411,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:47.645Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a63edd5965fa5707df39-c9a3c450a65eccb440e3",
+          "file": "diagnosis.spec.js",
+          "line": 112,
+          "column": 1
+        },
+        {
+          "title": "两个内置语料全量NB：真实分母、紧凑报告、刷新后重放一致且无网络",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13255,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:10:50.067Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a63edd5965fa5707df39-cb0eb7d0ff4e7f6082ec",
+          "file": "diagnosis.spec.js",
+          "line": 124,
+          "column": 1
+        },
+        {
+          "title": "真实酒店100条四模型训练与原权重解释，改变轮数重新计算",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2163,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:04.924Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a63edd5965fa5707df39-4f98273038edf4181aec",
+          "file": "diagnosis.spec.js",
+          "line": 182,
+          "column": 1
+        }
+      ]
+    },
+    {
       "title": "display.spec.js",
       "file": "display.spec.js",
       "column": 0,
@@ -99,12 +522,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1815,
+                  "duration": 1862,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-01T09:33:43.097Z",
+                  "startTime": "2026-10-01T13:11:07.119Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -133,12 +556,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1500,
+                  "duration": 1557,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-01T09:33:45.115Z",
+                  "startTime": "2026-10-01T13:11:08.990Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -167,12 +590,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 698,
+                  "duration": 747,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-01T09:33:46.627Z",
+                  "startTime": "2026-10-01T13:11:10.557Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -201,12 +624,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1359,
+                  "duration": 1596,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-01T09:33:47.334Z",
+                  "startTime": "2026-10-01T13:11:11.313Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -220,13 +643,1089 @@
           "column": 1
         }
       ]
+    },
+    {
+      "title": "help.spec.js",
+      "file": "help.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "使用说明：目录、深链接、刷新、前进后退和键盘定位",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1983,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:12.938Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "91df3c830b163ed4ea04-1d277e275fd3d35dca1f",
+          "file": "help.spec.js",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "使用说明例子：跳入注意力，检查、掩码 A/B 与保存",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1386,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:14.931Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "91df3c830b163ed4ea04-54ba5a5377113c44447a",
+          "file": "help.spec.js",
+          "line": 51,
+          "column": 1
+        },
+        {
+          "title": "使用说明示例 CSV：本地下载、预览、确认并重新训练",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 982,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:16.326Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "91df3c830b163ed4ea04-2c223865384376b779be",
+          "file": "help.spec.js",
+          "line": 84,
+          "column": 1
+        },
+        {
+          "title": "使用说明：模块入口与桌面、平板、手机图文布局",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1922,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:17.320Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "91df3c830b163ed4ea04-b5ff579c8d890d38d119",
+          "file": "help.spec.js",
+          "line": 108,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "modules.spec.js",
+      "file": "modules.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "M01 三种训练、检索、类比、检查器与 A/B",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1251,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:19.276Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-45935d06f89577417153",
+          "file": "modules.spec.js",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "M02 三结构、步进与回退、梯度与长序列",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1599,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:20.537Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-addccd7e783629acd3b4",
+          "file": "modules.spec.js",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "M03 池化→窗口、改权重→新模型版本",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1230,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:22.145Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-a6ef34d21bf72b1d1d6e",
+          "file": "modules.spec.js",
+          "line": 18,
+          "column": 1
+        },
+        {
+          "title": "M05 四模型真实预测、混淆筛选与原权重解释",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1179,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:23.385Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-f05752605b5378645a06",
+          "file": "modules.spec.js",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "M06 实际曲线、点检查、三学习率与对照",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1060,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:24.575Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-69154af27344647f1396",
+          "file": "modules.spec.js",
+          "line": 27,
+          "column": 1
+        },
+        {
+          "title": "数据 CSV 字段映射、预览确认与错误状态",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1139,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:25.645Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-10f553cd3613decc1a4a",
+          "file": "modules.spec.js",
+          "line": 30,
+          "column": 1
+        },
+        {
+          "title": "I04 保存、导出、导入与重放",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 975,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:26.798Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-1e4fc04b3b6569fdebf6",
+          "file": "modules.spec.js",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "I03 向量快照→同一 RNN/CNN→批量评测",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1073,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:27.783Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-96bf985b5dda5ed5b888",
+          "file": "modules.spec.js",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "Worker 暂停、恢复、取消与任务切页10轮",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2793,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:28.867Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-3fac75c8d9e6416e7adf",
+          "file": "modules.spec.js",
+          "line": 43,
+          "column": 1
+        },
+        {
+          "title": "六模块关键窄屏无整页溢出",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1556,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:31.669Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "68251b44dab19a80cd58-8fd2cf00f30448310600",
+          "file": "modules.spec.js",
+          "line": 46,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "navigation.spec.js",
+      "file": "navigation.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "连续返回/前进：数据集→原模型→说明，恢复原模式、筛选、页码和结果，不重训",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3246,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:33.250Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ce7c070a851ea64285fd-17eee2641240f52b475f",
+          "file": "navigation.spec.js",
+          "line": 6,
+          "column": 1
+        },
+        {
+          "title": "深入诊断：四模型真实贡献核对和删除复算，保留原测试结果，手机大字号可用",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1948,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:36.504Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ce7c070a851ea64285fd-8d252b6369ad9204488b",
+          "file": "navigation.spec.js",
+          "line": 59,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "offline.spec.js",
+      "file": "offline.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "真实 file://：注意力、Worker、检查器、掩码、对照与导出",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1539,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:38.477Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170c7452e9c121637e46-c1fc8b05bc5c2419ca29",
+          "file": "offline.spec.js",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "离线响应式：五种尺寸无整页溢出",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1545,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:40.025Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170c7452e9c121637e46-7a8fa6e07a56c3c03dd6",
+          "file": "offline.spec.js",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "中文与空格路径复制后可双击离线运行",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 748,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:41.582Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170c7452e9c121637e46-93e331e3105cda3ee5c2",
+          "file": "offline.spec.js",
+          "line": 48,
+          "column": 1
+        },
+        {
+          "title": "空态、键盘检查器锁定、演示视图与真实暂停截图",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1727,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:42.341Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170c7452e9c121637e46-6d6c6eb9ed34b1fd4693",
+          "file": "offline.spec.js",
+          "line": 49,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "runtime.spec.js",
+      "file": "runtime.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Blob Worker 引擎明确验证，无网络；不可用时CPU回退一致",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1127,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:44.095Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4feb47f995f316eb75ea-be176e3e222986061ac1",
+          "file": "runtime.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "大矩阵分块、整行mask拒绝、显式输入、结果失效",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1208,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:45.229Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4feb47f995f316eb75ea-43cd56fc4da75d548a30",
+          "file": "runtime.spec.js",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "新页面不会被旧任务的完成消息覆盖",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 778,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:46.449Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4feb47f995f316eb75ea-8fc0501e872d560415a4",
+          "file": "runtime.spec.js",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "运行中修改参数，旧配置结果必须保持过期",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 851,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:47.235Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4feb47f995f316eb75ea-06b513f40378a0b57a8e",
+          "file": "runtime.spec.js",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "文件读取乱序与切页：旧导入不能覆盖新预览或首页",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 722,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:48.103Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4feb47f995f316eb75ea-3419ab9a7bdda1789f51",
+          "file": "runtime.spec.js",
+          "line": 17,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "scale.spec.js",
+      "file": "scale.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "5000真实训练向量 Canvas、全词查询及10轮切页回收",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4551,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:48.860Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "266a08ba7f10c1dbed89-7ce4c0e41b412dbe5ecd",
+          "file": "scale.spec.js",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "六模块 JSON/CSV/Markdown 真实下载，序列与四模型A/B",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3425,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:55.345Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "266a08ba7f10c1dbed89-d92d8c9c4405985eae9e",
+          "file": "scale.spec.js",
+          "line": 47,
+          "column": 1
+        },
+        {
+          "title": "四模型训练记录导出重放保留相同权重及预测",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1408,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:11:58.780Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "266a08ba7f10c1dbed89-9a0dbe176e0e075ec7c3",
+          "file": "scale.spec.js",
+          "line": 66,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "typography.spec.js",
+      "file": "typography.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "离线字体：中文SC、英文数字Inter、代码Mono实际使用且WOFF2全部内嵌",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 914,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:12:00.210Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4be173c8f51de3ae5584-1dbf4133d6f16387d476",
+          "file": "typography.spec.js",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "六模块公式：实际KaTeX原配字体、MathML与纯文本原文，数值未被排版替换",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "offline",
+              "projectName": "offline",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2998,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-01T13:12:01.130Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4be173c8f51de3ae5584-08c962eb2c9ffd2f2e11",
+          "file": "typography.spec.js",
+          "line": 50,
+          "column": 1
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-01T09:33:42.124Z",
-    "duration": 6774.348,
-    "expected": 4,
+    "startTime": "2026-10-01T13:10:31.050Z",
+    "duration": 91081.879,
+    "expected": 46,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

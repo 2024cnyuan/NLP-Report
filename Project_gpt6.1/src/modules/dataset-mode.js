@@ -14,6 +14,8 @@ export async function mountDatasetMode(root, context) {
   });
   if (replay) store.incoming = null;
   let current = replay ? null : store.results.datasetLab, selected = current?.modelNames[0] ?? 'NB', page = 0, onlyErrors = false, confusion = null;
+  const view = store.views.datasetLab;
+  if(current && view?.result === current){({selected,page,onlyErrors,confusion}=view);}
   const options = realDatasets.map(d => [d.id, d.name]);
   if (store.dataset) options.push(['imported', '已确认的用户数据（仍须二分类）']);
   if (config.datasetId === 'imported' && config.dataset) options.push(['saved', '记录内的原始数据快照']);
@@ -66,6 +68,7 @@ export async function mountDatasetMode(root, context) {
     let rows = current.rows.filter(r => !onlyErrors || r.label !== r.predictions[selected].prediction);
     if (confusion) rows = rows.filter(r => r.label === confusion[0] && r.predictions[selected].prediction === confusion[1]);
     page = Math.min(page, Math.max(0, Math.ceil(rows.length / 20) - 1));
+    store.views.datasetLab = {result:current,selected,page,onlyErrors,confusion};
     const baseline = store.baselines.comparison;
     const comparable = baseline?.result.experimentMode === 'dataset' && baseline.result.dataFingerprint === current.dataFingerprint && baseline.config.seed === current.config.seed;
     out.innerHTML = panel('数据集实验结果 · 实际计算', `${escapeHTML(data.name)} · 总 ${data.samples.length} 条 = 训练 ${data.sampling.train} / 验证 ${data.sampling.validation} / 测试 ${current.rows.length}；下方指标分母仅为测试集。`, `
@@ -98,7 +101,7 @@ export async function mountDatasetMode(root, context) {
     const result = await run('dataset-experiment', next);
     if (!root.isConnected) return;
     Object.assign(config, next, { dataFingerprint: result.dataFingerprint });
-    current = result; selected = result.modelNames[0]; confusion = null; page = 0;
+    current = result; selected = result.modelNames[0]; confusion = null; page = 0; onlyErrors = false;
     store.results.datasetLab = current; store.configs.datasetLab = structuredClone(config); store.configs.comparison = structuredClone(config);
     context.setExperiment(config, current, draw); draw(); notify('已完成真实训练与留出测试；案例模式的模型未被替换');
   }

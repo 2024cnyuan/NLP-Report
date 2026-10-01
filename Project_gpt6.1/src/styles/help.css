@@ -17,6 +17,7 @@
 .guide-layout .guide-toc-footer a:hover{text-decoration:underline;text-underline-offset:4px}
 .guide-chapters{display:grid;gap:22px;min-width:0}
 .guide-section{scroll-margin-top:94px}
+.guide-chapters>.guide-section:last-child{min-height:calc(100vh - 100px)}
 .guide-section:focus-visible,.guide-hero:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .guide-section-heading{display:flex;align-items:center;gap:12px;padding:22px 25px;border-bottom:1px solid #e5ece7;background:#fbfdfb}
 .guide-section-heading h2{font-size:calc(18px * var(--text-scale,1));line-height:1.6}

@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 
 const entry = pathToFileURL(fromProject('release/index.html')).href;
-const chapters = ['quickstart', 'workspace', 'modes', 'modules', 'data', 'notebook', 'workflow', 'faq', 'datasets', 'diagnosis', 'learning'];
+const chapters = ['learning', 'quickstart', 'workspace', 'modes', 'modules', 'data', 'datasets', 'diagnosis', 'workflow', 'notebook', 'faq'];
 
 async function watchOffline(page) {
   const errors = [], requests = [];
@@ -27,10 +27,10 @@ test('使用说明：目录、深链接、刷新、前进后退和键盘定位',
     await expect(page.locator(`.guide-toc > a[href="#help/${id}"]`)).toHaveAttribute('aria-current', 'location');
     const top = await page.locator('#help-' + id).evaluate(el => el.getBoundingClientRect().top);
     expect(top).toBeGreaterThanOrEqual(70);
-    expect(top).toBeLessThan(id === 'learning' ? 780 : 150);
+    expect(top).toBeLessThan(150);
     await expect(page.locator('.nav-link[data-page="help"]')).toHaveClass(/active/);
   }
-  // FAQ is no longer the last chapter; set the history origin explicitly.
+  // Set an explicit history origin before testing return-to-directory navigation.
   await page.goto(entry + '#help/faq');
   await expect(page.locator('#help-faq')).toBeFocused();
   await page.locator('#help-faq .guide-link').click();

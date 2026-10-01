@@ -10,11 +10,11 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 
 | 命令 | 实测结果 | 原始证据 |
 |---|---|---|
-| npm run test:run | 11文件、59测试通过，4.77秒；含两套真实数据全量NB、清洗复现/SHA与固定划分验证 | [unit-results.json](evidence/unit-results.json) |
+| npm run test:run | 14文件、73测试通过，4.95秒；含连续导航、真实诊断/贡献/删除复算及原数学/数据回归 | [unit-results.json](evidence/unit-results.json) |
 | npm run train | 四模型完整共享源码训练，快照重建成功 | [training.json](evidence/training.json)、src/data/models.json |
 | npm run build:offline | IIFE构建成功，仅index.html/app.js/style.css，普通script | release/ 与tools/vite.config.js |
-| npm run test:offline | 真实数据版本40项通过，73.27秒，无跳过/重试；含全量NB导出/重放、引用版本拒绝及原模型解释 | [playwright-results.json](evidence/playwright-results.json)、[HTML报告](../playwright-report/offline/index.html) |
-| npm run test:dev | Vite ESM入口、真实CSV/Worker、指南深链接及本地字体/公式共4项通过，10.0秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json)、[HTML报告](../playwright-report/development/index.html) |
+| npm run test:offline | 最终导航与诊断版本46项通过，91.08秒，无失败/跳过/重试；连续返回、原模型解释、状态/展开/滚动恢复及原计算链、数据、字体、重放回归 | [playwright-results.json](evidence/playwright-results.json)、[HTML报告](../playwright-report/offline/index.html) |
+| npm run test:dev | Vite ESM入口、真实CSV/Worker、指南深链接及本地字体/公式共4项通过，10.93秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json)、[HTML报告](../playwright-report/development/index.html) |
 | npm run bench | Node所有目标档实际跑完 | [bench.json](evidence/bench.json) |
 | npm run bench:browser | file:// Worker目标档实际跑完，无pageerror/HTTP请求 | [browser-bench.json](evidence/browser-bench.json) |
 
@@ -123,6 +123,38 @@ browser-use本地state仍返回Empty DOM，使用其支持的DOM查询和change�
 最终release仍只有3文件：index.html373字节、app.js2419689字节、style.css5226725字节；仅清洗CSV进入app.js，两个大型原始CSV不打包。72个JS/MJS的语法、引用、依赖及目录检查通过。无新增依赖、无Git写命令。README与应用说明按humanizer-zh约定改为具体按钮、数字和边界。
 
 browser-use本地state返回Empty DOM，使用支持的DOM查询运行实际实验；查看了[微博100条四模型截图](evidence/dataset-weibo-browser-use.png)、[微博全量NB指标](evidence/dataset-weibo-full-nb-browser-use.png)及[390宽数据集页面](evidence/comparison-dataset-390.png)，会话已关闭。正式回归以Playwright为准。Windows Chrome/Edge、两套全量长轮数神经训练、增加语料后的严格FPS/峰值内存和语料再分发权利确认，仍不标为通过。
+
+## 字号与显微镜窗口 · 2026-10-01
+
+右上角Aa打开非模态显示设置，页面字号90%–150%；显微镜标题Aa独立调内部字号90%–180%、宽280–960px、高240–1200px。滑块即时生效，左上角支持指针拖动及方向键调整，Shift加速；可恢复默认。窗口在小屏按视口限幅，长内容滚动，关闭按钮保持可见。显示设置独立于实验controls，不标记stale，不改模型或结果。
+
+显示偏好仅写tensorscope-display-v1，不触碰实验记录或数据；有限值、范围及字体档位校验后恢复，损坏JSON/非法值回退默认。存储不可用时仍可调节当前会话，界面明确提示。字体由CSS变量缩放，显微镜覆盖独立变量，代码与KaTeX继承字号但保留原字体分工。Canvas监听显示事件重绘标签，监听器随图表销毁，不重新训练。
+
+新增1项单元测试和4项离线测试，最终60/60、44/44通过。检查实际computed font-size及KaTeX/代码字体随比例变化，页面字号不改变显微镜独立字号；结果序列化与Worker runId不变，保存仍可用。宽高、拖动、键盘、锁定后调显示、Escape焦点返回、刷新恢复、重置、禁用存储和损坏偏好均验证。150%页面及180%显微镜在768/390宽限幅，六模块、真实数据与说明无整页横向溢出，顶栏操作没有垂直截断。3项控件小范围先通过，随后4项新增范围和完整44项回归通过。
+
+查看窄屏截图时发现实验室面包屑在大字号下竖向换行，已隐藏窄屏冗余层级、保留标题及操作入口，增加顶栏边界断言；未减少字体调节范围。原字体实测、全量NB与JSON复算回归继续通过。开发入口4/4通过，75个JS/MJS语法、引用、依赖及目录检查通过。依赖与锁文件SHA未变，未执行Git写命令。
+
+browser-use本地state为空，按支持的DOM方式实际设页面130%、显微镜150%、680×720px，得到页面h2=22.1px、显微镜h3=27px，结果和runId均未变化。已查看[浏览器实测截图](evidence/display-browser-use.png)、[390宽大字号截图](evidence/display-inspector-390.png)，会话已关闭。README与应用使用说明已补具体操作。最新release仅3文件：index.html373字节、app.js2425708字节、style.css5233670字节，普通IIFE和内嵌Worker/字体保持不变。
+
+此次实测为WSL Chromium；Windows Chrome/Edge、触屏硬件拖动、系统DPI与浏览器缩放组合、字号变更后的严格FPS/峰值内存未验收。此前数据阶段产物大小和跑分作为历史保留，当前统计以上表及最新JSON为准。
+
+## 连续返回、深入错误诊断与指南重排 · 2026-10-01
+
+内容区顶部新增返回/前进和来路提示，使用本次应用访问的原生hash历史，而不是固定跳转首页或维护会循环的模块栈。连续返回能恢复精确的comparison/dataset路由；浏览器原生前进后退同步，返回后打开新页面会截断前进分支。起点禁用，不把页面按钮带到项目外；刷新开始新导航记录，不持久化未保存的模型。普通页面恢复访问位置，指南保留章节锚点与键盘焦点。侧栏多模型对照记住本次会话最近的案例/数据集模式。两种比较页分别保存诊断模型、筛选、分页和混淆格子；视图缓存按结果对象对应，不把另一份结果的缓存当成当前页面。返回只导航，不回滚已完成计算或模型修改，不启动重训；未运行的参数编辑应先运行或另记。
+
+algorithms/diagnosis增加预测/真实/可用训练类别分布、正确与错误样本的平均归一化概率或SVM绝对margin、未校准p≥0.9仍错分的数量，以及OOV、长度、否定转折词形、emoji、模型分歧与各自补集的错误率对照。每条分析区分“已观察、待验证、下一步”，列真实错分数/分母/百分点差，提醒不足10条的波动；不冒充显著性检验或因果结论。训练首末损失只描述观测，不自动判定过拟合，SVM hinge+L2与神经CE不直接跨模型比较。数据集Markdown报告包含这些统计、假设和验证建议。
+
+algorithms/error-analysis由点击触发，用同一原模型和Token重新计算，并检查模型ID、预测及logits与记录一致。NB展示两类条件对数概率的词项差及先验；SVM展示预测方向margin贡献及偏置；CNN展示全部池化特征的分类贡献与真实argmax窗口；RNN展示末状态各维的分类贡献，不把隐藏维度命名为情绪。全部贡献加和核对决策差、显示浮点残差；仅表格截取前12项，加和没有截取。最多删除3个Token后真实复算，列新预测与分数变化，不修改原输入、权重或测试结果。删除实验是有限模型敏感性检查，不是完整归因或语义因果证明。展开内容仅视图缓存，返回或换诊断模型后保留，不写入实验结果；单条扰动记录可另填笔记备注。
+
+使用说明按学习路线→小例子→界面→模式→六模块→导入→数据集实验→诊断→模块流程→笔记→常见问题排列，目录编号同步，原11个章节深链接和3张内嵌SVG保留。补返回操作、诊断阅读顺序和具体按钮，并删去真实语料尚未接入的过期描述。按humanizer-zh技能改为明确的操作、事实和边界，没有增加宣传性结论。最后一节保留足够滚动高度，FAQ深链接也可定位到顶栏下方。
+
+新增13项单元测试（4项导航、9项诊断/贡献/原模型复算），独立核对四模型贡献加和、删除结果、OOV映射、未标注排除、切片分母、训练日志边界、单Token不产生空序列和权重/输入不变。新增2项离线测试覆盖真实酒店200条训练→CNN原模型解释→指南→连续返回，模式/模型/筛选/页码恢复，原生历史同步、前进分支截断和刷新边界；另一项覆盖四模型深度分析、已展开内容及滚动恢复、诊断深链接、原结果/runId不变、390宽150%字号无整页溢出。解释页初次进入会执行原权重前向计算，属于解释，不是重训。最终14文件73项单测、46项离线和4项开发测试均通过，80个JS/MJS语法/引用/依赖及目录检查通过。离线结果无失败、跳过或重试；完整结果以上表及最新JSON报告为准。
+
+实际查看[学习路线置顶](evidence/navigation-learning-browser-use.png)、[SVM深入诊断](evidence/navigation-diagnosis-browser-use.png)和[390宽大字号分析](evidence/diagnosis-deep-390.png)。browser-use本地file页面state仍为空索引，按技能支持的DOM回退实际选择SVM、点击深入分析、进入指南并返回；核对原模型ID、11章顺序、3张图和无整页溢出。会话已关闭，没有使用云服务。正式交互回归以Playwright报告为准。依赖及锁文件SHA与上次一致，未安装新包、未执行Git写命令；release仍仅index.html373字节、app.js2446494字节、style.css5234470字节，普通IIFE、内嵌Worker/字体保持不变。
+
+本次失败保留：Vite/Vitest首次写缓存受沙箱EROFS限制，经授权重跑同项目命令；新单测发现NB/SVM无神经状态数组，改为可选空数组后73项通过。首轮离线43/46：FAQ移到末尾后滚动留白不足，补足最后一节高度；新测试误把解释前向runId计作重训，改为先确认一次原模型前向，再检查返回不再计算；字号测试首版定位用了不存在的ID，改用实际range控件。随后46项通过。附加案例模式返回断言又发现诊断模型重置RNN，补齐caseComparison视图写入；保留断言，针对性两项通过，再做完整46项回归全部通过。不删除失败用例，不声称始终一次通过。
+
+此次环境仍为WSL headless Chromium。Windows Chrome/Edge、真实触屏、系统DPI组合和新增诊断下的完整性能预算未重测；切片/扰动分析不是自动自然语言语义诊断或人工标签审核。
 
 ## 失败及修复记录
 
