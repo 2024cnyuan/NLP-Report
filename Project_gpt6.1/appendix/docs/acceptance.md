@@ -10,11 +10,11 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 
 | 命令 | 实测结果 | 原始证据 |
 |---|---|---|
-| npm run test:run | 14文件、73测试通过，4.95秒；含连续导航、真实诊断/贡献/删除复算及原数学/数据回归 | [unit-results.json](evidence/unit-results.json) |
+| npm run test:run | 14文件、75测试通过，5.35秒；含侧栏偏好/限幅、连续导航、真实诊断/贡献及数学/数据回归 | [unit-results.json](evidence/unit-results.json) |
 | npm run train | 四模型完整共享源码训练，快照重建成功 | [training.json](evidence/training.json)、src/data/models.json |
 | npm run build:offline | IIFE构建成功，仅index.html/app.js/style.css，普通script | release/ 与tools/vite.config.js |
-| npm run test:offline | 最终导航与诊断版本46项通过，91.08秒，无失败/跳过/重试；连续返回、原模型解释、状态/展开/滚动恢复及原计算链、数据、字体、重放回归 | [playwright-results.json](evidence/playwright-results.json)、[HTML报告](../playwright-report/offline/index.html) |
-| npm run test:dev | Vite ESM入口、真实CSV/Worker、指南深链接及本地字体/公式共4项通过，10.93秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json)、[HTML报告](../playwright-report/development/index.html) |
+| npm run test:offline | 最终侧栏版本48项通过，93.23秒，无失败/跳过/重试；侧栏鼠标/键盘/字号/窄屏、连续导航和原计算链、数据、字体、重放回归 | [playwright-results.json](evidence/playwright-results.json)、[HTML报告](../playwright-report/offline/index.html) |
+| npm run test:dev | Vite ESM入口、真实CSV/Worker、指南深链接及本地字体/公式共4项通过，9.51秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json)、[HTML报告](../playwright-report/development/index.html) |
 | npm run bench | Node所有目标档实际跑完 | [bench.json](evidence/bench.json) |
 | npm run bench:browser | file:// Worker目标档实际跑完，无pageerror/HTTP请求 | [browser-bench.json](evidence/browser-bench.json) |
 
@@ -155,6 +155,20 @@ algorithms/error-analysis由点击触发，用同一原模型和Token重新计�
 本次失败保留：Vite/Vitest首次写缓存受沙箱EROFS限制，经授权重跑同项目命令；新单测发现NB/SVM无神经状态数组，改为可选空数组后73项通过。首轮离线43/46：FAQ移到末尾后滚动留白不足，补足最后一节高度；新测试误把解释前向runId计作重训，改为先确认一次原模型前向，再检查返回不再计算；字号测试首版定位用了不存在的ID，改用实际range控件。随后46项通过。附加案例模式返回断言又发现诊断模型重置RNN，补齐caseComparison视图写入；保留断言，针对性两项通过，再做完整46项回归全部通过。不删除失败用例，不声称始终一次通过。
 
 此次环境仍为WSL headless Chromium。Windows Chrome/Edge、真实触屏、系统DPI组合和新增诊断下的完整性能预算未重测；切片/扰动分析不是自动自然语言语义诊断或人工标签审核。
+
+## 可拉伸侧栏与独立字号 · 2026-10-01
+
+侧栏右边缘新增可聚焦的separator拖动区，指针捕获保证拖出边缘仍可调整；左右方向键每次10px，Shift为50px，Home/End设当前最窄/最宽，双击恢复230px。Aa显示设置新增侧栏宽200–420px及独立字号90%–150%，同一tensorscope-display-v1键保存；旧记录补默认字段，未知/非法值仍校验，不改其他显示偏好或实验记录。设置面板区分请求宽度与当前限幅宽度。
+
+侧栏与主区域使用同一实际宽度变量，桌面正文至少保留600px，小屏抽屉至少留32px；CSS即时限幅、resize事件同步偏好显示与品牌测量，缩小视口不覆盖请求宽度。正文按自己的容器宽度调整控制区、卡片、顶栏和说明布局，不仅按浏览器总宽度判断。菜单字体使用独立缩放，正文/显微镜不跟着变化。TensorScope标题nowrap，按当前真实文字宽度和可用空间缩小字号，拉宽后恢复；不是省略或截断标题。字体加载完再次核对。移动侧栏内新增可见“×”关闭按钮并返回菜单焦点，内容过高时可纵向滚动。
+
+新增2项单元测试覆盖旧偏好兼容、侧栏数值限幅与视口规则；新增2项离线测试覆盖真实鼠标拖动、键盘、独立字号、品牌单行完整、主区域同步、刷新/重置/双击、原结果与runId不变，以及1440/1024/900/801/768/390宽度下最大字号和宽度的限幅、菜单跳转与关闭。最窄200px及字号150%也核对文字scrollWidth≤clientWidth、标题高度为单行。字体和宽度不标记stale，保存按钮仍可用。最终75项单测、48项离线和4项开发测试通过，无跳过或重试；完整统计见上表与JSON报告；依赖、锁文件SHA未变，81个JS/MJS语法/引用/依赖及目录检查通过。
+
+browser-use本地state仍为空索引，按技能的DOM回退核对最终320px侧栏、菜单22.5px、品牌31.5px、可用/文字宽217px，无整页溢出；已实际查看[浏览器截图](evidence/sidebar-browser-use.png)、[230px桌面侧栏](evidence/sidebar-resize-1440.png)和[390宽150%侧栏](evidence/sidebar-resize-390-large.png)。浏览器会话已关闭。使用说明和README已补拖动/键盘/独立字号说明；release仍仅index.html373字节、app.js2449920字节、style.css5237031字节，IIFE、内嵌Worker/字体不变。
+
+本次失败保留：首轮侧栏字体测试发现桌面菜单继承固定body字号，补侧栏自身font-size以使用独立缩放；视口测试读取在resize事件前，补CSS即时限制并在新视口渲染帧后核对；移动测试发现抽屉遮住原菜单按钮，新增侧栏内部关闭按钮，未使用强制点击绕过。两项针对性测试随后通过，完整48项回归也全部通过。browser-use曾继续使用已打开旧页面，显式刷新后再核验最终CSS/菜单22.5px，没有以旧页面读数冒充新版本结果。
+
+实测仍为WSL headless Chromium；Windows Chrome/Edge、真实触屏拖动、操作系统DPI/浏览器缩放组合、旧浏览器CSS容器查询支持，以及调整布局时的严格FPS/峰值内存未验收。
 
 ## 失败及修复记录
 
