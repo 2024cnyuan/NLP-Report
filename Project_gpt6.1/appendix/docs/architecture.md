@@ -22,3 +22,15 @@ runId 唯一递增，客户端丢弃过期 Worker 消息；配置改变标 stale
 algorithms/attention保留掩码前rawScores和实际scores；algorithms/neural的LSTM trace保留真实仿射preactivations。algorithms/explanations从已完成的结果、真实权重和选中的连接/窗口/时间步构建代入说明；不会从尚未提交的控件推算新结果。它计算行熵、范数、激活比例与A/B差值，components/computation只负责渲染、检查器绑定和报告格式。
 
 新记录analysis是同一次完成结果的分析；baseline包含适用A基线的输入、权重和结果，不另立算法版本。缺少新字段的旧记录仍可重放。外部记录中的分析与baseline.result不作为真实成绩：runtime/replay先用baseline.config通过同一Worker重新计算A，再由模块重算B，只有重新计算的结果用于页面对照。没有将LSTM教学初始化标为已训练模型，也未扩充四模型工作台的算法范围。
+
+## 案例、数据集模式与错误诊断
+
+comparison模块仍是M05，没有新增第七个算法模块。`#comparison`进入原案例工作台，`#comparison/dataset`进入dataset-mode流程；两者独立保存会话模型/结果。data/dataset-catalog只静态导入酒店2944、微博5000两份清洗CSV及来源清单；原始CSV保留src/datacsv但不打包，没有运行时下载或伪造替代数据。不可用运行按钮使用data-unavailable标记，旧任务完成/取消后的全局控件恢复不会将其启用。
+
+algorithms/dataset-experiment校验并按种子分层采样20–5000偶数条，保留源train/validation/test固定边界；无validation的用户文件才从源训练池留出；同组不得跨划分，重复Token和超长样本拒绝。runtime/tasks的dataset-experiment任务随后调用原trainComparison；modelNames明确限制为所选NB/SVM/RNN/CNN，evaluateBatch只预测并统计这些模型。词表仅拟合训练集，结果保留本次选样、划分数、模型和数据指纹。记录仍为comparison/schema1，experimentMode=dataset标记新流程；重放忽略旧成绩，以原源数据/参数重新抽样、训练和评测。dataset-mode不宣称保存双A/B基线，两次实验分别导出。
+
+algorithms/diagnosis从实际rows/predictions推导错分方向、切片分母、OOV比例及模型分歧，components/diagnosis展示并绑定原权重解释。components/dataset-report仅格式化已计算成绩。数据集记录额外校验参数和模型选择，来源链接仅允许HTTP/HTTPS且需主动点击；所有本地计算继续无网络依赖。诊断线索不代替因果检验，测试合成夹具仅位于appendix/tests，不进入离线应用。
+
+help共11章，最后的六步学习路线提供模块/章节/笔记hash链接。首页和工作台可进入路线，仍由主导航代次保护章节挂载与焦点；不记录虚构学习进度。
+
+内置真实数据的引用记录只携带数据ID、产物SHA与源样本指纹。notebook从静态目录取数并核对两项校验后再训练，不需要网络或原始CSV。用户文件引用仍匹配store.dataset。完整数据集JSON采用紧凑序列化，模型只保存于结果而非重复放入训练配置，避免全量微博NB超过10MiB导入限制；大结构/多记录仍有容量边界。

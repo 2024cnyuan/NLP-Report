@@ -1,4 +1,20 @@
 import {test,expect} from '../../../tools/testing/playwright.js';
+test('Vite 两份清洗CSV解析与真实数据Worker训练',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:5187/#comparison/dataset');
+  await expect(page.locator('#dataset-origin')).toContainText('2944');
+  await page.locator('#dataset-choice').selectOption('weibo');
+  await expect(page.locator('#dataset-origin')).toContainText('5000');
+  for(const n of ['SVM','RNN','CNN'])await page.locator(`[name="dataset-model"][value="${n}"]`).uncheck();
+  await page.locator('#dataset-run').click();
+  await expect(page.locator('#result-state')).toHaveText('结果已更新');
+  const result=await page.evaluate(async()=>(await import('/src/app/main.js')).diagnostics.store.results.datasetLab);
+  expect(result.metrics.NB.count).toBe(20);
+  expect(result.dataset.samples).toHaveLength(100);
+  expect(result.models.NB.vocab.length).toBeGreaterThan(1);
+  expect(result.metrics.NB.accuracy).toBe(result.rows.filter(r=>r.label===r.predictions.NB.prediction).length/20);
+  expect(errors).toEqual([]);
+});
 test('Vite 字体与公式：本地字形加载，KaTeX排版及代码字体',async({page})=>{
   const errors=[];
   page.on('pageerror',error=>errors.push(error.message));

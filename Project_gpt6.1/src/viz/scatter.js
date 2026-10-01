@@ -8,10 +8,11 @@ export function scatter(canvas,artifact,{selected=0,neighbors=[],onSelect=()=>{}
   function render(){
     if(!canvas.isConnected||disposed)return;
     const fontFamily=getComputedStyle(canvas).fontFamily;
+    const fontScale=Number(getComputedStyle(canvas).getPropertyValue('--text-scale'))||1;
     width=canvas.clientWidth||700;height=340;const ratio=window.devicePixelRatio||1;canvas.width=width*ratio;canvas.height=height*ratio;context.setTransform(ratio,0,0,ratio,0,0);context.clearRect(0,0,width,height);
     x=scaleLinear().domain([dx[0]-px,dx[1]+px]).range([48,width-30]);y=scaleLinear().domain([dy[0]-py,dy[1]+py]).range([height-40,28]);
     const zx=transform.rescaleX(x),zy=transform.rescaleY(y);
-    context.font=`11px ${fontFamily}`;context.strokeStyle='#e2ece7';context.fillStyle='#6a8585';context.lineWidth=1;
+    context.font=`${11*fontScale}px ${fontFamily}`;context.strokeStyle='#e2ece7';context.fillStyle='#6a8585';context.lineWidth=1;
     for(const t of zx.ticks(5)){const xx=zx(t);context.beginPath();context.moveTo(xx,20);context.lineTo(xx,height-35);context.stroke();context.fillText(t.toFixed(2),xx-12,height-19);}
     for(const t of zy.ticks(4)){const yy=zy(t);context.beginPath();context.moveTo(45,yy);context.lineTo(width-20,yy);context.stroke();context.fillText(t.toFixed(2),6,yy+3);}
     context.fillText('PC1',width-45,height-5);context.fillText('PC2',6,14);
@@ -21,8 +22,8 @@ export function scatter(canvas,artifact,{selected=0,neighbors=[],onSelect=()=>{}
     const labels=[];
     coords.forEach((p,i)=>{const xx=zx(p[0]),yy=zy(p[1]),active=i===selected,near=neighborIds.has(i);if((artifact.counts[i]<minFrequency&&!active)||xx<45||xx>width-20||yy<20||yy>height-35)return;context.fillStyle=active?'#ad703b':near?'#238a7b':'#6a9f9977';context.beginPath();context.arc(xx,yy,active?6:near?4:2.5,0,Math.PI*2);context.fill();if(active||near)labels.push({xx,yy,i,active});});
     labels.sort((a,b)=>Number(b.active)-Number(a.active));const boxes=[];
-    for(const {xx,yy,i,active}of labels){context.font=`${active?'700 12px':'11px'} ${fontFamily}`;const w=context.measureText(artifact.vocab[i]).width;const candidates=[[xx+8,yy-7],[xx-w-8,yy-7],[xx+8,yy+16],[xx-w-8,yy+16]];let found=false;
-      for(const [lx,ly]of candidates){const box=[lx-3,ly-12,lx+w+3,ly+3];if(box[0]<45||box[2]>width-20||box[1]<20||box[3]>height-35)continue;if(!active&&boxes.some(b=>box[0]<b[2]&&box[2]>b[0]&&box[1]<b[3]&&box[3]>b[1]))continue;context.fillStyle='#fbfdfcdd';context.fillRect(box[0],box[1],box[2]-box[0],box[3]-box[1]);context.fillStyle=active?'#9b612e':'#3d706c';context.fillText(artifact.vocab[i],lx,ly);boxes.push(box);found=true;break;}
+    for(const {xx,yy,i,active}of labels){context.font=`${active?'700 ':''}${(active?12:11)*fontScale}px ${fontFamily}`;const w=context.measureText(artifact.vocab[i]).width;const candidates=[[xx+8,yy-7],[xx-w-8,yy-7],[xx+8,yy+16*fontScale],[xx-w-8,yy+16*fontScale]];let found=false;
+      for(const [lx,ly]of candidates){const box=[lx-3,ly-12*fontScale,lx+w+3,ly+3];if(box[0]<45||box[2]>width-20||box[1]<20||box[3]>height-35)continue;if(!active&&boxes.some(b=>box[0]<b[2]&&box[2]>b[0]&&box[1]<b[3]&&box[3]>b[1]))continue;context.fillStyle='#fbfdfcdd';context.fillRect(box[0],box[1],box[2]-box[0],box[3]-box[1]);context.fillStyle=active?'#9b612e':'#3d706c';context.fillText(artifact.vocab[i],lx,ly);boxes.push(box);found=true;break;}
       if(!found&&active){context.fillStyle='#9b612e';context.fillText(artifact.vocab[i],Math.min(xx+8,width-w-21),Math.max(32,yy-7));}
     }
     if(brush){context.strokeStyle='#087f8c';context.fillStyle='#087f8c15';context.fillRect(brush[0],brush[1],brush[2]-brush[0],brush[3]-brush[1]);context.strokeRect(brush[0],brush[1],brush[2]-brush[0],brush[3]-brush[1]);}
@@ -30,6 +31,7 @@ export function scatter(canvas,artifact,{selected=0,neighbors=[],onSelect=()=>{}
   const behavior=zoom().scaleExtent([.5,25]).filter(e=>!e.shiftKey&&(!e.button||e.type==='wheel')).on('zoom',e=>{transform=e.transform;cancelAnimationFrame(frame);frame=requestAnimationFrame(render);});
   select(canvas).call(behavior);
   const events=new AbortController();
+  window.addEventListener('tensorscope-display-change',render,{signal:events.signal});
   canvas.addEventListener('click',e=>{if(e.shiftKey)return;const r=canvas.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let best=-1,distance=100;coords.forEach((p,i)=>{const dx=transform.applyX(x(p[0]))-mx,dy=transform.applyY(y(p[1]))-my,dist=dx*dx+dy*dy;if(dist<distance){distance=dist;best=i;}});if(best>=0)onSelect(best);},{signal:events.signal});
   canvas.addEventListener('pointerdown',e=>{if(!e.shiftKey)return;const r=canvas.getBoundingClientRect();brush=[e.clientX-r.left,e.clientY-r.top,e.clientX-r.left,e.clientY-r.top];canvas.setPointerCapture(e.pointerId);},{signal:events.signal});
   canvas.addEventListener('pointermove',e=>{if(!brush)return;const r=canvas.getBoundingClientRect();brush[2]=e.clientX-r.left;brush[3]=e.clientY-r.top;render();},{signal:events.signal});

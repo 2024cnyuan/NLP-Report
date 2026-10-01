@@ -10,11 +10,11 @@ WSL2 Linux 6.18.33.2、Intel i9-14900HX、WSL可见内存约15.4GiB；Node24.14.
 
 | 命令 | 实测结果 | 原始证据 |
 |---|---|---|
-| npm run test:run | 9文件、49测试通过，3.52秒；原41项及新增8项计算链/分析/记录测试 | [unit-results.json](evidence/unit-results.json) |
+| npm run test:run | 11文件、59测试通过，4.77秒；含两套真实数据全量NB、清洗复现/SHA与固定划分验证 | [unit-results.json](evidence/unit-results.json) |
 | npm run train | 四模型完整共享源码训练，快照重建成功 | [training.json](evidence/training.json)、src/data/models.json |
 | npm run build:offline | IIFE构建成功，仅index.html/app.js/style.css，普通script | release/ 与tools/vite.config.js |
-| npm run test:offline | 计算链最终版34项通过，48.9秒，无失败/跳过/重试；原28项及新增6项计算链/分析/重放回归 | [playwright-results.json](evidence/playwright-results.json)、[HTML报告](../playwright-report/offline/index.html) |
-| npm run test:dev | 最终源码Vite ESM入口、指南深链接及本地字体/公式共3项通过，8.1秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json)、[HTML报告](../playwright-report/development/index.html) |
+| npm run test:offline | 真实数据版本40项通过，73.27秒，无跳过/重试；含全量NB导出/重放、引用版本拒绝及原模型解释 | [playwright-results.json](evidence/playwright-results.json)、[HTML报告](../playwright-report/offline/index.html) |
+| npm run test:dev | Vite ESM入口、真实CSV/Worker、指南深链接及本地字体/公式共4项通过，10.0秒；临时服务器测试后关闭 | [playwright-dev-results.json](evidence/playwright-dev-results.json)、[HTML报告](../playwright-report/development/index.html) |
 | npm run bench | Node所有目标档实际跑完 | [bench.json](evidence/bench.json) |
 | npm run bench:browser | file:// Worker目标档实际跑完，无pageerror/HTTP请求 | [browser-bench.json](evidence/browser-bench.json) |
 
@@ -83,6 +83,46 @@ Attention、CNN、序列页面新增“本次计算链”和数值分析，不�
 已实际查看[Attention计算链](evidence/computation-attention-chain.png)、[CNN计算链](evidence/computation-cnn-chain.png)、[LSTM计算链](evidence/computation-lstm-chain.png)，以及三模块桌面完整页面、LSTM 768/390窄屏截图。完整截图先回到页面顶部，细节截图暂时隐藏固定顶栏和toast，避免遮住卡片，不改变计算结果。browser-use本地state仍为空索引，按其DOM读取/点击方法实际运行LSTM，四门显示值与真实states[0].gates一致，并保存[浏览器检查截图](evidence/computation-browser-use.png)，会话检查后关闭。正式回归以Playwright为准。Windows Chrome/Edge、完整压力预算、加入计算链后的严格FPS/加载耗时/峰值内存仍未验收。
 
 本次失败与修复：开发测试与离线测试并行共用轨迹目录，曾在关闭上下文时ENOENT，改为独立输出/HTML目录后重跑；新增分析标题使旧A/B正则定位出现严格歧义，限定原实验h2，保留断言；旧笔记数量定位也改为直接子记录，等待实际导入完成。JSON把−0写为0，权重比对改为同一序列化口径，未改变数学权重。新增概率点击检查发现CNN计算链仍显示预测类别，补齐选中类别联动；检查本地掩码记录发现−Infinity校验问题，改为显式可携带编码。离页检查首版未确认实际启动，加入runId断言后发现hashchange事件前旧store.page仍是notebook，复算完成会跳回旧页；加入即时hash校验修复，保留该回归。不删除失败用例，也不把早期通过报告称为最终版本结果。
+
+## 错误诊断、模式入口与学习路线 · 2026-10-01
+
+本节保留用户延期提供数据时的阶段记录；当前两个真实数据已接入，见下文“酒店与微博真实数据”节。
+
+按用户最新安排，停止真实语料下载并延期接入。IMDB、20 Newsgroups、新闻分类只是清楚标为“待提供数据”的入口：0条样本、不能运行、不显示成绩。没有将原创教学句子改名为真实语料；release不包含外部语料，开发下载脚本草稿已撤回。此前公开接口检查遇到超时与HTTP 500，没有形成或使用完整离线数据包。真实数据来源、许可、长度处理和完整多分类任务均待用户提供文件后确认。
+
+保留原案例工作台，在同一模块内增加数据集模式页面与参数入口。已确认的用户数据通路可用：二分类、总数20–200且为20倍数、两类等量70/10/20，保留源train/test边界，验证集从源训练池留出；词表仅看训练集，成绩只用测试标签。选NB/SVM/RNN/CNN中一个或多个模型，真正重新训练和推理，非训练模型不显示成绩。NB闭式估计，轮数不影响NB。验证集本轮不参与调参/校准，独立模型不覆盖案例工作台。重复Token、跨组泄漏、超长、样本不足和无效参数会拒绝。JSON保存源数据/参数/权重，重放重新采样和训练，不信任导入成绩；Markdown增加实际测试指标及诊断。数据集A/B分别保存，不伪称已打包双基线。
+
+algorithms/diagnosis从实际预测计算带标签分母、错分方向、OOV Token比例、长度与否定转折词形切片、模型分歧和错误案例；components/diagnosis负责展示及原模型溯源。切片可重叠、无样本显示无样本。NB/SVM可查词项贡献，SVM margin明确不是概率；RNN/CNN携带原样本和权重进入计算链。线索不作为因果结论。案例默认RNN实测9/16错分，SVM实测3/16错分，与现有快照一致，未重新训练或美化这些成绩。
+
+使用说明增加第09–11章，目录共11章，原3张SVG保留。六步学习路线提供模块/说明/笔记链接、操作和检查目标，首页与工作台提供入口；不自动执行训练或记录完成状态。README同步功能及数据延期说明，按humanizer-zh技能删去笼统宣传，使用具体按钮、分母和操作说明。
+
+新增7项单元测试及4项离线交互测试。采样/训练验证只用测试文件中明确标注的合成夹具，不打包成内置语料；因此这些测试证明通路与数学复算，不是IMDB/新闻语义成绩。浏览器验证待接入按钮、无成绩/网络、诊断与实际预测对应、NB/SVM贡献与RNN原模型跳转、用户CSV→NB实测→Markdown/JSON→刷新→篡改结果后重新计算一致，以及768/390无整页横向溢出。原有计算链/字体/导入/性能smoke回归继续保留。
+
+本次首次完整回归37/38通过：旧说明测试假定FAQ是最后一章，返回时错误期待FAQ而实际历史起点是新学习路线。修正为显式导航FAQ后再检查返回目录与前进/后退，保留全部章节焦点及历史断言；随后38/38通过。末轮加入旧优化任务暂停→切换待接入页面→取消的检查，修复全局控件恢复误启用待接入按钮的风险，最终38/38通过；截图同时重置滚动位置。构建/单测写缓存曾受沙箱EROFS限制，经授权重跑同一项目命令通过，未改依赖、锁文件或安全配置。最终69个JS/MJS语法、引用、依赖解析与目录检查通过；release仍只有3文件：index.html373字节、app.js686107字节、style.css5226725字节。
+
+browser-use本地state仍返回Empty DOM，使用其支持的DOM查询和change事件核对SVM诊断、六步链接、章节焦点；保存[诊断浏览器截图](evidence/diagnosis-browser-use.png)、[学习路线浏览器截图](evidence/learning-browser-use.png)，已实际查看。另实际查看390待接入页面，完整截图重置滚动并等两帧，避免固定顶栏落在长图中间；截图隐藏toast但不改结果。会话已关闭。正式回归以Playwright报告为准。Windows浏览器、真实数据集接入/分类表现和新增诊断下的完整压力预算未验收。
+
+## 酒店与微博真实数据 · 2026-10-01
+
+用户本地提供ChnSentiCorp_htl_all.csv与weibo_senti_100k.csv；没有联网下载或生成替代句子。原始CSV及package.json/package-lock.json的SHA复核未变。规则见[datasets.md](datasets.md)，全统计、源/产物SHA、种子42及版本见[dataset-curation.json](evidence/dataset-curation.json)。普通脚本生成曾受沙箱EROFS限制，经授权执行相同项目脚本完成，没有修改环境安全设置。
+
+酒店原始7766条，排除1条空文、2260条超长；保留全部1472条合格负样本与等量随机正样本，2944条输出。微博原始实际119988条，排除9476条超长、1273组标签冲突共2546条、23条同标签重复，再抽正负各2500条。去重按规范化Token序列，符号/emoji/话题保留，不截断。近重复、作者/主题级泄漏和逐条标签人工审核未完成，不能声称完全无泄漏。
+
+固定源划分为酒店2060/294/590、微博3500/500/1000，正负各半。这是本项目分层划分，不是上游官方测试集。20–5000偶数采样保留三池边界，无validation的用户文件才从train留出。默认100仍为70/10/20，词表只拟合train，验证集不参与调参/选轮数。
+
+数据集模式只显示酒店与微博两个内置真实语料，另支持用户导入。点击运行才重新采样、训练、预测、评测和诊断；不预填准确率。NB/SVM/RNN/CNN共享原数学核心，模型独立于案例工作台，原模型解释使用实际权重。全量按钮只填写数量，未自动训练。来源、权利、清洗指纹、划分策略同时进入页面与Markdown；没有将第三方文本按ISC/CC0重新许可。
+
+全量NB在本地file://实测：酒店Accuracy=0.8288135593、Macro-F1=0.8286713186，混淆矩阵[[236,59],[42,253]]，测试590；微博Accuracy=0.925、Macro-F1=0.9249783187，矩阵[[471,29],[46,454]]，测试1000。见[全量NB观察记录](evidence/dataset-full-nb-observed.json)。browser-use另运行微博100条、d4/h4、两轮、lr=.03、batch4、seed42：NB/SVM/RNN/CNN Accuracy=.90/.95/.60/.50，分母均20；保留低分及CNN只预测负类的结果，见[原始观察记录](evidence/dataset-weibo-observed.json)。这不是完整原始语料基准，不用跨领域分数差异证明模型泛化。
+
+新增3项单元测试并升级原目录断言：纯清洗夹具覆盖排空/超长/冲突/同标签重复/emoji与往返，两个用户原始CSV重跑得到完全相同的产物字节/SHA；全量NB逐条独立predict一致，训练词表与源池不越界。新增2项离线测试并替换待接入断言：两套全量NB、真实分母、JSON篡改旧成绩后复算一致、内置引用跨刷新重放及错误SHA拒绝；酒店100条四模型、变轮数RNN/CNN权重变化且NB不变、原权重解释。原用户文件、窄屏、字体和六模块回归保留，拒绝HTTP/HTTPS且无pageerror。开发测试新增真实CSV解析及NB Worker训练。
+
+本次首次单元58/59通过，发现90×.7的浮点误差使180条采样少分两条训练；改为floor(n×7/10)，保留所有数量档位断言后59/59通过。新增开发测试首轮3/4通过：测试误读离线IIFE全局，而Vite是ESM；改用模块导出读取诊断状态，不修改应用环境，随后4/4通过。未删除或放松数学/重放断言。最终40/40离线通过，无跳过/重试，最终HTML/JSON已更新。
+
+微博全量NB格式化JSON原约15.8MB，超过现有10MiB导入上限。数据集导出改紧凑JSON并移除配置内冗余的输出模型，保留完整输入和结果；实测完整config/result快照约6.4MB，导出后可刷新导入重算。大结构/浏览器存储仍有容量边界；笔记“仅引用原数据”支持内置ID+SHA+样本指纹匹配后重新训练，版本不同明确拒绝，不联网。用户文件引用仍需匹配原文件。
+
+最终release仍只有3文件：index.html373字节、app.js2419689字节、style.css5226725字节；仅清洗CSV进入app.js，两个大型原始CSV不打包。72个JS/MJS的语法、引用、依赖及目录检查通过。无新增依赖、无Git写命令。README与应用说明按humanizer-zh约定改为具体按钮、数字和边界。
+
+browser-use本地state返回Empty DOM，使用支持的DOM查询运行实际实验；查看了[微博100条四模型截图](evidence/dataset-weibo-browser-use.png)、[微博全量NB指标](evidence/dataset-weibo-full-nb-browser-use.png)及[390宽数据集页面](evidence/comparison-dataset-390.png)，会话已关闭。正式回归以Playwright为准。Windows Chrome/Edge、两套全量长轮数神经训练、增加语料后的严格FPS/峰值内存和语料再分发权利确认，仍不标为通过。
 
 ## 失败及修复记录
 

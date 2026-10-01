@@ -1,0 +1,70 @@
+{
+  "environment": "WSL Chromium · browser-use local headless, file://",
+  "observedAt": "2026-10-01",
+  "seed": 42,
+  "model": "NB",
+  "hotel": {
+    "sampling": {
+      "count": 2944,
+      "train": 2060,
+      "validation": 294,
+      "test": 590
+    },
+    "accuracy": 0.8288135593220339,
+    "macroF1": 0.8286713186184451,
+    "confusion": [
+      [
+        236,
+        59
+      ],
+      [
+        42,
+        253
+      ]
+    ]
+  },
+  "weibo": {
+    "status": "结果已更新",
+    "sampling": {
+      "count": 5000,
+      "seed": 42,
+      "train": 3500,
+      "validation": 500,
+      "test": 1000,
+      "policy": "各类等量；保留源数据的固定train/validation/test边界；每类按floor(70%)/floor(10%)/余量选样"
+    },
+    "metrics": {
+      "NB": {
+        "count": 1000,
+        "accuracy": 0.925,
+        "macroF1": 0.9249783187341141,
+        "confusion": [
+          [
+            471,
+            29
+          ],
+          [
+            46,
+            454
+          ]
+        ],
+        "perClass": [
+          {
+            "precision": 0.9110251450676983,
+            "recall": 0.942,
+            "f1": 0.9262536873156342,
+            "support": 500
+          },
+          {
+            "precision": 0.9399585921325052,
+            "recall": 0.908,
+            "f1": 0.9237029501525941,
+            "support": 500
+          }
+        ]
+      }
+    },
+    "bytes": 6412332
+  },
+  "limits": "本项目短文本平衡子集固定划分；非原始语料标准基准、未校准概率；不是Windows实测。"
+}

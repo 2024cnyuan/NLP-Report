@@ -10,6 +10,9 @@ const chapters = [
   ['notebook', '06', '保存、导出与重放'],
   ['workflow', '07', '把模块串起来'],
   ['faq', '08', '常见问题与边界'],
+  ['datasets', '09', '案例 / 数据集实验'],
+  ['diagnosis', '10', '模型错误诊断'],
+  ['learning', '11', '可跳转学习路线'],
 ];
 
 const sampleCSV = `text,label,split,group
@@ -102,7 +105,7 @@ function moduleCard(id, num, title, principle, operation, caution) {
 export function mountHelp(root) {
   root.innerHTML = `<div class="guide">
     <section id="help-top" class="guide-hero" tabindex="-1" aria-labelledby="guide-title">
-      <div><span class="eyebrow">FIELD GUIDE / 本地实验指南</span><h2 id="guide-title">从一次操作，读懂一个算法。</h2><p>先跑一个小例子，再追踪数字、改变参数、保存发现。<br>不必先读代码；下面的入口都可以直接点击。</p><div class="guide-hero-actions"><a class="btn primary" href="#help/quickstart">跟着做一次实验 ${icon('arrow', 17)}</a><a class="btn" href="#help/data">我想导入数据</a><a class="btn" href="#help/notebook">我想保存笔记</a></div></div>
+      <div><span class="eyebrow">FIELD GUIDE / 本地实验指南</span><h2 id="guide-title">从一次操作，读懂一个算法。</h2><p>先跑一个小例子，再追踪数字、改变参数、保存发现。<br>不必先读代码；下面的入口都可以直接点击。</p><div class="guide-hero-actions"><a class="btn primary" href="#help/quickstart">跟着做一次实验 ${icon('arrow', 17)}</a><a class="btn" href="#help/data">我想导入数据</a><a class="btn" href="#help/notebook">我想保存笔记</a><a class="btn" href="#help/learning">按学习路线开始</a></div></div>
       <div class="guide-hero-note">${icon('scope', 34)}<strong>输入 → 计算 → 检查 → 对照 → 保存</strong><span>全部在本地完成 · 不上传文件 · 无需 API</span></div>
     </section>
     <div class="guide-layout">
@@ -125,7 +128,7 @@ export function mountHelp(root) {
         `)}
         ${chapter('workspace', '02', '看懂界面与按钮', `
           ${workspacePicture()}
-          <dl class="guide-definitions"><div><dt>本次计算链与分析</dt><dd>注意力、CNN、序列模块在图形上方列出真实计算步骤。先选连接、窗口或时间步，再点步骤查看公式和完整代入值；可选择输出维度、状态维度及解释类别。LSTM 展示四门激活前值、细胞/隐藏状态和最终损失梯度。下方分析列出实测指标；固定 A 后重算 B，口径匹配时列出 B−A，不能只凭数值变化判断模型更优。</dd></div><div><dt>计算 / 训练</dt><dd>修改输入后点对应按钮。多数页面会自动运行默认小样例；参数改变后旧结果会标为过期，请重新运行后再保存。</dd></div><div><dt>计算显微镜</dt><dd>点击可检查的热力格子、隐状态、卷积激活、池化值或损失点，查看公式、输入和来源。「锁定此计算」可保留内容，检查其他数字前先解除锁定。Tab 定位按钮，Enter 选择。</dd></div><div><dt>固定为 A</dt><dd>把这次有效结果设为基线，再改一个因素运行 B。页面标明单因素或多因素变化；结构不兼容时不会强行相减。更多操作见<a href="#help/quickstart">上面的例子</a>。</dd></div><div><dt>暂停 / 继续 / 取消</dt><dd>后台任务运行时出现进度条，可暂停或取消。暂停仅保留当前内存状态，不支持关闭浏览器后续训。</dd></div><div><dt>演示视图</dt><dd>右上角播放图标放大画布、收起部分导航和参数，适合投屏；不是录制动画，仍可进行真实交互。</dd></div></dl>
+          <dl class="guide-definitions"><div><dt>本次计算链与分析</dt><dd>注意力、CNN、序列模块在图形上方列出真实计算步骤。先选连接、窗口或时间步，再点步骤查看公式和完整代入值；可选择输出维度、状态维度及解释类别。LSTM 展示四门激活前值、细胞/隐藏状态和最终损失梯度。下方分析列出实测指标；固定 A 后重算 B，口径匹配时列出 B−A，不能只凭数值变化判断模型更优。</dd></div><div><dt>计算 / 训练</dt><dd>修改输入后点对应按钮。多数页面会自动运行默认小样例；参数改变后旧结果会标为过期，请重新运行后再保存。</dd></div><div><dt>计算显微镜</dt><dd>点击可检查的热力格子、隐状态、卷积激活、池化值或损失点，查看公式、输入和来源。「锁定此计算」可保留内容，检查其他数字前先解除锁定。Tab 定位按钮，Enter 选择。显微镜标题旁的「Aa」可独立调字号、宽高；也可拖左上角，或聚焦该角用方向键调大小（左/上增大，右/下缩小，Shift加速）。小屏自动限幅，长内容在框内滚动，锁定不妨碍调整显示。</dd></div><div><dt>固定为 A</dt><dd>把这次有效结果设为基线，再改一个因素运行 B。页面标明单因素或多因素变化；结构不兼容时不会强行相减。更多操作见<a href="#help/quickstart">上面的例子</a>。</dd></div><div><dt>暂停 / 继续 / 取消</dt><dd>后台任务运行时出现进度条，可暂停或取消。暂停仅保留当前内存状态，不支持关闭浏览器后续训。</dd></div><div><dt>字号与窗口</dt><dd>右上角「Aa」打开显示设置，页面字号90%–150%，显微镜独立90%–180%；拖滑块立即生效，可一键恢复默认。仅保存本机显示偏好，不改输入、权重、成绩或结果有效状态。浏览器禁用存储时仍可在本次会话调节。</dd></div><div><dt>演示视图</dt><dd>右上角播放图标放大画布、收起部分导航和参数，适合投屏；不是录制动画，仍可进行真实交互。</dd></div></dl>
         `)}
         ${chapter('modes', '03', '原理 / 实验模式', `
           <div class="guide-two-col"><article class="guide-mode"><span class="eyebrow">理解一个数字</span><h3>原理模式</h3><p>建议短文本、小矩阵和低维向量。先看公式，再点中间值，核对每一步输入如何得到输出。</p><p class="guide-mode-example">试一试：到<a href="#cnn">文本卷积</a>点击一个池化值，追溯产生它的窗口。</p></article><article class="guide-mode"><span class="eyebrow">比较一次改变</span><h3>实验模式</h3><p>建议改变一个参数，重新训练或批量评测，用 A/B、曲线和错误样本解释结果差异。</p><p class="guide-mode-example">试一试：到<a href="#optimization">损失与优化</a>固定正常学习率为 A，再运行大步长案例。</p></article></div>
@@ -152,7 +155,7 @@ export function mountHelp(root) {
           <ol class="guide-steps"><li><strong>保存。</strong>实验结果有效后点「保存实验」，填名称与备注。例如「注意力掩码对照」：屏蔽理解→语言，检查剩余权重和。</li><li><strong>带走。</strong>模块顶部「导出」可选择下列三种格式。笔记中的「导出完整 JSON」还包含保存时的名称与备注。</li><li><strong>恢复。</strong>打开<a href="#notebook">实验笔记</a>，选择导出的实验 JSON，校验后点「重新运行」。恢复输入、配置和适用权重，重新执行计算，不直接认可导入文件里写的成绩。</li><li><strong>继续对照。</strong>导入记录先重算，再在模块页面固定为 A，改变一个因素运行 B。</li></ol>
           <div class="guide-export-grid"><article><strong>JSON</strong><span>用于重新计算</span><p>包含输入、参数、适用权重、版本和实际结果；注意力、CNN、序列还包含分析和已固定的 A 基线。</p></article><article><strong>CSV</strong><span>用于分析数值</span><p>以 path / value 导出结果，可放入表格工具。</p></article><article><strong>Markdown</strong><span>用于撰写报告</span><p>包含配置与计算结果；注意力、CNN、序列增加可读的指标分析与 A/B 差值表，方便说明实验过程。</p></article></div>
           <div class="guide-callout"><strong>重要记录请主动导出。</strong><p>普通保存保留最近 20 条记录。浏览器本地存储不可用或满时退回内存会话；未保存的数据集、参数和模型不保证刷新后保留。CSV / Markdown 不能用于重放；实验 JSON 导入最多 10 MiB，要求匹配算法版本。</p></div>
-          <p>多模型笔记可导出「仅引用原数据」，减小文件体积。重放前需重新导入预处理与样本指纹匹配的原文件，仅文件名相同不够。固定 A 单独仍不是永久备份；注意力、CNN、序列模块在保存或导出 B 时，会同时保存 A 的输入、权重、结果和分析，重放双方均重新计算。其余模块请分别保存 A 和 B。</p><a class="guide-link" href="#notebook">打开实验笔记 ${icon('arrow', 16)}</a>
+          <p>多模型笔记可导出「仅引用原数据」，减小文件体积。酒店/微博的引用记录会校验内置清洗数据的SHA-256与样本指纹，再离线重新训练，不需要重复导入CSV。其他用户数据仍需重新导入预处理与样本指纹匹配的原文件，仅文件名相同不够。固定 A 单独仍不是永久备份；注意力、CNN、序列模块在保存或导出 B 时，会同时保存 A 的输入、权重、结果和分析，重放双方均重新计算。其余模块请分别保存 A 和 B。</p><a class="guide-link" href="#notebook">打开实验笔记 ${icon('arrow', 16)}</a>
         `)}
         ${chapter('workflow', '07', '把模块串起来', `
           ${workflowPicture()}
@@ -164,6 +167,29 @@ export function mountHelp(root) {
           <details class="guide-details"><summary>概率很高，或者深度模型分数很低，意味着什么？</summary><p>默认概率未经可靠性校准，SVM margin 不是概率。内置 56 条 AI 辅助原创句子仅作教学，固定 32/8/16 划分；真实低分会如实显示，不代表大规模 NLP 能力。</p></details>
           <details class="guide-details"><summary>离线怎么打开？有哪些规模限制？</summary><p>整体保留 release 下 index.html、app.js、style.css，双击 index.html，不需要 Node / Vite / 网络。配图内嵌在页面，无外部图片加载。</p><ul><li>导入最多 50 MiB / 50,000 条；词向量最多 1,000,000 Token / 20,000 词 / 64 维。</li><li>注意力最多 1024×1024；序列解释最多 256 Token；CNN、神经训练和批量推理最多 128 Token。</li><li>这是输入预算，不是全部档位的性能保证；超限会拒绝。已有 WSL Chromium 验证，Windows Chrome/Edge 仍需人工验收。</li></ul></details>
           <a href="#help/top" class="guide-link">返回目录，选择下一个实验 ↑</a>
+        `)}
+        ${chapter('datasets', '09', '案例 / 数据集实验', `
+          <p class="guide-lead">先用案例看清一个预测，再用真实数据检查一批预测。入口在<a href="#comparison">多模型对照</a>顶部的「实验范围」；这不是顶部「原理 / 实验」的视图标记。</p>
+          <div class="guide-two-col"><article class="guide-mode"><h3>案例模式</h3><p>保留原有并排预测、四模型训练和教学数据。适合输入一条句子、核对分数，然后进入 RNN / CNN 的原权重解释。</p><a href="#comparison" class="guide-link">打开案例模式 →</a></article><article class="guide-mode"><h3>数据集模式</h3><p>真实内置数据暂不接入，等待你提供文件。已确认的用户数据可按种子采样、重新训练所选模型，只用留出的测试集报告成绩。此模式的模型不会替换案例工作台模型。</p><a href="#comparison/dataset" class="guide-link">打开数据集模式 →</a></article></div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>内置真实数据</th><th>正负样本</th><th>训练 / 验证 / 测试</th></tr></thead><tbody><tr><td>ChnSentiCorp 酒店评论</td><td>2,944条：各1,472条</td><td>2060 / 294 / 590</td></tr><tr><td>微博情感评论</td><td>5,000条：各2,500条</td><td>3500 / 500 / 1000</td></tr></tbody></table></div>
+          <ol class="guide-steps"><li><strong>选择数据。</strong>在<a href="#comparison/dataset">数据集模式</a>选酒店或微博。酒店用于观察评论文本，微博保留emoji、话题和口语。两者来自用户提供的原始CSV，不是生成句子。已有其他文件可先到数据集管理确认，再选「已确认的用户数据」。</li><li><strong>从100条开始。</strong>默认100是总数：70训练 / 10验证 / 20测试，各类等量。先只勾NB，再加入SVM / RNN / CNN。数量为20到数据容量之间的偶数；每类训练取floor(70%)、验证floor(10%)、余量测试，所以其他数量不一定恰为70/10/20比例。「使用完整数据集」只填写数量，仍需点击运行。</li><li><strong>运行真实训练。</strong>内置数据按种子42预先划定训练 / 验证 / 测试，不是官方划分。运行种子只改变各池中的选样顺序，不把测试文本借给训练。词表只看训练集。NB闭式估计，SVM优化hinge+L2，RNN/CNN做反向传播；全量神经训练较慢，可暂停或取消。</li><li><strong>核对成绩。</strong>看Accuracy、Macro-F1、类别₁ Precision/Recall/F1与测试分母。100条实验分母20，错一条改变5个百分点；全量酒店分母590，微博1000。验证集本轮不参与调参或挑选最优轮数。成绩反映本次短文本平衡子集，不能当成原始全量基准排名。</li><li><strong>诊断与解释。</strong>选择诊断模型，查看错分方向、未知词占比和重叠切片。点击混淆格子或只看错误；打开RNN/CNN解释时携带实际训练权重，不会换成随机教学权重。</li><li><strong>对照并保存。</strong>固定A，保持数据、数量和种子不变，只改轮数运行B。顶部可保存笔记、导出JSON/CSV/Markdown；JSON重放重新计算，不信任导入成绩。A/B分别保存。更换酒店/微博是领域观察，不是同一测试集上的受控比较。</li></ol>
+          <div class="guide-callout"><strong>清洗与使用边界</strong><p>先合并空白，按本项目local-v1 Token规则（汉字逐字、英文数字按词、符号保留）排除空文和超过128 Token的整条样本，不截断。按规范化Token序列去重；标签冲突整组删除，最后各类等量抽样。酒店保留全部1,472条合格负样本并抽取等量正样本；微博从原始119,988条中清洗后抽取5,000条。近重复与作者/话题组泄漏未自动排除，不能据此声称完全无泄漏。原始语料不适用项目代码许可，使用和再分发需确认数据权利。运行无需网络，来源链接只在主动点击时联网。</p></div>
+          <p>用户数据先到<a href="#data">数据集管理</a>确认。当前模式要求二分类、各类足够原train/test样本、无重复Token序列、无跨划分组、每条≤128 Token。样本不足或超限会拒绝，不自动补样本或截断。</p>
+        `)}
+        ${chapter('diagnosis', '10', '模型错误诊断', `
+          <p class="guide-lead">准确率告诉你错了多少；诊断帮助找到要检查哪些样本。<a href="#comparison/diagnosis">案例工作台的诊断</a>与<a href="#comparison/dataset">数据集模式的诊断</a>都来自实际预测。</p>
+          <dl class="guide-definitions"><div><dt>错分方向</dt><dd>分别统计类别₀→类别₁和类别₁→类别₀。混淆矩阵行是真实类别，列是预测类别；点击一格可筛选对应样本。</dd></div><div><dt>OOV和长度切片</dt><dd>查看无OOV / 含OOV、长度≤64 / &gt;64，以及含否定转折词形的样本数、错误数和错误率。切片可能重叠，各自有分母；没有样本显示「无样本」，不会算成0%错误。</dd></div><div><dt>错误案例</dt><dd>最多展开前10条：真实/预测标签、Token长度、OOV、模型分歧和概率或margin。归一化概率高不代表可靠，SVM margin不是概率。没有错误时仍提示小样本全对不等于解决任务。</dd></div><div><dt>回到计算内部</dt><dd>NB/SVM点「检查词项贡献」，看每项词计数、分数贡献和先验/偏置。RNN/CNN点「查看原模型计算」，进入逐步解释。同一个样本、Token与模型版本才构成一致的溯源。</dd></div><div><dt>如何记录分析</dt><dd>先写事实，例如「含OOV的8条中错5条」。再提出待验证假设，例如「词表覆盖可能影响预测」。保持其他因素不变后再改输入或训练参数，重新运行并记录；诊断线索不是因果结论。</dd></div></dl>
+        `)}
+        ${chapter('learning', '11', '可跳转学习路线', `
+          <p class="guide-lead">每一步都有操作入口和检查目标。完成一项再继续；路线不自动记录完成状态，也不自动启动下一项训练。</p>
+          <ol class="learning-roadmap">
+            <li><h3>分词与表示</h3><p>用短语料训练词向量，检查一个词的邻居与余弦相似度。目标：区分原空间数值和PCA投影。</p><div class="inline-actions"><a class="btn" href="#embeddings">打开词向量</a><a href="#help/data">了解数据输入</a></div></li>
+            <li><h3>局部模式与序列记忆</h3><p>CNN查窗口→ReLU→池化；RNN/LSTM查前态→四门→细胞/隐藏状态。目标：核对一次真实乘加和状态更新。</p><div class="inline-actions"><a class="btn" href="#cnn">打开CNN</a><a class="btn" href="#sequence">打开RNN / LSTM</a></div></li>
+            <li><h3>注意力与归一化</h3><p>跟着掩码例子，检查打分、Softmax、Value加权。目标：一行和为1，mask后未屏蔽位置重新归一化。</p><div class="inline-actions"><a class="btn" href="#attention">打开Attention</a><a href="#help/quickstart">掩码对照步骤</a></div></li>
+            <li><h3>损失与训练</h3><p>固定正常学习率为A，改变学习率运行B。目标：区分当步批损失与全数据损失，检查梯度和下一步参数。</p><div class="inline-actions"><a class="btn" href="#optimization">打开损失与优化</a></div></li>
+            <li><h3>从案例走向真实数据</h3><p>先并排预测一条文本，再分别运行酒店和微博100条实验，比较NB/SVM/RNN/CNN。目标：核对70/10/20划分、训练词表与测试分母，理解小样本波动。</p><div class="inline-actions"><a class="btn" href="#comparison">打开案例</a><a class="btn primary" href="#comparison/dataset">运行数据集实验</a><a href="#help/datasets">阅读实验说明</a></div></li>
+            <li><h3>错误诊断与可复现报告</h3><p>找一个错分，记录事实与假设，检查原模型，再保存JSON并重放。目标：重放重新计算而非信任外部成绩；为A和B分别留存记录。</p><div class="inline-actions"><a class="btn" href="#comparison/diagnosis">打开错误诊断</a><a class="btn" href="#notebook">打开实验笔记</a><a href="#help/notebook">导出与重放说明</a></div></li>
+          </ol>
         `)}
       </div>
     </div>

@@ -1,0 +1,136 @@
+[
+  {
+    "id": "chnsenticorp",
+    "name": "ChnSentiCorp · 酒店评论",
+    "input": "ChnSentiCorp_htl_all.csv",
+    "output": "ChnSentiCorp-balanced-2944.csv",
+    "perClass": 1472,
+    "sourcePath": "src/datacsv/ChnSentiCorp_htl_all.csv",
+    "sourceSHA256": "1d414b9c65caf3a836abdb4efded621968502ad3338e1a9d885ae131c86083f0",
+    "outputSHA256": "ee36997dc14b54207f5de2e7cf869297dd3a03884c51e96d203a1d3cee13ceb2",
+    "outputBytes": 753794,
+    "policy": {
+      "version": "balanced-short-v1",
+      "seed": 42,
+      "splitSeed": 42,
+      "maxTokens": 128,
+      "tokenizer": "local-v1 character：NFKC/小写；汉字逐字、英文数字按词、符号保留",
+      "clean": "仅合并空白并去首尾空白；保留emoji/话题/提及/标点；不翻译、不截断、不移除情感词",
+      "dedup": "以规范化Token序列全局去重；标签冲突的全部文本剔除；同标签重复只保留第一条",
+      "split": "本项目分层固定划分，非官方原始划分；每类floor(70%)训练、floor(10%)验证、余量测试；近重复未自动识别"
+    },
+    "stats": {
+      "rawRows": 7766,
+      "rawLabels": [
+        2444,
+        5322
+      ],
+      "invalid": 0,
+      "empty": 1,
+      "long": 2260,
+      "eligibleBeforeDedup": [
+        1472,
+        4033
+      ],
+      "conflictingGroups": 0,
+      "conflictingRows": 0,
+      "sameLabelDuplicates": 0,
+      "eligibleAfterDedup": [
+        1472,
+        4033
+      ],
+      "selected": [
+        1472,
+        1472
+      ],
+      "droppedForBalance": [
+        0,
+        2561
+      ]
+    },
+    "splits": {
+      "train": [
+        1030,
+        1030
+      ],
+      "validation": [
+        147,
+        147
+      ],
+      "test": [
+        295,
+        295
+      ]
+    },
+    "source": "用户提供的ChineseNlpCorpus命名CSV；原文及标注来自原语料，非项目生成句子",
+    "homepage": "https://github.com/SophonPlus/ChineseNlpCorpus/tree/master/datasets/ChnSentiCorp_htl_all",
+    "license": "用户提供第三方语料；未据此授予ISC/CC0许可，原文版权归原作者；使用和再分发需确认数据权利"
+  },
+  {
+    "id": "weibo",
+    "name": "微博情感 · 口语短文本",
+    "input": "weibo_senti_100k.csv",
+    "output": "weibo-senti-balanced-5000.csv",
+    "perClass": 2500,
+    "sourcePath": "src/datacsv/weibo_senti_100k.csv",
+    "sourceSHA256": "2d0a49e27de5295a84893e07816e131c0d116ecbbcbb624418d4e10bebf97a1b",
+    "outputSHA256": "0e1080becbf80461c27bf37a06b5006a8994c032c4037dad9d04719b043ac47c",
+    "outputBytes": 964546,
+    "policy": {
+      "version": "balanced-short-v1",
+      "seed": 42,
+      "splitSeed": 42,
+      "maxTokens": 128,
+      "tokenizer": "local-v1 character：NFKC/小写；汉字逐字、英文数字按词、符号保留",
+      "clean": "仅合并空白并去首尾空白；保留emoji/话题/提及/标点；不翻译、不截断、不移除情感词",
+      "dedup": "以规范化Token序列全局去重；标签冲突的全部文本剔除；同标签重复只保留第一条",
+      "split": "本项目分层固定划分，非官方原始划分；每类floor(70%)训练、floor(10%)验证、余量测试；近重复未自动识别"
+    },
+    "stats": {
+      "rawRows": 119988,
+      "rawLabels": [
+        59995,
+        59993
+      ],
+      "invalid": 0,
+      "empty": 0,
+      "long": 9476,
+      "eligibleBeforeDedup": [
+        54952,
+        55560
+      ],
+      "conflictingGroups": 1273,
+      "conflictingRows": 2546,
+      "sameLabelDuplicates": 23,
+      "eligibleAfterDedup": [
+        53664,
+        54279
+      ],
+      "selected": [
+        2500,
+        2500
+      ],
+      "droppedForBalance": [
+        51164,
+        51779
+      ]
+    },
+    "splits": {
+      "train": [
+        1750,
+        1750
+      ],
+      "validation": [
+        250,
+        250
+      ],
+      "test": [
+        500,
+        500
+      ]
+    },
+    "source": "用户提供的ChineseNlpCorpus命名CSV；原文及标注来自原语料，非项目生成句子",
+    "homepage": "https://github.com/SophonPlus/ChineseNlpCorpus/tree/master/datasets/weibo_senti_100k",
+    "license": "用户提供第三方语料；未据此授予ISC/CC0许可，原文版权归原作者；使用和再分发需确认数据权利"
+  }
+]

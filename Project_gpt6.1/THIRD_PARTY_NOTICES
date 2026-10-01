@@ -1,8 +1,25 @@
 TensorScope — 第三方资源与许可
 
-原创界面/算法源码采用项目 package.json 中的 ISC 许可；原创 AI 辅助教学句子按 CC0-1.0 提供，非外部真实语料。训练模型由本项目源码与这些句子生成，采用 ISC。没有外部图片、预训练模型或在线字体。
+原创界面/算法源码采用项目 package.json 中的 ISC 许可；原创 AI 辅助教学句子按 CC0-1.0 提供，非外部真实语料。内置案例模型由本项目源码与这些教学句子生成，采用 ISC；真实语料训练产物不因此取得原始语料的再分发许可。没有外部图片、预训练模型或在线字体。
 开发使用 Codex 进行代码与教学句子辅助；没有伪造其他平台对话。
 
+离线真实数据：用户提供的ChnSentiCorp酒店评论与weibo_senti_100k微博语料，清洗/平衡子集分别2944、5000条。原始CSV保留在src/datacsv，仅清洗子集进入离线包。数据内容与标注不是本项目生成，不适用源码ISC或原创句子CC0；原文版权归原作者，使用/再分发需确认原数据权利。未将整理仓库的代码许可推定为每条语料的开放许可。
+
+ChnSentiCorp · 酒店评论
+来源说明：用户提供的ChineseNlpCorpus命名CSV；原文及标注来自原语料，非项目生成句子
+参考来源：https://github.com/SophonPlus/ChineseNlpCorpus/tree/master/datasets/ChnSentiCorp_htl_all
+原始文件：ChnSentiCorp_htl_all.csv · SHA-256 1d414b9c65caf3a836abdb4efded621968502ad3338e1a9d885ae131c86083f0
+清洗文件：ChnSentiCorp-balanced-2944.csv · SHA-256 ee36997dc14b54207f5de2e7cf869297dd3a03884c51e96d203a1d3cee13ceb2
+处理规则：仅合并空白并去首尾空白；保留emoji/话题/提及/标点；不翻译、不截断、不移除情感词；以规范化Token序列全局去重；标签冲突的全部文本剔除；同标签重复只保留第一条；本项目分层固定划分，非官方原始划分；每类floor(70%)训练、floor(10%)验证、余量测试；近重复未自动识别
+许可：用户提供第三方语料；未据此授予ISC/CC0许可，原文版权归原作者；使用和再分发需确认数据权利
+
+微博情感 · 口语短文本
+来源说明：用户提供的ChineseNlpCorpus命名CSV；原文及标注来自原语料，非项目生成句子
+参考来源：https://github.com/SophonPlus/ChineseNlpCorpus/tree/master/datasets/weibo_senti_100k
+原始文件：weibo_senti_100k.csv · SHA-256 2d0a49e27de5295a84893e07816e131c0d116ecbbcbb624418d4e10bebf97a1b
+清洗文件：weibo-senti-balanced-5000.csv · SHA-256 0e1080becbf80461c27bf37a06b5006a8994c032c4037dad9d04719b043ac47c
+处理规则：仅合并空白并去首尾空白；保留emoji/话题/提及/标点；不翻译、不截断、不移除情感词；以规范化Token序列全局去重；标签冲突的全部文本剔除；同标签重复只保留第一条；本项目分层固定划分，非官方原始划分；每类floor(70%)训练、floor(10%)验证、余量测试；近重复未自动识别
+许可：用户提供第三方语料；未据此授予ISC/CC0许可，原文版权归原作者；使用和再分发需确认数据权利
 
 ========================================================================
 d3 7.9.0 · ISC

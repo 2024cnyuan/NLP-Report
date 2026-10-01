@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 
 const entry = pathToFileURL(fromProject('release/index.html')).href;
-const chapters = ['quickstart', 'workspace', 'modes', 'modules', 'data', 'notebook', 'workflow', 'faq'];
+const chapters = ['quickstart', 'workspace', 'modes', 'modules', 'data', 'notebook', 'workflow', 'faq', 'datasets', 'diagnosis', 'learning'];
 
 async function watchOffline(page) {
   const errors = [], requests = [];
@@ -16,7 +16,7 @@ async function watchOffline(page) {
 test('使用说明：目录、深链接、刷新、前进后退和键盘定位', async ({ page }) => {
   const audit = await watchOffline(page);
   await page.goto(entry + '#help');
-  await expect(page.locator('.guide-toc > a')).toHaveCount(8);
+  await expect(page.locator('.guide-toc > a')).toHaveCount(11);
   await expect(page.locator('.guide-figure svg[role="img"]')).toHaveCount(3);
   for (const id of chapters) {
     const link = page.locator(`.guide-toc > a[href="#help/${id}"]`);
@@ -27,9 +27,12 @@ test('使用说明：目录、深链接、刷新、前进后退和键盘定位',
     await expect(page.locator(`.guide-toc > a[href="#help/${id}"]`)).toHaveAttribute('aria-current', 'location');
     const top = await page.locator('#help-' + id).evaluate(el => el.getBoundingClientRect().top);
     expect(top).toBeGreaterThanOrEqual(70);
-    expect(top).toBeLessThan(id === 'faq' ? 780 : 150);
+    expect(top).toBeLessThan(id === 'learning' ? 780 : 150);
     await expect(page.locator('.nav-link[data-page="help"]')).toHaveClass(/active/);
   }
+  // FAQ is no longer the last chapter; set the history origin explicitly.
+  await page.goto(entry + '#help/faq');
+  await expect(page.locator('#help-faq')).toBeFocused();
   await page.locator('#help-faq .guide-link').click();
   await expect(page.locator('#guide-title')).toBeInViewport();
   await page.goBack();

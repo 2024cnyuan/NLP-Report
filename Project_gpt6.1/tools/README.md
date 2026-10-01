@@ -44,7 +44,18 @@ npm run check           # 源码语法、依赖位置和离线入口检查
 5. CNN：点击池化值定位原窗口，查看逐项乘加；修改一个核权重，模型产生新版本，旧评测失效。
 6. 多模型：输入训练集外文本；筛选错误或点击混淆矩阵；点击 RNN/CNN「解释」，使用同一权重与 Token。
 7. 数据：导入自己的 UTF-8 CSV/JSONL/TXT，映射字段→预览→确认，分词/类别不匹配时明确重新训练。
-8. 笔记：保存、命名、备注、JSON/CSV/Markdown 导出；导入后重新计算。仅引用数据的记录需重新提供指纹匹配的原文件。
+8. 笔记：保存、命名、备注、JSON/CSV/Markdown导出；导入后重新计算。酒店/微博的引用记录校验内置SHA与样本指纹，无需再次导入；其他用户数据的引用记录需重新提供原文件。
+9. 真实数据：多模型对照→数据集模式→酒店/微博，先100条且只选NB，再使用完整数据集；核对酒店590、微博1000条测试分母。RNN/CNN训练后解释携带原权重。
+
+## 复现两份真实数据
+
+从项目根目录执行，无需联网或安装新依赖：
+
+```sh
+node tools/scripts/prepare-datasets.mjs
+```
+
+脚本只读取src/datacsv中的两个用户原始文件，生成ChnSentiCorp-balanced-2944.csv和weibo-senti-balanced-5000.csv，以及src/data/dataset-manifest.json、appendix/docs/evidence/dataset-curation.json。抽样和划分种子都是42；原始CSV不会移动、覆盖或进入离线包。随后运行build:offline和test:offline更新交付。清洗定义、来源SHA及许可边界见[数据说明](../appendix/docs/datasets.md)。
 
 ## 数据格式
 

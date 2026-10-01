@@ -4,6 +4,7 @@ import { trainEmbeddings } from '../algorithms/embeddings.js';
 import { trainNeural, neuralForward, createNeural, makeVocab } from '../algorithms/neural.js';
 import { trainComparison, evaluateBatch } from '../algorithms/classifiers.js';
 import { parseFile, makeDataset } from '../data/datasets.js';
+import { prepareDataset } from '../algorithms/dataset-experiment.js';
 
 export const yieldTask = () => new Promise(resolve => setTimeout(resolve, 0));
 export async function* job(type, config) {
@@ -12,6 +13,12 @@ export async function* job(type, config) {
   if (type === 'embeddings') return yield* trainEmbeddings(config);
   if (type === 'neural') return yield* trainNeural(config.model, config.samples, config.params);
   if (type === 'comparison') return yield* trainComparison(config);
+  if (type === 'dataset-experiment') {
+    const dataset = prepareDataset(config.dataset, config.count, config.seed);
+    yield { processed: 0, total: dataset.samples.length, stage: '分层采样，保留原训练 / 测试边界' };
+    const result = yield* trainComparison({ ...config, dataset });
+    return { ...result, dataset, experimentMode: 'dataset' };
+  }
   if (type === 'batch') return yield* evaluateBatch(config);
   if (type === 'explain') return neuralForward(config.model, config.tokens, config.options);
   if (type === 'parse') return parseFile(config.text, config.name, config.delimiter);

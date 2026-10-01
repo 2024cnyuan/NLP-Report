@@ -1,0 +1,159 @@
+{
+  "environment": "WSL Chromium · browser-use local headless, file://",
+  "dataset": "weibo",
+  "curatedSHA256": "0e1080becbf80461c27bf37a06b5006a8994c032c4037dad9d04719b043ac47c",
+  "observedAt": "2026-10-01",
+  "status": "结果已更新",
+  "params": {
+    "epochs": 2,
+    "lr": 0.03,
+    "dim": 4,
+    "hidden": 4,
+    "seed": 42,
+    "batch": 4,
+    "embeddingId": null
+  },
+  "sampling": {
+    "count": 100,
+    "seed": 42,
+    "train": 70,
+    "validation": 10,
+    "test": 20,
+    "policy": "各类等量；保留源数据的固定train/validation/test边界；每类按floor(70%)/floor(10%)/余量选样"
+  },
+  "metrics": {
+    "NB": {
+      "count": 20,
+      "accuracy": 0.9,
+      "macroF1": 0.9,
+      "confusion": [
+        [
+          9,
+          1
+        ],
+        [
+          1,
+          9
+        ]
+      ],
+      "perClass": [
+        {
+          "precision": 0.9,
+          "recall": 0.9,
+          "f1": 0.9,
+          "support": 10
+        },
+        {
+          "precision": 0.9,
+          "recall": 0.9,
+          "f1": 0.9,
+          "support": 10
+        }
+      ]
+    },
+    "SVM": {
+      "count": 20,
+      "accuracy": 0.95,
+      "macroF1": 0.949874686716792,
+      "confusion": [
+        [
+          10,
+          0
+        ],
+        [
+          1,
+          9
+        ]
+      ],
+      "perClass": [
+        {
+          "precision": 0.9090909090909091,
+          "recall": 1,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        {
+          "precision": 1,
+          "recall": 0.9,
+          "f1": 0.9473684210526316,
+          "support": 10
+        }
+      ]
+    },
+    "RNN": {
+      "count": 20,
+      "accuracy": 0.6,
+      "macroF1": 0.595959595959596,
+      "confusion": [
+        [
+          7,
+          3
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "perClass": [
+        {
+          "precision": 0.5833333333333334,
+          "recall": 0.7,
+          "f1": 0.6363636363636365,
+          "support": 10
+        },
+        {
+          "precision": 0.625,
+          "recall": 0.5,
+          "f1": 0.5555555555555556,
+          "support": 10
+        }
+      ]
+    },
+    "CNN": {
+      "count": 20,
+      "accuracy": 0.5,
+      "macroF1": 0.3333333333333333,
+      "confusion": [
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          0
+        ]
+      ],
+      "perClass": [
+        {
+          "precision": 0.5,
+          "recall": 1,
+          "f1": 0.6666666666666666,
+          "support": 10
+        },
+        {
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "support": 10
+        }
+      ]
+    }
+  },
+  "models": {
+    "NB": {
+      "id": "NB-b90b8d10"
+    },
+    "SVM": {
+      "id": "SVM-8d7171ef"
+    },
+    "RNN": {
+      "id": "RNN-3b1b1407",
+      "trained": true
+    },
+    "CNN": {
+      "id": "CNN-8aa952fc",
+      "trained": true
+    }
+  },
+  "limits": "100条小样本、两轮训练，不是完整语料基准；低分如实保留。"
+}

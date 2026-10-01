@@ -1,0 +1,22 @@
+/* Display settings are outside experiment controls and never mark results stale. */
+.display-panel{position:fixed;right:12px;top:78px;z-index:75;width:min(360px,calc(100vw - 24px));max-height:calc(100dvh - 90px);overflow:auto;padding:18px;background:var(--surface);border:1px solid #cedde0;border-radius:12px;box-shadow:0 12px 48px #16333e30}
+.display-panel[hidden]{display:none}
+.display-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.display-heading h2{font-size:calc(16px * var(--text-scale,1))}
+.display-field{display:block;margin:14px 0;font-size:calc(13px * var(--text-scale,1))}
+.display-field>span{display:flex;justify-content:space-between;gap:10px}
+.display-field output{font-variant-numeric:tabular-nums;color:var(--accent)}
+.display-field input{display:block;width:100%;min-height:32px;accent-color:var(--accent)}
+.display-panel p{margin-top:12px;overflow-wrap:anywhere}
+.display-panel>.btn{margin-top:16px;white-space:normal}
+.display-toggle{font-weight:650;font-size:calc(15px * var(--text-scale,1));border-color:var(--border);flex-shrink:0}
+.sidebar{overflow-y:auto;overflow-x:hidden}
+.brand>span:last-child{min-width:0}.brand strong{overflow-wrap:anywhere}
+.inspector{right:12px;bottom:12px;width:min(var(--inspector-width,340px),calc(100vw - 24px));height:var(--inspector-height,620px);max-height:calc(100dvh - 90px);max-width:calc(100vw - 24px);overflow:auto;overscroll-behavior:contain}
+.inspector-title{padding-left:25px;z-index:1;flex-wrap:wrap}
+.inspector-actions{display:flex;gap:2px;margin-left:auto}
+.inspect-content{overflow-wrap:anywhere}
+.inspect-content .inspect-value{overflow-wrap:anywhere}
+.inspector .resize-inspector{position:sticky;float:left;top:0;left:0;width:24px;height:24px;margin-bottom:-24px;margin-right:-24px;z-index:2;border:0;background:transparent;color:#537b80;cursor:nwse-resize;touch-action:none;border-radius:8px}
+.resize-inspector::after{content:"";position:absolute;top:4px;left:4px;width:12px;height:12px;background:repeating-linear-gradient(135deg,transparent 0 3px,#6e9296 3px 4px);clip-path:polygon(0 0,100% 0,0 100%)}
+@media(max-width:500px){.topbar .breadcrumb{min-width:0}.topbar .breadcrumb>span{display:none}.topbar .breadcrumb b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:72px}.topbar-tools{flex-shrink:0}.display-panel{top:70px}.inspector-title>span{min-width:0}.inspector .inspect-content .btn{white-space:normal}}

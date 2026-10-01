@@ -3,83 +3,83 @@
   "trained": {
     "vocabulary": 5000,
     "tokens": 10000,
-    "trainingMs": 333.59999999962747
+    "trainingMs": 337.1000000005588
   },
-  "renderMs": 238,
+  "renderMs": 248,
   "resources": [
     {
       "cycle": 0,
-      "heapBytes": 26710772,
+      "heapBytes": 39018140,
       "nodes": 11766,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 1,
-      "heapBytes": 26745408,
+      "heapBytes": 39053984,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 2,
-      "heapBytes": 26810904,
+      "heapBytes": 39122544,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 3,
-      "heapBytes": 26863464,
+      "heapBytes": 39172064,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 4,
-      "heapBytes": 26898916,
+      "heapBytes": 39207612,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 5,
-      "heapBytes": 26900972,
+      "heapBytes": 39207776,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 6,
-      "heapBytes": 26920072,
+      "heapBytes": 39227368,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 7,
-      "heapBytes": 27010516,
+      "heapBytes": 39317384,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 8,
-      "heapBytes": 27029892,
+      "heapBytes": 39337020,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 9,
-      "heapBytes": 27037392,
+      "heapBytes": 39344512,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520
     },
     {
       "cycle": 10,
-      "heapBytes": 27039064,
+      "heapBytes": 39345536,
       "nodes": 11758,
       "listeners": 82,
       "visibleDOMElements": 520

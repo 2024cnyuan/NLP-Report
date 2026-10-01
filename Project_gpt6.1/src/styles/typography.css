@@ -37,5 +37,5 @@ code, pre, .inspect-content pre, .guide .guide-code,
 .math-equation .katex { font-size: 1.08em; }
 .katex .cjk_fallback { font-family: var(--font-cn); }
 .formula-original { margin-top: 9px; border-top: 1px solid #d7e6df; padding-top: 8px; }
-.formula-original summary { font-size: 11px; color: #567169; cursor: pointer; }
-.formula-original code { display: block; margin-top: 7px; font-size: 11px; line-height: 1.9; white-space: normal; overflow-wrap: anywhere; }
+.formula-original summary { font-size:calc(11px * var(--text-scale,1)); color: #567169; cursor: pointer; }
+.formula-original code { display: block; margin-top: 7px; font-size:calc(11px * var(--text-scale,1)); line-height: 1.9; white-space: normal; overflow-wrap: anywhere; }

@@ -9,3 +9,5 @@
 目录已整理为src/release/tools/appendix，命令从根目录使用npm --prefix tools run，或进入tools使用npm run。迁移验证见structure-migration.md。
 
 下一项：Windows断网双击 release/index.html，按 appendix/docs/demo-script.md 验收并记录实际浏览器版本；根据真实自带语料选择训练预算，不将内置教学分数当作泛化结论。
+
+2026-10-01真实数据更新：用户提供酒店/微博原始CSV，新增清洗平衡子集2944/5000条，正负各半且按local-v1≤128 Token；两套数据替换待接入入口，已嵌入离线包。保留原始文件，处理规则、SHA和实测结果见datasets.md、acceptance.md。当前长轮数全量神经训练、近重复/作者级防漏和Windows浏览器仍未验收。

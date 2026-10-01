@@ -15,3 +15,5 @@
 tests/package.json只用于明确ESM文件格式；不含依赖、锁文件或安装命令。测试通过tools/testing的桥接模块使用tools内唯一安装的Vitest/Playwright。
 
 当前功能与证据见 [验收记录](docs/acceptance.md)；本次目录调整见 [迁移记录](docs/structure-migration.md)。Windows与未测拓展档的限制继续保留。
+
+两份真实语料的来源、清洗规则和固定划分见[数据说明](docs/datasets.md)；完整清洗统计及SHA-256见[dataset-curation.json](docs/evidence/dataset-curation.json)。这些是处理证据，不是预先填好的模型成绩。
