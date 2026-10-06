@@ -1,12 +1,12 @@
-﻿name: Deploy GPT6.1 Website
+name: Deploy GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "Project_gpt6.1/release/**"
       - "game/**"
+      - "pages/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -16,39 +16,44 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: github-pages
   cancel-in-progress: true
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
+      - name: Checkout source
+        uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Prepare website
+        shell: bash
         run: |
-          mkdir -p public
+          set -euo pipefail
+          test -s pages/index.html
+          test -s Project_gpt6.1/release/index.html
+          test -s Project_gpt6.1/release/app.js
+          test -s Project_gpt6.1/release/style.css
+          test -s game/index.html
+          test -s game/three.min.js
 
-          # 原来的 GPT6.1 网站放在根目录
-          cp -r Project_gpt6.1/release/. public/
-
-          # Game 放到 /game/
-          mkdir -p public/game
-          cp -r game/. public/game/
+          site_dir="$RUNNER_TEMP/pages-site"
+          mkdir -p "$site_dir/Project_gpt6.1/release" "$site_dir/game"
+          cp pages/index.html "$site_dir/index.html"
+          cp -R Project_gpt6.1/release/. "$site_dir/Project_gpt6.1/release/"
+          cp -R game/. "$site_dir/game/"
+          touch "$site_dir/.nojekyll"
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./public
+          path: ${{ runner.temp }}/pages-site
 
       - name: Deploy to GitHub Pages
         id: deployment
