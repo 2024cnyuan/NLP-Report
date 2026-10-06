@@ -8,7 +8,6 @@ on:
       - "Project_gpt6.1/release/**"
       - "game/**"
       - ".github/workflows/pages.yml"
-
   workflow_dispatch:
 
 permissions:
@@ -39,10 +38,10 @@ jobs:
         run: |
           mkdir -p public
 
-          # GPT 6.1 继续作为网站主页
+          # 原来的 GPT6.1 网站放在根目录
           cp -r Project_gpt6.1/release/. public/
 
-          # Game 放到 /game/ 下面
+          # Game 放到 /game/
           mkdir -p public/game
           cp -r game/. public/game/
 
