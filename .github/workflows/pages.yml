@@ -6,7 +6,9 @@ on:
       - main
     paths:
       - "Project_gpt6.1/release/**"
+      - "game/**"
       - ".github/workflows/pages.yml"
+
   workflow_dispatch:
 
 permissions:
@@ -33,10 +35,21 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare website
+        run: |
+          mkdir -p public
+
+          # GPT 6.1 继续作为网站主页
+          cp -r Project_gpt6.1/release/. public/
+
+          # Game 放到 /game/ 下面
+          mkdir -p public/game
+          cp -r game/. public/game/
+
       - name: Upload website
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./Project_gpt6.1/release
+          path: ./public
 
       - name: Deploy to GitHub Pages
         id: deployment
